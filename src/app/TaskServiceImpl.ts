@@ -15,7 +15,10 @@ export class TaskServiceImpl implements TaskService {
     }
 
     this.appHelper.insertStringToActiveFile(
-      tasksOrErr.value.map((x) => `- [ ] ${x.name}`).join("\n")
+      tasksOrErr.value
+        .filter((x) => x.shouldTry(date))
+        .map((x) => `- [ ] ${x.name}`)
+        .join("\n")
     );
   }
 }

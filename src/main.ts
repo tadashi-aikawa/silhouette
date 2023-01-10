@@ -24,9 +24,14 @@ export default class SilhouettePlugin extends Plugin {
       id: "insert-tasks",
       name: "Insert tasks",
       checkCallback: (checking: boolean) => {
-        if (this.appHelper.getActiveMarkdownView()) {
+        if (
+          this.appHelper.getActiveFile() &&
+          this.appHelper.getActiveMarkdownView()
+        ) {
           if (!checking) {
-            this.taskService.insertTasksToDailyNote(DateTime.now());
+            this.taskService.insertTasksToDailyNote(
+              DateTime.of(this.appHelper.getActiveFile()!.basename)
+            );
           }
           return true;
         }

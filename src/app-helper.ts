@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView } from "obsidian";
+import { App, Editor, MarkdownView, TFile } from "obsidian";
 
 export class AppHelper {
   private unsafeApp: App;
@@ -9,6 +9,11 @@ export class AppHelper {
 
   async loadFile(path: string): Promise<string> {
     return this.unsafeApp.vault.adapter.read(path);
+  }
+
+  getActiveFile(): TFile | null {
+    // noinspection TailRecursionJS
+    return this.unsafeApp.workspace.getActiveFile();
   }
 
   getActiveMarkdownView(): MarkdownView | null {
