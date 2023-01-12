@@ -3,7 +3,7 @@ import { Repetition } from "../vo/Repetition";
 
 interface Props {
   name: string;
-  date?: DateTime;
+  baseDate?: DateTime;
   repetition?: Repetition;
 }
 
@@ -22,14 +22,7 @@ export class RepetitionTask extends Entity<Props> {
   shouldTry(date: DateTime): boolean {
     const p = this._props;
 
-    if (p.date?.equals(date)) {
-      return true;
-    }
-    if (!p.repetition) {
-      return false;
-    }
-
-    if (p.date && !date.isAfterOrEquals(p.date)) {
+    if (!p.repetition || p.baseDate?.isAfter(date)) {
       return false;
     }
 
@@ -42,9 +35,12 @@ export class RepetitionTask extends Entity<Props> {
       return true;
     }
     if (p.repetition.day === "every other") {
-      // FIXME: RepetitionTaskに起点日を設ける
-      return date.day % 2 === 0;
+      if (!p.baseDate) {
+        throw new Error(`起点日が登録されていません: ${p.name}`)
+      }
+      return date.diffDays(p.baseDate) % 2 === 0
     }
+
     return p.repetition.day.includes(date.day);
   }
 }

@@ -1,6 +1,6 @@
 import { AppHelper } from "../app-helper";
 import { TaskRepository } from "./TaskRepository";
-import { AsyncResult, BaseError, fromPromise } from "owlelia";
+import { AsyncResult, BaseError, DateTime, fromPromise } from "owlelia";
 import { RepetitionTask } from "../domain/entity/RepetitionTask";
 import { Repetition } from "../domain/vo/Repetition";
 
@@ -14,10 +14,11 @@ export class TaskRepositoryImpl implements TaskRepository {
     return fromPromise(
       this.appHelper.loadFile(this.repetitionTasksFilePath).then((tasksStr) =>
         tasksStr.split("\n").map((line) => {
-          const [name, repetition] = line.split(",");
+          const [name, repetition, baseDate] = line.split(",");
           return RepetitionTask.of({
             name,
             repetition: Repetition.from(repetition),
+            baseDate: baseDate ? DateTime.of(baseDate) : undefined,
           });
         })
       )
