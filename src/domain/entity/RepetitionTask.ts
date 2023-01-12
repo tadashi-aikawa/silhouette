@@ -27,20 +27,23 @@ export class RepetitionTask extends Entity<Props> {
     }
 
     // TODO: owleliaに実装した方がいい
-    if (!p.repetition.dayOfWeek.includes(date.date.getDay())) {
+    if (
+      p.repetition.dayOfWeek &&
+      !p.repetition.dayOfWeek.includes(date.date.getDay())
+    ) {
       return false;
     }
 
-    if (p.repetition.day === "every") {
-      return true;
-    }
-    if (p.repetition.day === "every other") {
-      if (!p.baseDate) {
-        throw new Error(`起点日が登録されていません: ${p.name}`)
+    if (p.repetition.day.type === "period") {
+      if (p.repetition.day.period === 1) {
+        return true;
       }
-      return date.diffDays(p.baseDate) % 2 === 0
+      if (!p.baseDate) {
+        throw new Error(`起点日が登録されていません: ${p.name}`);
+      }
+      return date.diffDays(p.baseDate) % p.repetition.day.period === 0;
     }
 
-    return p.repetition.day.includes(date.day);
+    return p.repetition.day.values.includes(date.day);
   }
 }

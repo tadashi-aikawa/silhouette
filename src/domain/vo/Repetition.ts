@@ -1,11 +1,45 @@
 import { ValueObject } from "owlelia";
 
-export type Pattern = "every" | "every other";
+type Days =
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "10"
+  | "11"
+  | "12"
+  | "13"
+  | "14"
+  | "15"
+  | "16"
+  | "17"
+  | "18"
+  | "19"
+  | "20"
+  | "21"
+  | "22"
+  | "23"
+  | "24"
+  | "25"
+  | "26"
+  | "27"
+  | "28"
+  | "29"
+  | "30"
+  | "31";
+
+export type Pattern =
+  | { type: "period"; period: number }
+  | { type: "specific"; values: number[] };
 export type Token =
   | "every day"
   | "weekday"
   | "holiday"
-  | "every other day"
   | "sun"
   | "mon"
   | "tue"
@@ -13,44 +47,15 @@ export type Token =
   | "thu"
   | "fri"
   | "sat"
-  | "1d"
-  | "2d"
-  | "3d"
-  | "4d"
-  | "5d"
-  | "6d"
-  | "7d"
-  | "8d"
-  | "9d"
-  | "10d"
-  | "11d"
-  | "12d"
-  | "13d"
-  | "14d"
-  | "15d"
-  | "16d"
-  | "17d"
-  | "18d"
-  | "19d"
-  | "20d"
-  | "21d"
-  | "22d"
-  | "23d"
-  | "24d"
-  | "25d"
-  | "26d"
-  | "27d"
-  | "28d"
-  | "29d"
-  | "30d"
-  | "31d";
+  | `${Days}d`
+  | `every ${Days} days`;
 
 interface Props {
-  day: number[] | Pattern;
+  day: Pattern;
   // 0: Sun, 1: Mon, ... 6: Sat
-  dayOfWeek: number[];
-  week: number[] | Pattern;
-  month: number[] | Pattern;
+  dayOfWeek: number[] | null;
+  week: Pattern;
+  month: Pattern;
 }
 
 const DAY_OF_WEEK_MAPPINGS: { [key: string]: number } = {
@@ -62,52 +67,51 @@ const DAY_OF_WEEK_MAPPINGS: { [key: string]: number } = {
   fri: 5,
   sat: 6,
 };
-const ALL_DAY_OF_WEEK = [0, 1, 2, 3, 4, 5, 6];
 
 const _brand = Symbol();
 export class Repetition extends ValueObject<Props> {
   private [_brand]: void;
 
-  static get everyDay() {
+  static get everyDay(): Repetition {
     return new Repetition({
-      day: "every",
-      dayOfWeek: ALL_DAY_OF_WEEK,
-      week: "every",
-      month: "every",
+      day: { type: "period", period: 1 },
+      dayOfWeek: null,
+      week: { type: "period", period: 1 },
+      month: { type: "period", period: 1 },
     });
   }
 
-  static get everyOtherDay() {
+  static get everyWeekDay(): Repetition {
     return new Repetition({
-      day: "every other",
-      dayOfWeek: ALL_DAY_OF_WEEK,
-      week: "every",
-      month: "every",
-    });
-  }
-
-  static get everyWeekDay() {
-    return new Repetition({
-      day: "every",
+      day: { type: "period", period: 1 },
       dayOfWeek: [1, 2, 3, 4, 5],
-      week: "every",
-      month: "every",
+      week: { type: "period", period: 1 },
+      month: { type: "period", period: 1 },
     });
   }
 
-  static get everyHoliday() {
+  static get everyHoliday(): Repetition {
     return new Repetition({
-      day: "every",
+      day: { type: "period", period: 1 },
       dayOfWeek: [0, 6],
-      week: "every",
-      month: "every",
+      week: { type: "period", period: 1 },
+      month: { type: "period", period: 1 },
     });
   }
 
-  get day(): number[] | Pattern {
+  static everyNDay(nDay: number): Repetition {
+    return new Repetition({
+      day: { type: "period", period: nDay },
+      dayOfWeek: null,
+      week: { type: "period", period: 1 },
+      month: { type: "period", period: 1 },
+    });
+  }
+
+  get day(): Pattern {
     return this._value.day;
   }
-  get dayOfWeek(): number[] {
+  get dayOfWeek(): number[] | null {
     return this._value.dayOfWeek;
   }
 
@@ -127,8 +131,12 @@ export class Repetition extends ValueObject<Props> {
           return Repetition.everyWeekDay;
         case "holiday":
           return Repetition.everyHoliday;
-        case "every other day":
-          return Repetition.everyOtherDay;
+        default:
+          const dayPeriod = tokens[0].match(/every (?<period>\d+) day/)?.groups
+            ?.period;
+          if (dayPeriod) {
+            return Repetition.everyNDay(Number(dayPeriod));
+          }
       }
     }
 
@@ -138,11 +146,17 @@ export class Repetition extends ValueObject<Props> {
     const days = tokens
       .filter((x) => x.endsWith("d"))
       .map((x) => Number(x.slice(0, -1)));
+
+    const to = (x: number[]): Pattern =>
+      x.length > 0
+        ? { type: "specific", values: x }
+        : { type: "period", period: 1 };
+
     return new Repetition({
-      day: days.length > 0 ? days : "every",
-      dayOfWeek: dayOfWeeks.length > 0 ? dayOfWeeks : ALL_DAY_OF_WEEK,
-      week: "every",
-      month: "every",
+      day: to(days),
+      dayOfWeek: dayOfWeeks.length > 0 ? dayOfWeeks : null,
+      week: { type: "period", period: 1 },
+      month: { type: "period", period: 1 },
     });
   }
 }
