@@ -18,13 +18,13 @@
 > **Note**
 > 要望/バグ報告/質問/感想などはGitHub IssuesまたはTwitterアカウントへお願いします。シンプルかつ自身で使うことを最優先としていますので、機能要望にはお応えできないことも多いかと思います。ご了承ください。
 
-## インストール
+## ⏬インストール
 
 [BRAT]を使って`tadashi-aikawa/silhouette`でインストールします。
 
 [BRAT]: https://github.com/TfTHacker/obsidian42-brat
 
-## Silhouetteを用いたタスク管理について
+## 🧠Silhouetteを用いたタスク管理について
 
 機能の紹介をする前に、Silhouetteを使ってどのようにタスク管理するか、前提としているシナリオの説明をします。
 
@@ -58,7 +58,7 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 - 工数の計測
 - GUIによるリッチな表現
 
-## コマンド
+## ⌨️コマンド
 
 Silhouetteのコマンドは1つだけです。
 
@@ -70,12 +70,28 @@ Silhouetteのコマンドは1つだけです。
 [繰り返しタスク]: #繰り返しタスク
 [繰り返しタスクファイル]: #繰り返しタスクファイル
 
-TODO: 画像
+![demo](https://raw.githubusercontent.com/tadashi-aikawa/silhouette/master/resources/insert-tasks.gif)
+
+上記は、2023-01-21(土)の[ワンタイムタスク]を、以下の[繰り返しタスクファイル]を元に生成した動画です。
+
+```csv
+毎日やるタスク,every day
+平日やるタスク,every weekday
+休日やるタスク,every holidy
+月・水・金やるタスク,mon/wed/fri
+火・木・土やるタスク,tue/thu/sat
+毎月10日やるタスク,10
+毎月1日/11日/21日/31日やるタスク,1/11/21/31
+1月1日から7日ごとにやるタスク,every 7 day,2023-01-01
+1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
+```
+
+[繰り返しタスクファイル]の見方は、この後に登場する[仕様](#仕様)をご覧ください。
 
 > **Note**
 > 機能が1つしかないのは現時点でそうだからです。今後も1つだけにするというこだわりはありません。(管理を複雑にするようなコマンドを増やす予定もありません)
 
-## 設定
+## ⚙️設定
 
 Silhouetteの設定は1つだけです。
 
@@ -85,7 +101,7 @@ Silhouetteの設定は1つだけです。
 
 `例`: `_Privates/repeatable tasks.md` 
 
-## 仕様
+## 📜仕様
 
 ### 繰り返しタスクファイル
 
@@ -164,7 +180,7 @@ Silhouetteの設定は1つだけです。
 Minervaバックアップ,sun
 ```
 
-## 用語定義
+## 🔤用語定義
 
 ### タスクの種類
 
@@ -176,22 +192,22 @@ Minervaバックアップ,sun
 
 一定のルールに基づいて繰り返し発生するタスクです。完了しても定期的に発生します。
 
-## 宣伝
+## 🦉宣伝
 
 [Obsidian]のプラグインとして以下も開発しております。すべて日本語に対応しておりますので、よろしければお試しください。
 
 <a href="https://github.com/tadashi-aikawa/obsidian-various-complements-plugin">
-<img src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-various-complements-plugin" class="link-card-image" />
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-various-complements-plugin" class="link-card-image" />
 </a>
 
 <a href="https://github.com/tadashi-aikawa/obsidian-another-quick-switcher">
-<img src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-another-quick-switcher" class="link-card-image" />
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-another-quick-switcher" class="link-card-image" />
 </a>
 
 <a href="https://github.com/tadashi-aikawa/obsidian-old-note-admonitor">
-<img src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-old-note-admonitor" class="link-card-image" />
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-old-note-admonitor" class="link-card-image" />
 </a>
 
 <a href="https://github.com/tadashi-aikawa/obsidian-embedded-code-title">
-<img src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-embedded-code-title" class="link-card-image" />
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-embedded-code-title" class="link-card-image" />
 </a>
