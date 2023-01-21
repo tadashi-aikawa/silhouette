@@ -1,6 +1,6 @@
 {
   "name": "silhouette",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple task management tools for Obsidian",
   "main": "main.js",
   "scripts": {
