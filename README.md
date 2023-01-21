@@ -33,8 +33,8 @@
 
 ```csv
 毎日やるタスク,every day
-平日やるタスク,every weekday
-休日やるタスク,every holidy
+平日やるタスク,weekday
+休日やるタスク,holidy
 月・水・金やるタスク,mon/wed/fri
 火・木・土やるタスク,tue/thu/sat
 毎月10日やるタスク,10
@@ -99,8 +99,8 @@ Silhouetteのコマンドは1つだけです。
 
 ```csv
 毎日やるタスク,every day
-平日やるタスク,every weekday
-休日やるタスク,every holidy
+平日やるタスク,weekday
+休日やるタスク,holidy
 月・水・金やるタスク,mon/wed/fri
 火・木・土やるタスク,tue/thu/sat
 毎月10日やるタスク,10
