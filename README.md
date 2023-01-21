@@ -29,8 +29,7 @@
 何よりもまずは動かしてみたい人向けです。インストール完了して、プラグインを有効にしたところからスタート。
 
 1. 設定画面にて、[Task file path](#`Task file path`)に`tasks.md`を設定
-2. Obsidianを再起動
-3. Vaultのrootに`tasks.md`を作成して以下を貼り付け
+2. Vaultのrootに`tasks.md`を作成して以下を貼り付け
 
 ```csv
 毎日やるタスク,every day
