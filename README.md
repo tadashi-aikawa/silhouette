@@ -24,6 +24,30 @@
 
 [BRAT]: https://github.com/TfTHacker/obsidian42-brat
 
+## 🚄クイックスタート
+
+何よりもまずは動かしてみたい人向けです。インストール完了して、プラグインを有効にしたところからスタート。
+
+1. 設定画面にて、[Task file path](#`Task file path`)に`tasks.md`を設定
+2. Obsidianを再起動
+3. Vaultのrootに`tasks.md`を作成して以下を貼り付け
+
+```csv
+毎日やるタスク,every day
+平日やるタスク,every weekday
+休日やるタスク,every holidy
+月・水・金やるタスク,mon/wed/fri
+火・木・土やるタスク,tue/thu/sat
+毎月10日やるタスク,10
+毎月1日/11日/21日/31日やるタスク,1/11/21/31
+1月1日から7日ごとにやるタスク,every 7 day,2023-01-01
+1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
+```
+
+4. 本日のDaily Noteを開き、[Silhouette: Insert tasks](#`Silhouette: Insert tasks`)コマンドを実行
+
+いくつかのタスクリストが挿入されれば成功です🎉
+
 ## 🧠Silhouetteを用いたタスク管理について
 
 機能の紹介をする前に、Silhouetteを使ってどのようにタスク管理するか、前提としているシナリオの説明をします。
