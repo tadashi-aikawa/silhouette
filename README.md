@@ -1,5 +1,10 @@
 # Silhouette
 
+[![release](https://img.shields.io/github/release/tadashi-aikawa/silhouette.svg)](https://github.com/tadashi-aikawa/silhouette/releases/latest)
+[![Tests](https://github.com/tadashi-aikawa/silhouette/workflows/Tests/badge.svg)](https://github.com/tadashi-aikawa/silhouette/actions)
+![downloads](https://img.shields.io/github/downloads/tadashi-aikawa/silhouette/total)
+
+
 [Obsidian]でシンプルにタスク管理するためのObsidianプラグインです。目の前のタスクに集中することのみにフォーカスしています。
 
 [Obsidian]: https://obsidian.md/
