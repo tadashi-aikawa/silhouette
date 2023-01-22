@@ -9,14 +9,19 @@ export class TaskServiceImpl implements TaskService {
     private repository: TaskRepository
   ) {}
   async insertTasksToDailyNote(date: DateTime): Promise<Nullable<BaseError>> {
-    const tasksOrErr = await this.repository.loadRepetitionTasks();
-    if (tasksOrErr.isErr()) {
-      return tasksOrErr.error;
+    const [tasks, err] = (await this.repository.loadRepetitionTasks()).unwrap();
+    if (err) {
+      return err;
+    }
+
+    const [holidays, err2] = (await this.repository.loadHolidays()).unwrap();
+    if (err2) {
+      return err2;
     }
 
     this.appHelper.insertStringToActiveFile(
-      tasksOrErr.value
-        .filter((x) => x.shouldTry(date))
+      tasks
+        .filter((x) => x.shouldTry(date, holidays))
         .map((x) => `- [ ] ${x.name}`)
         .join("\n")
     );

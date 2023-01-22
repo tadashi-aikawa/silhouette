@@ -7,7 +7,8 @@ import { Repetition } from "../domain/vo/Repetition";
 export class TaskRepositoryImpl implements TaskRepository {
   constructor(
     private appHelper: AppHelper,
-    private repetitionTasksFilePath: string
+    private repetitionTasksFilePath: string,
+    private holidaysFilePath: string
   ) {}
 
   loadRepetitionTasks(): AsyncResult<RepetitionTask[], BaseError> {
@@ -22,6 +23,14 @@ export class TaskRepositoryImpl implements TaskRepository {
           });
         })
       )
+    );
+  }
+
+  loadHolidays(): AsyncResult<DateTime[], BaseError> {
+    return fromPromise(
+      this.appHelper
+        .loadFile(this.holidaysFilePath)
+        .then((holidaysStr) => holidaysStr.split("\n").map(DateTime.of))
     );
   }
 }

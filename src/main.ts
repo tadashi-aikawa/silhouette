@@ -14,7 +14,7 @@ export default class SilhouettePlugin extends Plugin {
   async onload() {
     await this.loadSettings();
     this.appHelper = new AppHelper(this.app);
-    this.init()
+    this.init();
 
     this.addCommand({
       id: "insert-tasks",
@@ -40,7 +40,8 @@ export default class SilhouettePlugin extends Plugin {
   private init() {
     const repository = new TaskRepositoryImpl(
       this.appHelper,
-      this.settings.taskFilePath
+      this.settings.taskFilePath,
+      this.settings.holidayFilePath
     );
     this.taskService = new TaskServiceImpl(this.appHelper, repository);
   }
@@ -51,6 +52,6 @@ export default class SilhouettePlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
-    this.init()
+    this.init();
   }
 }

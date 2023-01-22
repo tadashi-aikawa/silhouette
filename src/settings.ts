@@ -3,10 +3,12 @@ import SilhouettePlugin from "./main";
 
 export interface Settings {
   taskFilePath: string;
+  holidayFilePath: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   taskFilePath: "",
+  holidayFilePath: "",
 };
 
 export class SilhouetteSettingTab extends PluginSettingTab {
@@ -30,6 +32,16 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.taskFilePath)
         .onChange(async (value) => {
           this.plugin.settings.taskFilePath = value;
+          await this.plugin.saveSettings();
+        })
+    );
+
+    new Setting(containerEl).setName("Holiday file path").addText((text) =>
+      text
+        .setPlaceholder("ex: holiday.md")
+        .setValue(this.plugin.settings.holidayFilePath)
+        .onChange(async (value) => {
+          this.plugin.settings.holidayFilePath = value;
           await this.plugin.saveSettings();
         })
     );

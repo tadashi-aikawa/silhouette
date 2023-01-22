@@ -19,7 +19,7 @@ export class RepetitionTask extends Entity<Props> {
     return this._props.name;
   }
 
-  shouldTry(date: DateTime): boolean {
+  shouldTry(date: DateTime, holidays: DateTime[]): boolean {
     const p = this._props;
 
     if (!p.repetition || p.baseDate?.isAfter(date)) {
@@ -27,11 +27,15 @@ export class RepetitionTask extends Entity<Props> {
     }
 
     // TODO: owleliaに実装した方がいい
-    if (
-      p.repetition.dayOfWeek &&
-      !p.repetition.dayOfWeek.includes(date.date.getDay())
-    ) {
-      return false;
+    const isHoliday = holidays.some((x) => x.equals(date));
+    if (isHoliday) {
+      if (!p.repetition.dayOfWeekHoliday.includes(date.date.getDay())) {
+        return false;
+      }
+    } else {
+      if (!p.repetition.dayOfWeek.includes(date.date.getDay())) {
+        return false;
+      }
     }
 
     if (p.repetition.day.type === "period") {

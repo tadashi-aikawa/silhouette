@@ -7,8 +7,6 @@
 
 [Obsidian]でシンプルにタスク管理するためのObsidianプラグインです。目の前のタスクに集中することのみにフォーカスしています。
 
-[Obsidian]: https://obsidian.md/
-
 > **Note**
 > I will wait to write this README in English because I want to prior the speed of developing this plugin until it is stable. Sorry.
 
@@ -22,8 +20,6 @@
 
 [BRAT]を使って`tadashi-aikawa/silhouette`でインストールします。
 
-[BRAT]: https://github.com/TfTHacker/obsidian42-brat
-
 ## 🚄クイックスタート
 
 何よりもまずは動かしてみたい人向けです。インストール完了して、プラグインを有効にしたところからスタート。
@@ -34,7 +30,7 @@
 ```csv
 毎日やるタスク,every day
 平日やるタスク,weekday
-休日やるタスク,holidy
+土日やるタスク,weekend
 月・水・金やるタスク,mon/wed/fri
 火・木・土やるタスク,tue/thu/sat
 毎月10日やるタスク,10d
@@ -46,6 +42,9 @@
 3. 本日のDaily Noteを開き、[Silhouette: Insert tasks](#silhouette-insert-tasks)コマンドを実行
 
 いくつかのタスクリストが挿入されれば成功です🎉
+
+> **Note**
+> 学校や仕事が休みの日、祝日などを考慮する場合は[休日設定ファイル]を使ってあなただけの[休日]を定義しましょう📅
 
 ## 🧠Silhouetteを用いたタスク管理について
 
@@ -89,10 +88,6 @@ Silhouetteのコマンドは1つだけです。
 
 このコマンドは **現在アクティブなDaily Noteの日付を読み取り、[繰り返しタスクファイル]からその日にやるべき[ワンタイムタスク]を、Daily Noteに生成** します。
 
-[ワンタイムタスク]: #ワンタイムタスク
-[繰り返しタスク]: #繰り返しタスク
-[繰り返しタスクファイル]: #繰り返しタスクファイル
-
 ![demo](https://raw.githubusercontent.com/tadashi-aikawa/silhouette/master/resources/insert-tasks.gif)
 
 上記は、2023-01-21(土)の[ワンタイムタスク]を、以下の[繰り返しタスクファイル]を元に生成した動画です。
@@ -100,7 +95,7 @@ Silhouetteのコマンドは1つだけです。
 ```csv
 毎日やるタスク,every day
 平日やるタスク,weekday
-休日やるタスク,holidy
+土日やるタスク,weekend
 月・水・金やるタスク,mon/wed/fri
 火・木・土やるタスク,tue/thu/sat
 毎月10日やるタスク,10d
@@ -116,13 +111,19 @@ Silhouetteのコマンドは1つだけです。
 
 ## ⚙️設定
 
-Silhouetteの設定は1つだけです。
+Silhouetteの設定は2つです。
 
 ### `Task file path`
 
 [繰り返しタスクファイル]のパスを、Vault rootからの相対パスとして指定します。
 
 `例`: `_Privates/repeatable tasks.md` 
+
+### `Holiday file path`
+
+[休日設定ファイル]のパスを、Vault rootからの相対パスとして指定します。
+
+`例`: `_Privates/holidays.md`
 
 ## 📜仕様
 
@@ -143,30 +144,39 @@ Silhouetteの設定は1つだけです。
 - 複数のパターンを複合させることはできません
 - 複数指定できるものは`/`で区切ります
 
-| パターン           | 例          | 備考            |
-| ------------------ | ----------- | --------------- |
-| 毎日               | every day   |                 |
-| 平日               | weekday     |                 |
-| 休日               | holiday     |                 |
-| 曜日               | sun         | 毎週日曜        |
-| 曜日複数指定       | sun/mon     | 毎週日曜と月曜  |
-| 毎月特定日         | 10d         | 毎月10日        |
-| 毎月特定日複数指定 | 10d/20d     | 毎月10日と20日  |
-| N日ごと            | every 3 day | 3日ごと (中2日) |
+| パターン           | 例              | 備考            |
+| ------------------ | --------------- | --------------- |
+| 毎日               | every day       |                 |
+| 平日(月～金)       | weekday         |                 |
+| 土日               | weekend         |                 |
+| [休日]ではない平日 | weekday!        |                 |
+| 土日と休日         | weekend/holiday |                 |
+| 曜日               | sun             | 毎週日曜        |
+| 曜日複数指定       | sun/mon         | 毎週日曜と月曜  |
+| 毎月特定日         | 10d             | 毎月10日        |
+| 毎月特定日複数指定 | 10d/20d         | 毎月10日と20日  |
+| N日ごと            | every 3 day     | 3日ごと (中2日) |
 
 ##### 曜日
 
 曜日は小文字のアルファベット3文字で表現します。
 
-| 表記 | 意味 |
-| ---- | ---- |
-| sun  | 日曜 |
-| mon  | 月曜 |
-| tue  | 火曜 |
-| wed  | 水曜 |
-| thu  | 木曜 |
-| fri  | 金曜 |
-| sat  | 土曜 |
+| 表記 | 意味               |
+| ---- | ------------------ |
+| sun  | 日曜               |
+| mon  | 月曜               |
+| tue  | 火曜               |
+| wed  | 水曜               |
+| thu  | 木曜               |
+| fri  | 金曜               |
+| sat  | 土曜               |
+| sun! | [休日]ではない日曜 |
+| mon! | [休日]ではない月曜 |
+| tue! | [休日]ではない火曜 |
+| wed! | [休日]ではない水曜 |
+| thu! | [休日]ではない木曜 |
+| fri! | [休日]ではない金曜 |
+| sat! | [休日]ではない土曜 |
 
 #### 起点日
 
@@ -195,12 +205,44 @@ Silhouetteの設定は1つだけです。
 私が設定している[繰り返しタスク]の一部を例として紹介します。
 
 ```csv
-08:30 出勤,mon/tue/thu
+08:30 出勤,mon!/tue!/thu!
 22:45 歯磨き,every day
 洗濯(洗う),every 2 day,2023-01-14
 洗濯(干す),every 2 day,2023-01-14
 爪切り,every 7 day,2023-01-13
-Minervaバックアップ,sun
+Minervaバックアップ,mon
+```
+
+解説
+
+- 水金はリモートワークなので、月火木は出勤が必要 (休日は不要なので`!`つき)
+- 歯磨きは毎日
+- 洗濯は2日に1回
+- 爪切りは毎週
+- Minervaのバックアップは毎週月曜 (休日かどうかは関係ないので`!`なし)
+
+### 休日設定ファイル
+
+各行に日付を記載する形式です。以下は2023年における日本の祝日を定義した例です。
+
+```csv
+2023-1-01
+2023-1-02
+2023-1-09
+2023-2-11
+2023-2-23
+2023-3-21
+2023-4-29
+2023-5-03
+2023-5-04
+2023-5-05
+2023-7-17
+2023-8-11
+2023-9-18
+2023-9-23
+2023-10-09
+2023-11-03
+2023-11-23
 ```
 
 ## 🔤用語定義
@@ -214,6 +256,13 @@ Minervaバックアップ,sun
 #### 繰り返しタスク
 
 一定のルールに基づいて繰り返し発生するタスクです。完了しても定期的に発生します。
+
+#### 休日
+
+[休日設定ファイル]で指定された日付のこと。通常は以下を設定する。
+
+- 祝日
+- 年末年始など、仕事や学業などがない休み
 
 ## 🦉宣伝
 
@@ -234,3 +283,12 @@ Minervaバックアップ,sun
 <a href="https://github.com/tadashi-aikawa/obsidian-embedded-code-title">
 <img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-embedded-code-title" class="link-card-image" />
 </a>
+
+[ワンタイムタスク]: #ワンタイムタスク
+[繰り返しタスク]: #繰り返しタスク
+[繰り返しタスクファイル]: #繰り返しタスクファイル
+[休日]: #休日
+[休日設定ファイル]: #休日設定ファイル
+[Obsidian]: https://obsidian.md/
+[BRAT]: https://github.com/TfTHacker/obsidian42-brat
+
