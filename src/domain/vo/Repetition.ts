@@ -114,6 +114,12 @@ export class Repetition extends ValueObject<Props> {
   get dayOfWeek(): number[] | null {
     return this._value.dayOfWeek;
   }
+  get week(): Pattern {
+    return this._value.week;
+  }
+  get month(): Pattern {
+    return this._value.month;
+  }
 
   static from(str: string): Repetition | undefined {
     if (!str) {
@@ -144,7 +150,7 @@ export class Repetition extends ValueObject<Props> {
       .filter((x) => DAY_OF_WEEK_MAPPINGS[x] !== undefined)
       .map((x) => DAY_OF_WEEK_MAPPINGS[x]);
     const days = tokens
-      .filter((x) => x.endsWith("d"))
+      .filter((x) => Boolean(x.match(/^[0-9]+d$/)))
       .map((x) => Number(x.slice(0, -1)));
 
     const to = (x: number[]): Pattern =>
