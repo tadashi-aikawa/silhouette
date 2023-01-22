@@ -28,9 +28,11 @@ export class TaskRepositoryImpl implements TaskRepository {
 
   loadHolidays(): AsyncResult<DateTime[], BaseError> {
     return fromPromise(
-      this.appHelper
-        .loadFile(this.holidaysFilePath)
-        .then((holidaysStr) => holidaysStr.split("\n").map(DateTime.of))
+      this.holidaysFilePath
+        ? this.appHelper
+            .loadFile(this.holidaysFilePath)
+            .then((holidaysStr) => holidaysStr.split("\n").map(DateTime.of))
+        : Promise.resolve([])
     );
   }
 }
