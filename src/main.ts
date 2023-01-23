@@ -25,9 +25,12 @@ export default class SilhouettePlugin extends Plugin {
           this.appHelper.getActiveMarkdownView()
         ) {
           if (!checking) {
-            this.taskService.insertTasksToDailyNote(
-              DateTime.of(this.appHelper.getActiveFile()!.basename)
+            const date = DateTime.from(
+              this.appHelper.getActiveFile()!.basename,
+              this.settings.fileDateFormat || undefined
             );
+            new Notification(`Regarded as "${date.format("YYYY/MM/DD")}"`);
+            this.taskService.insertTasksToDailyNote(date);
           }
           return true;
         }

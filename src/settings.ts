@@ -4,11 +4,13 @@ import SilhouettePlugin from "./main";
 export interface Settings {
   taskFilePath: string;
   holidayFilePath: string;
+  fileDateFormat: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   taskFilePath: "",
   holidayFilePath: "",
+  fileDateFormat: "",
 };
 
 export class SilhouetteSettingTab extends PluginSettingTab {
@@ -42,6 +44,16 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         .setValue(this.plugin.settings.holidayFilePath)
         .onChange(async (value) => {
           this.plugin.settings.holidayFilePath = value;
+          await this.plugin.saveSettings();
+        })
+    );
+
+    new Setting(containerEl).setName("File date format").addText((text) =>
+      text
+        .setPlaceholder("ex: MM-DD-YYYY")
+        .setValue(this.plugin.settings.fileDateFormat)
+        .onChange(async (value) => {
+          this.plugin.settings.fileDateFormat = value;
           await this.plugin.saveSettings();
         })
     );
