@@ -129,6 +129,10 @@ Silhouetteのコマンドは1つだけです。
 
 `例`: `YY_MM_DD` (2023年1月1日なら23_01_01というファイル名)
 
+以下のフォーマットに対応しています。
+
+https://day.js.org/docs/en/parse/string-format
+
 ## 📜仕様
 
 ### 繰り返しタスクファイル
