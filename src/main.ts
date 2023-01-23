@@ -1,4 +1,4 @@
-import { Plugin } from "obsidian";
+import { Notice, Plugin } from "obsidian";
 import { DEFAULT_SETTINGS, Settings, SilhouetteSettingTab } from "./settings";
 import { AppHelper } from "./app-helper";
 import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
@@ -29,7 +29,7 @@ export default class SilhouettePlugin extends Plugin {
               this.appHelper.getActiveFile()!.basename,
               this.settings.fileDateFormat || undefined
             );
-            new Notification(`Regarded as "${date.format("YYYY/MM/DD")}"`);
+            new Notice(`Regarded as "${date.format("YYYY/MM/DD")}"`);
             this.taskService.insertTasksToDailyNote(date);
           }
           return true;
