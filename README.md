@@ -149,7 +149,7 @@ https://day.js.org/docs/en/parse/string-format
 
 [繰り返しタスク]の繰り返されるパターンを示す文字列です。
 
-> **Warning  
+> **Warning**  
 > 複数のパターンを複合させることはできません。たとえば `weekday/mon` のような表現はできません。
 
 | パターン           | 例              | 複数指定       |
