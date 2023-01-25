@@ -40,8 +40,8 @@ export type Token =
   | "every day"
   | "weekday"
   | "weekend"
-  | "weekday!"
-  | "weekend/holiday"
+  | "workday"
+  | "non workday"
   | "sun"
   | "mon"
   | "tue"
@@ -122,7 +122,7 @@ export class Repetition extends ValueObject<Props> {
     });
   }
 
-  static get weekdayNotHoliday(): Repetition {
+  static get workday(): Repetition {
     return new Repetition({
       day: { type: "period", period: 1 },
       dayOfWeek: [1, 2, 3, 4, 5],
@@ -132,7 +132,7 @@ export class Repetition extends ValueObject<Props> {
     });
   }
 
-  static get weekendAndHoliday(): Repetition {
+  static get nonWorkday(): Repetition {
     return new Repetition({
       day: { type: "period", period: 1 },
       dayOfWeek: [0, 6],
@@ -180,10 +180,10 @@ export class Repetition extends ValueObject<Props> {
         return Repetition.weekday;
       case "weekend":
         return Repetition.weekend;
-      case "weekday!":
-        return Repetition.weekdayNotHoliday;
-      case "weekend/holiday":
-        return Repetition.weekendAndHoliday;
+      case "workday":
+        return Repetition.workday;
+      case "non workday":
+        return Repetition.nonWorkday;
       default:
         const dayPeriod = str.match(/every (?<period>\d+) day/)?.groups?.period;
         if (dayPeriod) {
