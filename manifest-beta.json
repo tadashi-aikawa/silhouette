@@ -1,7 +1,7 @@
 {
   "id": "obsidian-silhouette",
   "name": "Silhouette",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "minAppVersion": "0.16.3",
   "description": "Simple task management tools for Obsidian",
   "author": "tadashi-aikawa",
