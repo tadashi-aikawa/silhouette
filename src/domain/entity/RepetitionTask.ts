@@ -3,8 +3,8 @@ import { Repetition } from "../vo/Repetition";
 
 interface Props {
   name: string;
+  repetition: Repetition;
   baseDate?: DateTime;
-  repetition?: Repetition;
 }
 
 const _brand = Symbol();
@@ -19,22 +19,44 @@ export class RepetitionTask extends Entity<Props> {
     return this._props.name;
   }
 
+  includesDay(date: DateTime, holidays: DateTime[]): boolean {
+    // TODO: owleliaに実装した方がいい
+    const isHoliday = holidays.some((x) => x.equals(date));
+    if (isHoliday) {
+      if (
+        !this._props.repetition.dayOfWeekHoliday.includes(date.date.getDay())
+      ) {
+        return false;
+      }
+    } else {
+      if (!this._props.repetition.dayOfWeek.includes(date.date.getDay())) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   shouldTry(date: DateTime, holidays: DateTime[]): boolean {
     const p = this._props;
 
-    if (!p.repetition || p.baseDate?.isAfter(date)) {
+    if (p.baseDate?.isAfter(date)) {
       return false;
     }
 
     // TODO: owleliaに実装した方がいい
-    const isHoliday = holidays.some((x) => x.equals(date));
-    if (isHoliday) {
-      if (!p.repetition.dayOfWeekHoliday.includes(date.date.getDay())) {
-        return false;
-      }
-    } else {
-      if (!p.repetition.dayOfWeek.includes(date.date.getDay())) {
-        return false;
+    if (!this.includesDay(date, holidays)) {
+      return false;
+    }
+
+    if (p.repetition.endOfMonth) {
+      // 月末まで曜日パターンに引っかからなければOK
+      let d = date.plusDays(1);
+      while (d.isBefore(date.endOfMonth())) {
+        if (this.includesDay(d, holidays)) {
+          return false;
+        }
+        d = d.plusDays(1);
       }
     }
 
