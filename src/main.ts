@@ -29,8 +29,15 @@ export default class SilhouettePlugin extends Plugin {
               this.appHelper.getActiveFile()!.basename,
               this.settings.fileDateFormat || undefined
             );
-            new Notice(`Regarded as "${date.format("YYYY/MM/DD")}"`);
-            this.taskService.insertTasksToDailyNote(date);
+
+            this.taskService.insertTasksToDailyNote(date).then((err) => {
+              if (err) {
+                new Notice(`[Error] ${err.name}: ${err.message}`, 0);
+                return;
+              }
+
+              new Notice(`Regarded as "${date.format("YYYY/MM/DD")}"`);
+            });
           }
           return true;
         }
