@@ -36,7 +36,9 @@ export default class SilhouettePlugin extends Plugin {
                 return;
               }
 
-              new Notice(`Regarded as "${date.format("YYYY/MM/DD")}"`);
+              new Notice(
+                `Insert tasks that should do on ${date.format("YYYY/MM/DD")}`
+              );
             });
           }
           return true;
