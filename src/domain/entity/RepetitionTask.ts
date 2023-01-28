@@ -1,5 +1,6 @@
 import { DateTime, Entity } from "owlelia";
 import { Repetition } from "../vo/Repetition";
+import { ExhaustiveError } from "../../errors";
 
 interface Props {
   name: string;
@@ -49,15 +50,31 @@ export class RepetitionTask extends Entity<Props> {
       return false;
     }
 
-    if (p.repetition.endOfMonth) {
-      // 月末まで曜日パターンに引っかからなければOK
-      let d = date.plusDays(1);
-      while (d.isBefore(date.endOfMonth())) {
-        if (this.includesDay(d, holidays)) {
-          return false;
+    switch (p.repetition.special) {
+      case undefined:
+        break;
+      case "beginning of month":
+        // 月初まで曜日パターンに引っかからなければOK
+        let beginD = date.minusDays(1);
+        while (beginD.isAfterOrEquals(date.replaceDay(1), true)) {
+          if (this.includesDay(beginD, holidays)) {
+            return false;
+          }
+          beginD = beginD.minusDays(1);
         }
-        d = d.plusDays(1);
-      }
+        break;
+      case "end of month":
+        // 月末まで曜日パターンに引っかからなければOK
+        let endD = date.plusDays(1);
+        while (endD.isBeforeOrEquals(date.endOfMonth(), true)) {
+          if (this.includesDay(endD, holidays)) {
+            return false;
+          }
+          endD = endD.plusDays(1);
+        }
+        break;
+      default:
+        throw new ExhaustiveError(p.repetition.special);
     }
 
     if (p.repetition.day.type === "period") {

@@ -64,14 +64,15 @@ export type Token =
 interface Props {
   day: Pattern;
   // 0: Sun, 1: Mon, ... 6: Sat
-  dayOfWeek: number[];
-  dayOfWeekHoliday: number[];
+  dayOfWeek: DayOfWeek[];
+  dayOfWeekHoliday: DayOfWeek[];
   week: Pattern;
   month: Pattern;
-  endOfMonth: boolean;
+  special?: "end of month" | "beginning of month";
 }
 
-const DAY_OF_WEEK_MAPPINGS: { [key: string]: number } = {
+type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+const DAY_OF_WEEK_MAPPINGS: { [key: string]: DayOfWeek } = {
   sun: 0,
   mon: 1,
   tue: 2,
@@ -81,7 +82,7 @@ const DAY_OF_WEEK_MAPPINGS: { [key: string]: number } = {
   sat: 6,
 };
 
-const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: number } = {
+const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
   "sun!": 0,
   "mon!": 1,
   "tue!": 2,
@@ -91,95 +92,90 @@ const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: number } = {
   "sat!": 6,
 };
 
+const repetitionBase = {
+  day: { type: "period", period: 1 },
+  dayOfWeek: [0, 1, 2, 3, 4, 5, 6] as DayOfWeek[],
+  dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6] as DayOfWeek[],
+  week: { type: "period", period: 1 },
+  month: { type: "period", period: 1 },
+} as const;
+
 const _brand = Symbol();
 export class Repetition extends ValueObject<Props> {
   private [_brand]: void;
 
   static get everyDay(): Repetition {
-    return new Repetition({
-      day: { type: "period", period: 1 },
-      dayOfWeek: [0, 1, 2, 3, 4, 5, 6],
-      dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: false,
-    });
+    return new Repetition(repetitionBase);
   }
 
   static get weekday(): Repetition {
     return new Repetition({
-      day: { type: "period", period: 1 },
+      ...repetitionBase,
       dayOfWeek: [1, 2, 3, 4, 5],
       dayOfWeekHoliday: [1, 2, 3, 4, 5],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: false,
     });
   }
 
   static get weekend(): Repetition {
     return new Repetition({
-      day: { type: "period", period: 1 },
+      ...repetitionBase,
       dayOfWeek: [0, 6],
       dayOfWeekHoliday: [0, 6],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: false,
     });
   }
 
   static get workday(): Repetition {
     return new Repetition({
-      day: { type: "period", period: 1 },
+      ...repetitionBase,
       dayOfWeek: [1, 2, 3, 4, 5],
       dayOfWeekHoliday: [],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: false,
     });
   }
 
   static get nonWorkday(): Repetition {
     return new Repetition({
-      day: { type: "period", period: 1 },
+      ...repetitionBase,
       dayOfWeek: [0, 6],
       dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: false,
     });
   }
 
   static everyNDay(nDay: number): Repetition {
     return new Repetition({
+      ...repetitionBase,
       day: { type: "period", period: nDay },
-      dayOfWeek: [0, 1, 2, 3, 4, 5, 6],
-      dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: false,
     });
   }
 
   static get endOfMonth(): Repetition {
     return new Repetition({
-      day: { type: "period", period: 1 },
-      dayOfWeek: [0, 1, 2, 3, 4, 5, 6],
-      dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: true,
+      ...repetitionBase,
+      special: "end of month",
     });
   }
 
   static get workdayEndOfMonth(): Repetition {
     return new Repetition({
-      day: { type: "period", period: 1 },
+      ...repetitionBase,
       dayOfWeek: [1, 2, 3, 4, 5],
       dayOfWeekHoliday: [],
-      week: { type: "period", period: 1 },
-      month: { type: "period", period: 1 },
-      endOfMonth: true,
+      special: "end of month",
+    });
+  }
+
+  static get beginningOfMonth(): Repetition {
+    return new Repetition({
+      ...repetitionBase,
+      special: "beginning of month",
+    });
+  }
+
+  static get workdayBeginningOfMonth(): Repetition {
+    return new Repetition({
+      ...repetitionBase,
+      dayOfWeek: [1, 2, 3, 4, 5],
+      dayOfWeekHoliday: [],
+      special: "beginning of month",
     });
   }
 
@@ -198,8 +194,8 @@ export class Repetition extends ValueObject<Props> {
   get month(): Pattern {
     return this._value.month;
   }
-  get endOfMonth(): boolean {
-    return this._value.endOfMonth;
+  get special(): Props["special"] {
+    return this._value.special;
   }
 
   static from(str: string): Repetition {
@@ -218,6 +214,10 @@ export class Repetition extends ValueObject<Props> {
         return Repetition.endOfMonth;
       case "workday end of month":
         return Repetition.workdayEndOfMonth;
+      case "beginning of month":
+        return Repetition.beginningOfMonth;
+      case "workday beginning of month":
+        return Repetition.workdayBeginningOfMonth;
       default:
         const dayPeriod = str.match(/every (?<period>\d+) day/)?.groups?.period;
         if (dayPeriod) {
@@ -241,7 +241,6 @@ export class Repetition extends ValueObject<Props> {
         dayOfWeekHoliday,
         week: { type: "period", period: 1 },
         month: { type: "period", period: 1 },
-        endOfMonth: false,
       });
     }
 
@@ -258,7 +257,6 @@ export class Repetition extends ValueObject<Props> {
       dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6],
       week: { type: "period", period: 1 },
       month: { type: "period", period: 1 },
-      endOfMonth: false,
     });
   }
 }
