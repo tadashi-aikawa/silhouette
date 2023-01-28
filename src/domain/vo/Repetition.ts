@@ -33,6 +33,8 @@ type Days =
   | "30"
   | "31";
 
+type WeekNo = 1 | 2 | 3 | 4 | 5;
+type DayOfWeekShortName = "sun" | "mon" | "tue" | "wed" | "thu" | "fri" | "sat";
 export type Pattern =
   | { type: "period"; period: number }
   | { type: "specific"; values: number[] };
@@ -42,20 +44,10 @@ export type Token =
   | "weekend"
   | "workday"
   | "non workday"
-  | "sun"
-  | "mon"
-  | "tue"
-  | "wed"
-  | "thu"
-  | "fri"
-  | "sat"
-  | "sun!"
-  | "mon!"
-  | "tue!"
-  | "wed!"
-  | "thu!"
-  | "fri!"
-  | "sat!"
+  | DayOfWeekShortName
+  | `${DayOfWeekShortName}!`
+  | `${WeekNo}${DayOfWeekShortName}`
+  | `${WeekNo}${DayOfWeekShortName}!`
   | `${Days}d`
   | `every ${Days} days`
   | "end of month"
@@ -63,7 +55,6 @@ export type Token =
 
 interface Props {
   day: Pattern;
-  // 0: Sun, 1: Mon, ... 6: Sat
   dayOfWeek: DayOfWeek[];
   dayOfWeekHoliday: DayOfWeek[];
   week: Pattern;
@@ -71,7 +62,52 @@ interface Props {
   special?: "end of month" | "beginning of month";
 }
 
-type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+// 0: Sun, 1: Mon, ... 6: Sat
+// 10: First sun, 11: First Mon, ...
+// 20: Second sun, 21: Second Mon, ...
+type DayOfWeek =
+  | 0
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 20
+  | 21
+  | 22
+  | 23
+  | 24
+  | 25
+  | 26
+  | 30
+  | 31
+  | 32
+  | 33
+  | 34
+  | 35
+  | 36
+  | 40
+  | 41
+  | 42
+  | 43
+  | 44
+  | 45
+  | 46
+  | 50
+  | 51
+  | 52
+  | 53
+  | 54
+  | 55
+  | 56;
 const DAY_OF_WEEK_MAPPINGS: { [key: string]: DayOfWeek } = {
   sun: 0,
   mon: 1,
@@ -80,6 +116,41 @@ const DAY_OF_WEEK_MAPPINGS: { [key: string]: DayOfWeek } = {
   thu: 4,
   fri: 5,
   sat: 6,
+  "1sun": 10,
+  "1mon": 11,
+  "1tue": 12,
+  "1wed": 13,
+  "1thu": 14,
+  "1fri": 15,
+  "1sat": 16,
+  "2sun": 20,
+  "2mon": 21,
+  "2tue": 22,
+  "2wed": 23,
+  "2thu": 24,
+  "2fri": 25,
+  "2sat": 26,
+  "3sun": 30,
+  "3mon": 31,
+  "3tue": 32,
+  "3wed": 33,
+  "3thu": 34,
+  "3fri": 35,
+  "3sat": 36,
+  "4sun": 40,
+  "4mon": 41,
+  "4tue": 42,
+  "4wed": 43,
+  "4thu": 44,
+  "4fri": 45,
+  "4sat": 46,
+  "5sun": 50,
+  "5mon": 51,
+  "5tue": 52,
+  "5wed": 53,
+  "5thu": 54,
+  "5fri": 55,
+  "5sat": 56,
 };
 
 const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
@@ -90,6 +161,41 @@ const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
   "thu!": 4,
   "fri!": 5,
   "sat!": 6,
+  "1sun!": 10,
+  "1mon!": 11,
+  "1tue!": 12,
+  "1wed!": 13,
+  "1thu!": 14,
+  "1fri!": 15,
+  "1sat!": 16,
+  "2sun!": 20,
+  "2mon!": 21,
+  "2tue!": 22,
+  "2wed!": 23,
+  "2thu!": 24,
+  "2fri!": 25,
+  "2sat!": 26,
+  "3sun!": 30,
+  "3mon!": 31,
+  "3tue!": 32,
+  "3wed!": 33,
+  "3thu!": 34,
+  "3fri!": 35,
+  "3sat!": 36,
+  "4sun!": 40,
+  "4mon!": 41,
+  "4tue!": 42,
+  "4wed!": 43,
+  "4thu!": 44,
+  "4fri!": 45,
+  "4sat!": 46,
+  "5sun!": 50,
+  "5mon!": 51,
+  "5tue!": 52,
+  "5wed!": 53,
+  "5thu!": 54,
+  "5fri!": 55,
+  "5sat!": 56,
 };
 
 const repetitionBase = {

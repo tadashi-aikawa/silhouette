@@ -25,12 +25,20 @@ export class RepetitionTask extends Entity<Props> {
     const isHoliday = holidays.some((x) => x.equals(date));
     if (isHoliday) {
       if (
-        !this._props.repetition.dayOfWeekHoliday.includes(date.date.getDay())
+        !this._props.repetition.dayOfWeekHoliday.includes(date.date.getDay()) &&
+        !this._props.repetition.dayOfWeekHoliday.includes(
+          date.date.getDay() + 10 * date.nthDayOfWeek
+        )
       ) {
         return false;
       }
     } else {
-      if (!this._props.repetition.dayOfWeek.includes(date.date.getDay())) {
+      if (
+        !this._props.repetition.dayOfWeek.includes(date.date.getDay()) &&
+        !this._props.repetition.dayOfWeek.includes(
+          date.date.getDay() + 10 * date.nthDayOfWeek
+        )
+      ) {
         return false;
       }
     }

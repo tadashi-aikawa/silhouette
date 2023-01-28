@@ -70,6 +70,19 @@ describe("shouldTry", () => {
     ${d("2023-01-02")} | ${holidays}          | ${undefined}       | ${"tue!/wed!"}                  | ${false}
     ${d("2023-01-03")} | ${holidays}          | ${undefined}       | ${"tue!/wed!"}                  | ${true}
     ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"tue!/wed!"}                  | ${false}
+    ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"1mon"}                       | ${false}
+    ${d("2023-01-02")} | ${holidays}          | ${undefined}       | ${"1mon"}                       | ${true}
+    ${d("2023-01-09")} | ${holidays}          | ${undefined}       | ${"1mon"}                       | ${false}
+    ${d("2023-01-02")} | ${holidays}          | ${undefined}       | ${"2mon"}                       | ${false}
+    ${d("2023-01-09")} | ${holidays}          | ${undefined}       | ${"2mon"}                       | ${true}
+    ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"1wed"}                       | ${true}
+    ${d("2023-01-11")} | ${holidays}          | ${undefined}       | ${"1wed"}                       | ${false}
+    ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"1wed!"}                      | ${false}
+    ${d("2023-01-11")} | ${holidays}          | ${undefined}       | ${"1wed!"}                      | ${false}
+    ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"1sun/2sat"}                  | ${true}
+    ${d("2023-01-07")} | ${holidays}          | ${undefined}       | ${"1sun/2sat"}                  | ${false}
+    ${d("2023-01-08")} | ${holidays}          | ${undefined}       | ${"1sun/2sat"}                  | ${false}
+    ${d("2023-01-14")} | ${holidays}          | ${undefined}       | ${"1sun/2sat"}                  | ${true}
     ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"1d"}                         | ${true}
     ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"1d/2d"}                      | ${true}
     ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"2d/1d"}                      | ${true}
