@@ -1,20 +1,24 @@
 import { Notice, Plugin } from "obsidian";
-import { DEFAULT_SETTINGS, Settings, SilhouetteSettingTab } from "./settings";
+import {
+  DEFAULT_SETTINGS,
+  type Settings,
+  SilhouetteSettingTab,
+} from "./settings";
 import { AppHelper } from "./app-helper";
 import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
-import { TaskService } from "./app/TaskService";
+import type { TaskService } from "./app/TaskService";
 import { TaskServiceImpl } from "./app/TaskServiceImpl";
 import { DateTime } from "owlelia";
 import {
-  RepetitionTaskView,
+  RepetitionTaskItemView,
   REPETITION_TASK_VIEW_TYPE,
-} from "./ui/RepetitionTaskView";
+} from "./ui/RepetitionTaskItemView";
 
 export default class SilhouettePlugin extends Plugin {
   settings: Settings;
   appHelper: AppHelper;
   taskService: TaskService;
-  repetitionTaskView: RepetitionTaskView;
+  repetitionTaskView: RepetitionTaskItemView;
 
   async onload() {
     await this.loadSettings();
@@ -63,7 +67,10 @@ export default class SilhouettePlugin extends Plugin {
     this.taskService = new TaskServiceImpl(this.appHelper, repository);
 
     this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
-      this.repetitionTaskView = new RepetitionTaskView(leaf, this.taskService);
+      this.repetitionTaskView = new RepetitionTaskItemView(
+        leaf,
+        this.taskService
+      );
       return this.repetitionTaskView;
     });
     this.addRibbonIcon("cloud-fog", "Activate view", async () => {

@@ -1,6 +1,6 @@
-import { AppHelper } from "../app-helper";
-import { TaskRepository } from "./TaskRepository";
-import { AsyncResult, BaseError, DateTime, fromPromise } from "owlelia";
+import type { AppHelper } from "../app-helper";
+import type { TaskRepository } from "./TaskRepository";
+import { type AsyncResult, BaseError, DateTime, fromPromise } from "owlelia";
 import { RepetitionTask } from "../domain/entity/RepetitionTask";
 import { Repetition } from "../domain/vo/Repetition";
 

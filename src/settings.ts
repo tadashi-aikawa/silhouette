@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import SilhouettePlugin from "./main";
+import type SilhouettePlugin from "./main";
 
 export interface Settings {
   taskFilePath: string;

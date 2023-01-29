@@ -1,5 +1,5 @@
-import { AsyncResult, BaseError, DateTime } from "owlelia";
-import { RepetitionTask } from "../domain/entity/RepetitionTask";
+import type { AsyncResult, BaseError, DateTime } from "owlelia";
+import type { RepetitionTask } from "../domain/entity/RepetitionTask";
 
 export interface TaskRepository {
   loadRepetitionTasks(): AsyncResult<RepetitionTask[], BaseError>;

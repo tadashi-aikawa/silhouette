@@ -1,5 +1,5 @@
 import { DateTime, Entity } from "owlelia";
-import { Repetition } from "../vo/Repetition";
+import type { Repetition } from "../vo/Repetition";
 import { ExhaustiveError } from "../../errors";
 
 interface Props {

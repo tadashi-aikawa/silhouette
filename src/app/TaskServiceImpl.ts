@@ -1,8 +1,8 @@
-import { TaskService } from "./TaskService";
-import { TaskRepository } from "../repository/TaskRepository";
-import { AsyncResult, BaseError, DateTime, Nullable } from "owlelia";
-import { AppHelper } from "../app-helper";
-import { RepetitionTask } from "../domain/entity/RepetitionTask";
+import type { TaskService } from "./TaskService";
+import type { TaskRepository } from "../repository/TaskRepository";
+import { type AsyncResult, BaseError, DateTime, type Nullable } from "owlelia";
+import type { AppHelper } from "../app-helper";
+import type { RepetitionTask } from "../domain/entity/RepetitionTask";
 
 export class TaskServiceImpl implements TaskService {
   constructor(
