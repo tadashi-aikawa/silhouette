@@ -5,11 +5,16 @@ import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
 import { TaskService } from "./app/TaskService";
 import { TaskServiceImpl } from "./app/TaskServiceImpl";
 import { DateTime } from "owlelia";
+import {
+  RepetitionTaskView,
+  REPETITION_TASK_VIEW_TYPE,
+} from "./ui/RepetitionTaskView";
 
 export default class SilhouettePlugin extends Plugin {
   settings: Settings;
   appHelper: AppHelper;
   taskService: TaskService;
+  repetitionTaskView: RepetitionTaskView;
 
   async onload() {
     await this.loadSettings();
@@ -56,6 +61,18 @@ export default class SilhouettePlugin extends Plugin {
       this.settings.holidayFilePath
     );
     this.taskService = new TaskServiceImpl(this.appHelper, repository);
+
+    this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
+      this.repetitionTaskView = new RepetitionTaskView(leaf, this.taskService);
+      return this.repetitionTaskView;
+    });
+    this.addRibbonIcon("cloud-fog", "Activate view", async () => {
+      await this.activateView();
+    });
+  }
+
+  async onunload() {
+    this.app.workspace.detachLeavesOfType(REPETITION_TASK_VIEW_TYPE);
   }
 
   async loadSettings() {
@@ -65,5 +82,18 @@ export default class SilhouettePlugin extends Plugin {
   async saveSettings() {
     await this.saveData(this.settings);
     this.init();
+  }
+
+  async activateView() {
+    this.app.workspace.detachLeavesOfType(REPETITION_TASK_VIEW_TYPE);
+
+    await this.app.workspace.getRightLeaf(false).setViewState({
+      type: REPETITION_TASK_VIEW_TYPE,
+      active: true,
+    });
+
+    this.app.workspace.revealLeaf(
+      this.app.workspace.getLeavesOfType(REPETITION_TASK_VIEW_TYPE)[0]
+    );
   }
 }
