@@ -1,4 +1,4 @@
-import { Notice, Plugin } from "obsidian";
+import { type EventRef, Notice, Plugin } from "obsidian";
 import {
   DEFAULT_SETTINGS,
   type Settings,
@@ -19,6 +19,7 @@ export default class SilhouettePlugin extends Plugin {
   appHelper: AppHelper;
   taskService: TaskService;
   repetitionTaskView: RepetitionTaskItemView;
+  fileEventRef: EventRef | undefined;
 
   async onload() {
     await this.loadSettings();
@@ -71,6 +72,19 @@ export default class SilhouettePlugin extends Plugin {
         leaf,
         this.taskService
       );
+
+      if (this.fileEventRef) {
+        this.app.vault.offref(this.fileEventRef);
+      }
+      this.fileEventRef = this.app.vault.on("modify", async (file) => {
+        if (
+          file.path === this.settings.taskFilePath ||
+          file.path === this.settings.holidayFilePath
+        ) {
+          await this.repetitionTaskView.refreshData();
+        }
+      });
+
       return this.repetitionTaskView;
     });
     this.addRibbonIcon("cloud-fog", "Activate view", async () => {
@@ -79,6 +93,9 @@ export default class SilhouettePlugin extends Plugin {
   }
 
   async onunload() {
+    if (this.fileEventRef) {
+      this.app.vault.offref(this.fileEventRef);
+    }
     this.app.workspace.detachLeavesOfType(REPETITION_TASK_VIEW_TYPE);
   }
 

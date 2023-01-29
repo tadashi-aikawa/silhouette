@@ -37,5 +37,21 @@ export class RepetitionTaskItemView extends ItemView {
         taskService: this.taskService,
       },
     });
+    await this.refreshData();
+  }
+
+  async refreshData() {
+    const [tasks, taskError] = await this.taskService
+      .loadRepetitionTasks()
+      .then((x) => x.unwrap());
+
+    const [holidays, holidaysError] = (
+      await this.taskService.loadHolidays()
+    ).unwrap();
+
+    this.view.$set({
+      tasks,
+      holidays,
+    });
   }
 }

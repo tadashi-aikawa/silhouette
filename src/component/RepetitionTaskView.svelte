@@ -4,32 +4,30 @@
 
   import { type TaskService } from "../app/TaskService";
   import { RepetitionTask } from "../domain/entity/RepetitionTask";
-  import { BaseError, DateTime } from "owlelia";
+  import { DateTime } from "owlelia";
 
   export let taskService: TaskService;
+  export let tasks: RepetitionTask[] | undefined;
+  export let holidays: DateTime[] | undefined;
 
-  let tasks: RepetitionTask[] | undefined;
-  let taskError: BaseError | undefined;
   let currentTask: RepetitionTask | undefined;
-
-  let holidays: DateTime[] | undefined;
-  let holidaysError: BaseError | undefined;
-
-  let datesInFuture: DateTime[] | undefined;
-
-  const init = async () => {
-    [tasks, taskError] = await taskService
-      .loadRepetitionTasks()
-      .then((x) => x.unwrap());
-  };
 
   const handleClickTask = async (task: RepetitionTask) => {
     currentTask = task;
-    [holidays, holidaysError] = (await taskService.loadHolidays()).unwrap();
-    datesInFuture = taskService.calcDatesInFuture(task, holidays!);
   };
 
   let plugins = [DayGrid];
+
+  $: {
+    if (tasks?.length > 0) {
+      currentTask = tasks!.find((x) => x.name === currentTask?.name);
+    }
+  }
+
+  $: datesInFuture = currentTask
+    ? taskService.calcDatesInFuture(currentTask, holidays!)
+    : undefined;
+
   $: options = {
     view: "dayGridMonth",
     highlightedDates: holidays?.map((x) => x.displayDate) ?? [],
@@ -51,17 +49,15 @@
       : [],
     eventContent: (info) => info.event.title,
   };
-
-  init();
 </script>
 
 <h3>Recurring tasks</h3>
-<div style="height: calc(100% - 350px - 50px - 75px); overflow: scroll">
+<div style="height: calc(100% - 420px - 50px - 75px); overflow: scroll">
   {#if tasks}
     {#each tasks as task}
       <div
         class="nav-file-title"
-        class:is-active={task == currentTask}
+        class:is-active={currentTask && task.name == currentTask.name}
         on:click={handleClickTask(task)}
         on:keypress={handleClickTask(task)}
       >
@@ -71,7 +67,7 @@
   {/if}
 </div>
 
-<div style="height: 350px; overflow: scroll">
+<div style="height: 420px; overflow: scroll">
   <Calendar {plugins} {options} />
 </div>
 
