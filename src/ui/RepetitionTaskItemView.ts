@@ -1,3 +1,4 @@
+import "@event-calendar/core/index.css";
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import type { TaskService } from "../app/TaskService";
 import RepetitionTaskView from "../component/RepetitionTaskView.svelte";
