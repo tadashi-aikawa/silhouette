@@ -90,7 +90,7 @@ export class RepetitionTask extends Entity<Props> {
         return true;
       }
       if (!p.baseDate) {
-        throw new Error(`起点日が登録されていません: ${p.name}`);
+        return false;
       }
       return date.diffDays(p.baseDate) % p.repetition.day.period === 0;
     }
