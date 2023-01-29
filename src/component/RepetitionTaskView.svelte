@@ -31,7 +31,6 @@
   $: options = {
     view: "dayGridMonth",
     highlightedDates: holidays?.map((x) => x.displayDate) ?? [],
-    height: "100%",
     events: datesInFuture
       ? DateTime.today()
           .toDate(DateTime.today().plusMonths(3))
@@ -52,7 +51,7 @@
 </script>
 
 <h3>Recurring tasks</h3>
-<div style="height: calc(100% - 420px - 50px - 75px); overflow: scroll">
+<div style="height: calc(100% - 325px - 50px - 75px); overflow: scroll">
   {#if tasks}
     {#each tasks as task}
       <div
@@ -67,12 +66,10 @@
   {/if}
 </div>
 
-<div style="height: 420px; overflow: scroll">
-  <Calendar {plugins} {options} />
-</div>
+<Calendar {plugins} {options} />
 
 {#if currentTask}
-  <div style="height: 50px; display: flex; justify-content: center;">
+  <div style="padding: 8px; display: flex; justify-content: center;">
     {currentTask.name}
   </div>
 {/if}

@@ -3,7 +3,7 @@ body {
     --silhouette-calendar-task-mark-on: var(--interactive-accent);
     --silhouette-calendar-task-mark-off: var(--text-faint);
     --silhouette-calendar-text-color: var(--text-normal);
-    --silhouette-calendar-today-color: rgba(255, 255, 30, 0.2);
+    --silhouette-calendar-today-color: rgba(30, 255, 30, 0.2);
     --silhouette-calendar-highlight-color: rgba(255, 30, 30, 0.2);
     --silhouette-calendar-next-prev-button-symbol-color: var(--text-normal);
     --silhouette-calendar-button-hover-color: var(--interactive-hover);
@@ -191,7 +191,6 @@ body {
 }
 .ec-month .ec-content {
     flex-direction: column;
-    height: 100%;
 }
 .ec-list .ec-content {
     flex-direction: column;
