@@ -109,6 +109,14 @@ Silhouetteのコマンドは1つだけです。
 > **Note**  
 > 機能が1つしかないのは現時点でそうだからです。今後も1つだけにするというこだわりはありません。(管理を複雑にするようなコマンドを増やす予定もありません)
 
+## UI
+
+[繰り返しタスク]が意図通りの日付に予定されているか...を確認するため、1つだけUIを用意しています。
+
+<video autoplay muted controls src="https://user-images.githubusercontent.com/9500018/215319503-dfa7fd1f-c7ff-4e3c-a3ef-982aa1b1a983.mp4"></video>
+
+詳細は[0.8.0](https://github.com/tadashi-aikawa/silhouette/releases/tag/0.8.0)のリリースノートをご覧ください。
+
 ## ⚙️設定
 
 ### `Task file path`
