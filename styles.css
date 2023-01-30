@@ -8,8 +8,13 @@ body {
     --silhouette-calendar-next-prev-button-symbol-color: var(--text-normal);
     --silhouette-calendar-button-hover-color: var(--interactive-hover);
     --silhouette-calendar-title-font-size: var(--h4-size);
-    --silhouette-calendar-days-font-size: 0.75rem;
-    --silhouette-calendar-day-head-font-size: 0.75rem;
+    --silhouette-calendar-today-button-font-size: 0.80rem;
+    --silhouette-calendar-days-font-size: 0.80rem;
+    --silhouette-calendar-day-head-font-size: 0.80rem;
+}
+
+.is-phone button.ec-button.ec-today {
+    width: auto;
 }
 
 /* node_modules/@event-calendar/core/index.css */
@@ -73,7 +78,7 @@ body {
     background-color: #fff;
     border: 1px solid #ced4da;
     padding: 0.35rem;
-    font-size: 0.75rem;
+    font-size: var(--silhouette-calendar-today-button-font-size);
     line-height: 1.5;
     border-radius: 0.25rem;
 }
@@ -221,7 +226,7 @@ body {
 }
 .ec-day {
     border-style: none none none solid;
-    width: 35px;
+    width: 40px;
 }
 .ec-day.ec-today {
     background-color: var(--silhouette-calendar-today-color);

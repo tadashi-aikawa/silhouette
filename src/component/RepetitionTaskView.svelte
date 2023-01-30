@@ -51,7 +51,7 @@
 </script>
 
 <h3>Recurring tasks</h3>
-<div style="height: calc(100% - 325px - 50px - 75px); overflow: scroll">
+<div style="height: calc(100% - 275px - 50px - 75px); overflow: scroll">
   {#if tasks}
     {#each tasks as task}
       <div
