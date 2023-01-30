@@ -7,6 +7,9 @@ body {
     --silhouette-calendar-highlight-color: rgba(255, 30, 30, 0.2);
     --silhouette-calendar-next-prev-button-symbol-color: var(--text-normal);
     --silhouette-calendar-button-hover-color: var(--interactive-hover);
+    --silhouette-calendar-title-font-size: var(--h4-size);
+    --silhouette-calendar-days-font-size: 0.75rem;
+    --silhouette-calendar-day-head-font-size: 0.75rem;
 }
 
 /* node_modules/@event-calendar/core/index.css */
@@ -17,6 +20,7 @@ body {
     flex: 1 1 0;
     min-width: 0;
     max-width: 100%;
+    font-size: var(--silhouette-calendar-days-font-size);
 }
 .ec {
     display: flex;
@@ -63,12 +67,13 @@ body {
 }
 .ec-title {
     margin: 0;
+    font-size: var(--silhouette-calendar-title-font-size);
 }
 .ec-button {
     background-color: #fff;
     border: 1px solid #ced4da;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
+    padding: 0.35rem;
+    font-size: 0.75rem;
     line-height: 1.5;
     border-radius: 0.25rem;
 }
@@ -97,6 +102,7 @@ body {
 .ec-icon {
     display: inline-block;
     width: 1em;
+    margin: 0.25em;
 }
 .ec-icon.ec-prev:after,
 .ec-icon.ec-next:after {
@@ -215,6 +221,7 @@ body {
 }
 .ec-day {
     border-style: none none none solid;
+    width: 35px;
 }
 .ec-day.ec-today {
     background-color: var(--silhouette-calendar-today-color);
@@ -247,7 +254,8 @@ body {
 }
 .ec-month .ec-day-head {
     text-align: right;
-    padding: 4px 4px 3px;
+    font-size: var(--silhouette-calendar-day-head-font-size);
+    padding: 2px 2px 1px;
 }
 .ec-month .ec-day-foot {
     position: absolute;
@@ -267,7 +275,7 @@ body {
 }
 .ec-events {
     margin: 0 6px 0 0;
-    height: 25px;
+    height: 15px;
 }
 .ec-week .ec-events,
 .ec-events.ec-preview {
@@ -275,18 +283,19 @@ body {
 }
 .ec-event {
     display: flex;
-    padding-left: 6px;
+    padding-left: 4px;
     color: #fff;
     box-sizing: border-box;
     box-shadow: 0 0 1px 0 #dadce0;
     background-color: #a4d2fa;
     border-radius: 3px;
-    font-size: 0.85em;
+    font-size: 0.75rem;
     line-height: 1.5;
     z-index: 1;
-    width: 20px!important;
-    height: 20px!important;
-    left: 10px;
+    width: 15px!important;
+    height: 15px!important;
+    left: 5px;
+    bottom: 3px;
 }
 .ec-month .ec-event,
 .ec-all-day .ec-event {
@@ -324,6 +333,7 @@ body {
 .ec-event-body {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
 }
 .ec-month .ec-event-body,

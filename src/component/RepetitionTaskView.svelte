@@ -66,7 +66,9 @@
   {/if}
 </div>
 
-<Calendar {plugins} {options} />
+<div style="display: flex; justify-content: center;">
+  <Calendar {plugins} {options} />
+</div>
 
 {#if currentTask}
   <div style="padding: 8px; display: flex; justify-content: center;">
