@@ -24,7 +24,27 @@ export class AppHelper {
     return this.getActiveMarkdownView()?.editor ?? null;
   }
 
+  getActiveLine(): string | null {
+    const editor = this.getActiveMarkdownEditor();
+    if (!editor) {
+      return null;
+    }
+
+    return editor.getLine(editor.getCursor().line);
+  }
+
   insertStringToActiveFile(str: string): void {
     this.getActiveMarkdownEditor()?.replaceSelection(str);
+  }
+
+  replaceStringInActiveLine(str: string): void {
+    const editor = this.getActiveMarkdownEditor();
+    if (!editor) {
+      return;
+    }
+
+    const { line, ch } = editor.getCursor();
+    editor.setLine(line, str);
+    editor.setCursor({ line, ch: Math.min(ch, str.length - 1) });
   }
 }

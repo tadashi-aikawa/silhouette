@@ -13,11 +13,14 @@ import {
   RepetitionTaskItemView,
   REPETITION_TASK_VIEW_TYPE,
 } from "./ui/RepetitionTaskItemView";
+import type { TimerService } from "./app/TimerService";
+import { TimerServiceImpl } from "./app/TimerServiceImpl";
 
 export default class SilhouettePlugin extends Plugin {
   settings: Settings;
   appHelper: AppHelper;
   taskService: TaskService;
+  timerService: TimerService;
   repetitionTaskView: RepetitionTaskItemView;
   fileEventRef: EventRef | undefined;
 
@@ -56,6 +59,22 @@ export default class SilhouettePlugin extends Plugin {
       },
     });
 
+    this.addCommand({
+      id: "push-timer",
+      name: "Push timer",
+      checkCallback: (checking: boolean) => {
+        if (
+          this.appHelper.getActiveFile() &&
+          this.appHelper.getActiveMarkdownView()
+        ) {
+          if (!checking) {
+            this.timerService.execute();
+          }
+          return true;
+        }
+      },
+    });
+
     this.addSettingTab(new SilhouetteSettingTab(this.app, this));
   }
 
@@ -66,6 +85,7 @@ export default class SilhouettePlugin extends Plugin {
       this.settings.holidayFilePath
     );
     this.taskService = new TaskServiceImpl(this.appHelper, repository);
+    this.timerService = new TimerServiceImpl(this.appHelper);
 
     this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
       this.repetitionTaskView = new RepetitionTaskItemView(
