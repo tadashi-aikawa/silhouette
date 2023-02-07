@@ -75,6 +75,22 @@ export default class SilhouettePlugin extends Plugin {
       },
     });
 
+    this.addCommand({
+      id: "cycle-bullet-checkbox",
+      name: "Cycle bullet/checkbox",
+      checkCallback: (checking: boolean) => {
+        if (
+          this.appHelper.getActiveFile() &&
+          this.appHelper.getActiveMarkdownView()
+        ) {
+          if (!checking) {
+            this.timerService.cycleBulletCheckbox();
+          }
+          return true;
+        }
+      },
+    });
+
     this.addSettingTab(new SilhouetteSettingTab(this.app, this));
   }
 

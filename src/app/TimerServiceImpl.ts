@@ -64,4 +64,21 @@ export class TimerServiceImpl implements TimerService {
         break;
     }
   }
+
+  cycleBulletCheckbox(): void {
+    if (!this.appHelper.cycleListCheckList()) {
+      return;
+    }
+
+    if (!this.appHelper.isCheckedCurrentLineTask()) {
+      return;
+    }
+
+    const line = this.appHelper.getActiveLine() || "";
+    const lineTimeStatus = TimerStatus.fromLine(line);
+    if (lineTimeStatus.name === "recording") {
+      this.execute();
+      return;
+    }
+  }
 }

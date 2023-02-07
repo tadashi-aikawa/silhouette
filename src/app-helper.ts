@@ -1,7 +1,14 @@
 import { App, Editor, MarkdownView, TFile } from "obsidian";
 
+interface UnsafeAppInterface {
+  commands: {
+    commands: { [commandId: string]: any };
+    executeCommandById(commandId: string): boolean;
+  };
+}
+
 export class AppHelper {
-  private unsafeApp: App;
+  private unsafeApp: App & UnsafeAppInterface;
 
   constructor(app: App) {
     this.unsafeApp = app as any;
@@ -46,5 +53,16 @@ export class AppHelper {
     const { line, ch } = editor.getCursor();
     editor.setLine(line, str);
     editor.setCursor({ line, ch: Math.min(ch, str.length - 1) });
+  }
+
+  cycleListCheckList(): boolean {
+    return this.unsafeApp.commands.executeCommandById(
+      "editor:cycle-list-checklist"
+    );
+  }
+
+  isCheckedCurrentLineTask(): boolean {
+    const line = this.getActiveLine();
+    return line ? /[-*] \[x] .+/.test(line) : false;
   }
 }

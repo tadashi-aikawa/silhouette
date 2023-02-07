@@ -14,9 +14,9 @@ function toHHmmss(seconds: number) {
 }
 
 const pattern = {
-  neverRecorded: / \[.] (?<name>.+)/g,
-  recording: / \[.] (?<name>.+)\(⏳\)$/g,
-  recorded: / \[.] (?<name>.+)\(⏲️(?<time>\d\d:\d\d:\d\d)\)$/g,
+  neverRecorded: /[-*] \[.] (?<name>.+)/g,
+  recording: /[-*] \[.] (?<name>.+)\(⏳\)$/g,
+  recorded: /[-*] \[.] (?<name>.+)\(⏲️(?<time>\d\d:\d\d:\d\d)\)$/g,
 } as const;
 type NamePattern = "notTask" | "neverRecorded" | "recording" | "recorded";
 
