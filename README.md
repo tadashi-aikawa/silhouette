@@ -144,7 +144,7 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 
 ### `Silhouette: Move to recording`
 
-[計測中のタスク]が存在する行に移動します。
+[計測中]のタスクが存在する行に移動します。
 
 ## UI
 
