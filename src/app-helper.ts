@@ -31,6 +31,15 @@ export class AppHelper {
     return this.getActiveMarkdownView()?.editor ?? null;
   }
 
+  getActiveFileContent(): string | null {
+    const editor = this.getActiveMarkdownEditor();
+    if (!editor) {
+      return null;
+    }
+
+    return editor.getValue();
+  }
+
   getActiveLine(): string | null {
     const editor = this.getActiveMarkdownEditor();
     if (!editor) {

@@ -91,6 +91,22 @@ export default class SilhouettePlugin extends Plugin {
       },
     });
 
+    this.addCommand({
+      id: "move-to-recording",
+      name: "Move to recording",
+      checkCallback: (checking: boolean) => {
+        if (
+          this.appHelper.getActiveFile() &&
+          this.appHelper.getActiveMarkdownView()
+        ) {
+          if (!checking) {
+            this.timerService.moveToRecording();
+          }
+          return true;
+        }
+      },
+    });
+
     this.addSettingTab(new SilhouetteSettingTab(this.app, this));
   }
 

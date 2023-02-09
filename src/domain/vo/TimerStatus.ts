@@ -20,6 +20,10 @@ const pattern = {
 } as const;
 type NamePattern = "notTask" | "neverRecorded" | "recording" | "recorded";
 
+export function isLineRecording(line: string): boolean {
+  return Boolean(line.match(pattern.recording));
+}
+
 export namespace TimerStatus {
   export function fromLine(line: string): TimerStatus {
     if (!line) {
@@ -30,7 +34,7 @@ export namespace TimerStatus {
       return new NotTaskStatus();
     }
 
-    if (Boolean(line.match(pattern.recording))) {
+    if (isLineRecording(line)) {
       return new RecordingStatus();
     } else if (Boolean(line.match(pattern.recorded))) {
       return new RecordedStatus();

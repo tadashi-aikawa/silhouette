@@ -2,7 +2,7 @@ import { Timer } from "../domain/vo/Timer";
 import type { TimerService } from "./TimerService";
 import type { AppHelper } from "../app-helper";
 import { DateTime } from "owlelia";
-import { TimerStatus } from "../domain/vo/TimerStatus";
+import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 
 export class TimerServiceImpl implements TimerService {
   // timerがあるとレコーディング中
@@ -10,7 +10,7 @@ export class TimerServiceImpl implements TimerService {
 
   constructor(private appHelper: AppHelper) {}
 
-  execute() {
+  async execute() {
     const line = this.appHelper.getActiveLine() || "";
     const lineTimeStatus = TimerStatus.fromLine(line);
     if (lineTimeStatus.name === "notTask") {
@@ -79,6 +79,20 @@ export class TimerServiceImpl implements TimerService {
     if (lineTimeStatus.name === "recording") {
       this.execute();
       return;
+    }
+  }
+
+  moveToRecording(): void {
+    const content = this.appHelper.getActiveFileContent();
+    if (!content) {
+      return;
+    }
+
+    const recordingLineIndex = content.split("\n").findIndex(isLineRecording);
+    if (recordingLineIndex !== -1) {
+      this.appHelper
+        .getActiveMarkdownEditor()
+        ?.setCursor({ line: recordingLineIndex, ch: 0 });
     }
   }
 }
