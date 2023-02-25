@@ -45,7 +45,19 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
-            timerService.execute();
+            timerService.execute({ openAfterRecording: false });
+          }
+          return true;
+        }
+      },
+    },
+    {
+      id: "push-timer-and-open",
+      name: "Push timer and open",
+      checkCallback: (checking: boolean) => {
+        if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
+          if (!checking) {
+            timerService.execute({ openAfterRecording: true });
           }
           return true;
         }

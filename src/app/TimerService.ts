@@ -1,5 +1,5 @@
 export interface TimerService {
-  execute(): void;
+  execute(option: { openAfterRecording?: boolean }): void;
   cycleBulletCheckbox(): void;
   moveToRecording(): void;
 }

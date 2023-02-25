@@ -10,7 +10,7 @@ export class TimerServiceImpl implements TimerService {
 
   constructor(private appHelper: AppHelper) {}
 
-  async execute() {
+  execute(option: { openAfterRecording?: boolean | undefined }): void {
     const line = this.appHelper.getActiveLine() || "";
     const lineTimeStatus = TimerStatus.fromLine(line);
     if (lineTimeStatus.name === "notTask") {
@@ -44,6 +44,10 @@ export class TimerServiceImpl implements TimerService {
         this.appHelper.replaceStringInActiveLine(
           lineTimeStatus.getNextStatusLine(line)
         );
+
+        if (option.openAfterRecording) {
+          this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
+        }
         break;
       case "recorded":
         if (this.timer) {
@@ -61,6 +65,10 @@ export class TimerServiceImpl implements TimerService {
           startTime: DateTime.now(),
           accumulatedSeconds,
         });
+
+        if (option.openAfterRecording) {
+          this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
+        }
         break;
     }
   }
@@ -77,7 +85,7 @@ export class TimerServiceImpl implements TimerService {
     const line = this.appHelper.getActiveLine() || "";
     const lineTimeStatus = TimerStatus.fromLine(line);
     if (lineTimeStatus.name === "recording") {
-      this.execute();
+      this.execute({ openAfterRecording: false });
       return;
     }
   }
