@@ -1,4 +1,4 @@
-import { type EventRef, Notice, Plugin } from "obsidian";
+import { type EventRef, Plugin } from "obsidian";
 import {
   DEFAULT_SETTINGS,
   type Settings,
@@ -8,13 +8,13 @@ import { AppHelper } from "./app-helper";
 import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
 import type { TaskService } from "./app/TaskService";
 import { TaskServiceImpl } from "./app/TaskServiceImpl";
-import { DateTime } from "owlelia";
 import {
-  RepetitionTaskItemView,
   REPETITION_TASK_VIEW_TYPE,
+  RepetitionTaskItemView,
 } from "./ui/RepetitionTaskItemView";
 import type { TimerService } from "./app/TimerService";
 import { TimerServiceImpl } from "./app/TimerServiceImpl";
+import { createCommands } from "./commands";
 
 export default class SilhouettePlugin extends Plugin {
   settings: Settings;
@@ -29,84 +29,12 @@ export default class SilhouettePlugin extends Plugin {
     this.appHelper = new AppHelper(this.app);
     this.init();
 
-    this.addCommand({
-      id: "insert-tasks",
-      name: "Insert tasks",
-      checkCallback: (checking: boolean) => {
-        if (
-          this.appHelper.getActiveFile() &&
-          this.appHelper.getActiveMarkdownView()
-        ) {
-          if (!checking) {
-            const date = DateTime.from(
-              this.appHelper.getActiveFile()!.basename,
-              this.settings.fileDateFormat || undefined
-            );
-
-            this.taskService.insertTasksToDailyNote(date).then((err) => {
-              if (err) {
-                new Notice(`[Error] ${err.name}: ${err.message}`, 0);
-                return;
-              }
-
-              new Notice(
-                `Insert tasks that should do on ${date.format("YYYY/MM/DD")}`
-              );
-            });
-          }
-          return true;
-        }
-      },
-    });
-
-    this.addCommand({
-      id: "push-timer",
-      name: "Push timer",
-      checkCallback: (checking: boolean) => {
-        if (
-          this.appHelper.getActiveFile() &&
-          this.appHelper.getActiveMarkdownView()
-        ) {
-          if (!checking) {
-            this.timerService.execute();
-          }
-          return true;
-        }
-      },
-    });
-
-    this.addCommand({
-      id: "cycle-bullet-checkbox",
-      name: "Cycle bullet/checkbox",
-      checkCallback: (checking: boolean) => {
-        if (
-          this.appHelper.getActiveFile() &&
-          this.appHelper.getActiveMarkdownView()
-        ) {
-          if (!checking) {
-            this.timerService.cycleBulletCheckbox();
-          }
-          return true;
-        }
-      },
-    });
-
-    this.addCommand({
-      id: "move-to-recording",
-      name: "Move to recording",
-      checkCallback: (checking: boolean) => {
-        if (
-          this.appHelper.getActiveFile() &&
-          this.appHelper.getActiveMarkdownView()
-        ) {
-          if (!checking) {
-            this.timerService.moveToRecording();
-          }
-          return true;
-        }
-      },
-    });
-
+    createCommands(
+      this.appHelper,
+      this.settings,
+      this.taskService,
+      this.timerService
+    ).forEach((x) => this.addCommand(x));
     this.addSettingTab(new SilhouetteSettingTab(this.app, this));
   }
 
