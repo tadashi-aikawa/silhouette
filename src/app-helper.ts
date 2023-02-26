@@ -80,7 +80,7 @@ export class AppHelper {
 
     const linksMatches = Array.from(
       line.matchAll(
-        /(?<link>\[\[[^\]]+]])|(?<= |\n|^|\()(?<url>https?:\/\/[^ )\n]+)/g
+        /(?<link>\[\[[^\]]+]])|[ |\n|^|\(](?<url>https?:\/\/[^ )\n]+)/g
       )
     ) as RegExpMatchedArray[];
     const firstIndex = linksMatches.map((x) => x.index).at(0);
@@ -88,7 +88,7 @@ export class AppHelper {
       return;
     }
 
-    editor.setCursor({ line: editor.getCursor().line, ch: firstIndex + 1 });
+    editor.setCursor({ line: editor.getCursor().line, ch: firstIndex + 3 });
     this.executeCoreCommand(createCommand(option.leaf));
   }
 
