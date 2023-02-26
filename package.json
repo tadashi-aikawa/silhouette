@@ -32,7 +32,7 @@
     "esbuild-svelte": "^0.7.3",
     "husky": "^8.0.3",
     "jest": "^29.3.1",
-    "obsidian": "latest",
+    "obsidian": "1.1.1",
     "prettier": "^2.8.3",
     "prettier-plugin-svelte": "^2.9.0",
     "svelte": "^3.55.1",
