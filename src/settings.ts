@@ -1,5 +1,6 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import type SilhouettePlugin from "./main";
+import { TextComponentEvent } from "./settings-helper";
 
 export interface Settings {
   taskFilePath: string;
@@ -29,33 +30,30 @@ export class SilhouetteSettingTab extends PluginSettingTab {
     containerEl.createEl("h2", { text: "General" });
 
     new Setting(containerEl).setName("Task file path").addText((text) =>
-      text
+      TextComponentEvent.onChange(text, async (value) => {
+        this.plugin.settings.taskFilePath = value;
+        await this.plugin.saveSettings();
+      })
         .setPlaceholder("ex: taskfile.md")
         .setValue(this.plugin.settings.taskFilePath)
-        .onChange(async (value) => {
-          this.plugin.settings.taskFilePath = value;
-          await this.plugin.saveSettings();
-        })
     );
 
     new Setting(containerEl).setName("Holiday file path").addText((text) =>
-      text
+      TextComponentEvent.onChange(text, async (value) => {
+        this.plugin.settings.holidayFilePath = value;
+        await this.plugin.saveSettings();
+      })
         .setPlaceholder("ex: holiday.md")
         .setValue(this.plugin.settings.holidayFilePath)
-        .onChange(async (value) => {
-          this.plugin.settings.holidayFilePath = value;
-          await this.plugin.saveSettings();
-        })
     );
 
     new Setting(containerEl).setName("File date format").addText((text) =>
-      text
+      TextComponentEvent.onChange(text, async (value) => {
+        this.plugin.settings.fileDateFormat = value;
+        await this.plugin.saveSettings();
+      })
         .setPlaceholder("ex: MM-DD-YYYY")
         .setValue(this.plugin.settings.fileDateFormat)
-        .onChange(async (value) => {
-          this.plugin.settings.fileDateFormat = value;
-          await this.plugin.saveSettings();
-        })
     );
   }
 }

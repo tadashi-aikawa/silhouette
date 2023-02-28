@@ -10,6 +10,10 @@ export class TaskServiceImpl implements TaskService {
     private repository: TaskRepository
   ) {}
 
+  serRepository(repository: TaskRepository): void {
+    this.repository = repository;
+  }
+
   async insertTasksToDailyNote(date: DateTime): Promise<Nullable<BaseError>> {
     const [tasks, err] = (await this.loadRepetitionTasks()).unwrap();
     if (err) {

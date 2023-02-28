@@ -11,6 +11,7 @@ interface UnsafeAppInterface {
   commands: {
     commands: { [commandId: string]: any };
     executeCommandById(commandId: string): boolean;
+    removeCommand(id: string): void;
   };
 }
 
@@ -33,6 +34,10 @@ export class AppHelper {
   }
 
   async loadFile(path: string): Promise<string> {
+    const exists = await this.unsafeApp.vault.adapter.exists(path);
+    if (!exists) {
+      throw Error(`The file is not found: ${path}`);
+    }
     return this.unsafeApp.vault.adapter.read(path);
   }
 
@@ -120,5 +125,9 @@ export class AppHelper {
 
   executeCoreCommand(command: CoreCommand): boolean {
     return this.unsafeApp.commands.executeCommandById(command);
+  }
+
+  removeCommand(commandId: string) {
+    this.unsafeApp.commands.removeCommand(commandId);
   }
 }

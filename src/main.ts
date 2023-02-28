@@ -1,4 +1,4 @@
-import { type EventRef, Plugin } from "obsidian";
+import { type Command, type EventRef, Plugin } from "obsidian";
 import {
   DEFAULT_SETTINGS,
   type Settings,
@@ -23,22 +23,11 @@ export default class SilhouettePlugin extends Plugin {
   timerService: TimerService;
   repetitionTaskView: RepetitionTaskItemView;
   fileEventRef: EventRef | undefined;
+  commands: Command[] = [];
 
   async onload() {
     await this.loadSettings();
     this.appHelper = new AppHelper(this.app);
-    this.init();
-
-    createCommands(
-      this.appHelper,
-      this.settings,
-      this.taskService,
-      this.timerService
-    ).forEach((x) => this.addCommand(x));
-    this.addSettingTab(new SilhouetteSettingTab(this.app, this));
-  }
-
-  private init() {
     const repository = new TaskRepositoryImpl(
       this.appHelper,
       this.settings.taskFilePath,
@@ -70,6 +59,16 @@ export default class SilhouettePlugin extends Plugin {
     this.addRibbonIcon("cloud-fog", "Activate view", async () => {
       await this.activateView();
     });
+
+    this.commands.forEach((x) => this.appHelper.removeCommand(x.id));
+    this.commands = createCommands(
+      this.appHelper,
+      this.settings,
+      this.taskService,
+      this.timerService
+    ).map((x) => this.addCommand(x));
+
+    this.addSettingTab(new SilhouetteSettingTab(this.app, this));
   }
 
   async onunload() {
@@ -85,7 +84,17 @@ export default class SilhouettePlugin extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
-    this.init();
+    await this.reset();
+  }
+
+  async reset() {
+    const repository = new TaskRepositoryImpl(
+      this.appHelper,
+      this.settings.taskFilePath,
+      this.settings.holidayFilePath
+    );
+    this.taskService.serRepository(repository);
+    await this.activateView();
   }
 
   async activateView() {
