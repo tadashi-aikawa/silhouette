@@ -110,9 +110,7 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 [計測済]のカッコ内にある`HH:mm:ss`表記は、そのタスクを計測した時間の合計です。`01:23:45`は合計で1時間23分45秒計測したという意味です。
 
 > **Warning**  
-> これは試験的機能です。様々な制限やバグを含みますので、それを理解したうえでご利用ください。具体的な制限事項は以下の通りです。
-> - [計測中]にObsidianを終了すると、次に起動したとき正常に動作しません
-> - [計測中]に同期された異なるデバイスで操作すると、正常に動作しません
+> 異なるデバイス間で計測状態を同期する場合は、[Timer storage JSON file path]で指定したファイルが同期対象となるようにしてください。
 
 ### `Silhouette: Push timer and open`
 
@@ -178,6 +176,14 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 以下のフォーマットに対応しています。
 
 https://day.js.org/docs/en/parse/string-format
+
+### `Timer storage JSON file path`
+
+[計測中]の状態を記録したJSONファイルを保存するパスを、Vault rootからの相対パスとして指定します。
+
+`例`: `_Privates/NOSYNC/timer.json`
+
+指定しなかった場合は`.obsidian/plugins/silhouette/timer.json`に保存されます。
 
 ## 📜仕様
 
@@ -498,3 +504,4 @@ Su Mo Tu We Th Fr Sa
 [計測中]: #計測中
 [計測済]: #計測済
 [計測に関するステータス]: #計測に関するステータス
+[Timer storage JSON file path]: #`Timer storage JSON file path`
