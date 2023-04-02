@@ -6,12 +6,14 @@ export interface Settings {
   taskFilePath: string;
   holidayFilePath: string;
   fileDateFormat: string;
+  timerStorageFilePath: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
   taskFilePath: "",
   holidayFilePath: "",
   fileDateFormat: "",
+  timerStorageFilePath: "",
 };
 
 export class SilhouetteSettingTab extends PluginSettingTab {
@@ -55,5 +57,16 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         .setPlaceholder("ex: MM-DD-YYYY")
         .setValue(this.plugin.settings.fileDateFormat)
     );
+
+    new Setting(containerEl)
+      .setName("Timer storage JSON file path")
+      .addText((text) =>
+        TextComponentEvent.onChange(text, async (value) => {
+          this.plugin.settings.timerStorageFilePath = value;
+          await this.plugin.saveSettings();
+        })
+          .setPlaceholder("ex: timer.json")
+          .setValue(this.plugin.settings.timerStorageFilePath)
+      );
   }
 }

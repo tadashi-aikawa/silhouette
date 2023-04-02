@@ -24,7 +24,13 @@ export class Timer extends ValueObject<Props> {
     });
   }
 
+  get name(): Props["name"] {
+    return this._value.name;
+  }
   get accumulatedSeconds(): Props["accumulatedSeconds"] {
     return this._value.accumulatedSeconds;
+  }
+  get startTime(): Props["startTime"] {
+    return this._value.startTime;
   }
 }

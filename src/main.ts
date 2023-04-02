@@ -1,4 +1,4 @@
-import { type Command, type EventRef, Plugin } from "obsidian";
+import { type Command, type EventRef, Plugin, Notice } from "obsidian";
 import {
   DEFAULT_SETTINGS,
   type Settings,
@@ -6,6 +6,7 @@ import {
 } from "./settings";
 import { AppHelper } from "./app-helper";
 import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
+import { TimerRepositoryImpl } from "./repository/TimerRepositoryImpl";
 import type { TaskService } from "./app/TaskService";
 import { TaskServiceImpl } from "./app/TaskServiceImpl";
 import {
@@ -28,13 +29,31 @@ export default class SilhouettePlugin extends Plugin {
   async onload() {
     await this.loadSettings();
     this.appHelper = new AppHelper(this.app);
-    const repository = new TaskRepositoryImpl(
+
+    this.taskService = new TaskServiceImpl(
       this.appHelper,
-      this.settings.taskFilePath,
-      this.settings.holidayFilePath
+      new TaskRepositoryImpl(
+        this.appHelper,
+        this.settings.taskFilePath,
+        this.settings.holidayFilePath
+      )
     );
-    this.taskService = new TaskServiceImpl(this.appHelper, repository);
-    this.timerService = new TimerServiceImpl(this.appHelper);
+
+    const timeServiceOrErr = await TimerServiceImpl.create(
+      this.appHelper,
+      new TimerRepositoryImpl(
+        this.appHelper,
+        this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`
+      )
+    );
+    if (timeServiceOrErr.isErr()) {
+      new Notice(
+        `[Error] ${timeServiceOrErr.error.name}: ${timeServiceOrErr.error.message}`,
+        0
+      );
+      return;
+    }
+    this.timerService = timeServiceOrErr.value;
 
     this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
       this.repetitionTaskView = new RepetitionTaskItemView(
@@ -88,12 +107,20 @@ export default class SilhouettePlugin extends Plugin {
   }
 
   async reset() {
-    const repository = new TaskRepositoryImpl(
-      this.appHelper,
-      this.settings.taskFilePath,
-      this.settings.holidayFilePath
+    this.taskService.serRepository(
+      new TaskRepositoryImpl(
+        this.appHelper,
+        this.settings.taskFilePath,
+        this.settings.holidayFilePath
+      )
     );
-    this.taskService.serRepository(repository);
+    this.timerService.serRepository(
+      new TimerRepositoryImpl(
+        this.appHelper,
+        this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`
+      )
+    );
+
     await this.activateView();
   }
 

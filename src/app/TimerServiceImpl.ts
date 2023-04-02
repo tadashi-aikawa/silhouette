@@ -1,14 +1,40 @@
 import { Timer } from "../domain/vo/Timer";
 import type { TimerService } from "./TimerService";
 import type { AppHelper } from "../app-helper";
-import { DateTime } from "owlelia";
+import { BaseError, DateTime, ok, err, type AsyncResult } from "owlelia";
 import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
+import type { TimerRepository } from "src/repository/TimerRepository";
 
 export class TimerServiceImpl implements TimerService {
   // timerがあるとレコーディング中
   timer?: Timer;
 
-  constructor(private appHelper: AppHelper) {}
+  constructor(
+    private appHelper: AppHelper,
+    private repository: TimerRepository
+  ) {}
+
+  static async create(
+    appHelper: AppHelper,
+    repository: TimerRepository
+  ): AsyncResult<TimerService, BaseError> {
+    const ins = new TimerServiceImpl(appHelper, repository);
+
+    if (await ins.repository.hasTimer()) {
+      const timerOrErr = await ins.repository.loadTimer();
+      if (timerOrErr.isErr()) {
+        return err(timerOrErr.error);
+      }
+
+      ins.timer = timerOrErr.value;
+    }
+
+    return ok(ins);
+  }
+
+  serRepository(repository: TimerRepository): void {
+    this.repository = repository;
+  }
 
   execute(option: { openAfterRecording?: boolean | undefined }): void {
     const line = this.appHelper.getActiveLine() || "";
@@ -30,6 +56,7 @@ export class TimerServiceImpl implements TimerService {
         );
 
         this.timer = undefined;
+        this.repository.clearTimer();
         break;
       case "neverRecorded":
         if (this.timer) {
@@ -40,6 +67,7 @@ export class TimerServiceImpl implements TimerService {
           startTime: DateTime.now(),
           accumulatedSeconds: 0,
         });
+        this.repository.saveTimer(this.timer);
 
         this.appHelper.replaceStringInActiveLine(
           lineTimeStatus.getNextStatusLine(line)
@@ -65,6 +93,7 @@ export class TimerServiceImpl implements TimerService {
           startTime: DateTime.now(),
           accumulatedSeconds,
         });
+        this.repository.saveTimer(this.timer);
 
         if (option.openAfterRecording) {
           this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
