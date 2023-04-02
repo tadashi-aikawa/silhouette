@@ -39,21 +39,13 @@ export default class SilhouettePlugin extends Plugin {
       )
     );
 
-    const timeServiceOrErr = await TimerServiceImpl.create(
+    this.timerService = TimerServiceImpl.create(
       this.appHelper,
       new TimerRepositoryImpl(
         this.appHelper,
         this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`
       )
     );
-    if (timeServiceOrErr.isErr()) {
-      new Notice(
-        `[Error] ${timeServiceOrErr.error.name}: ${timeServiceOrErr.error.message}`,
-        0
-      );
-      return;
-    }
-    this.timerService = timeServiceOrErr.value;
 
     this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
       this.repetitionTaskView = new RepetitionTaskItemView(
