@@ -37,6 +37,8 @@
 毎月1日/11日/21日/31日やるタスク,1d/11d/21d/31d
 1月1日から7日ごとにやるタスク,every 7 day,2023-01-01
 1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
+稼働日の翌日にやるタスク,workday>1
+月末の3日前にやるタスク,end of month<3
 ```
 
 3. 本日のDaily Noteを開き、[Silhouette: Insert tasks](#silhouette-insert-tasks)コマンドを実行
