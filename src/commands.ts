@@ -87,5 +87,17 @@ export function createCommands(
         }
       },
     },
+    {
+      id: "force-stop-recording",
+      name: "Force stop recording",
+      checkCallback: (checking: boolean) => {
+        if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
+          if (!checking) {
+            timerService.forceStopRecording();
+          }
+          return true;
+        }
+      },
+    },
   ];
 }

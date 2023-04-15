@@ -133,4 +133,8 @@ export class TimerServiceImpl implements TimerService {
         ?.setCursor({ line: recordingLineIndex, ch: 0 });
     }
   }
+
+  async forceStopRecording(): Promise<void> {
+    await this.repository.clearTimer();
+  }
 }

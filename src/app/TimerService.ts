@@ -5,4 +5,5 @@ export interface TimerService {
   execute(option: { openAfterRecording?: boolean }): Promise<void>;
   cycleBulletCheckbox(): Promise<void>;
   moveToRecording(): void;
+  forceStopRecording(): Promise<void>;
 }
