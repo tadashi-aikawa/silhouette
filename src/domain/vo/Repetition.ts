@@ -59,6 +59,7 @@ interface Props {
   dayOfWeekHoliday: DayOfWeek[];
   week: Pattern;
   month: Pattern;
+  dayOffset: number;
   special?: "end of month" | "beginning of month";
 }
 
@@ -204,6 +205,7 @@ const repetitionBase = {
   dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6] as DayOfWeek[],
   week: { type: "period", period: 1 },
   month: { type: "period", period: 1 },
+  dayOffset: 0,
 } as const;
 
 const _brand = Symbol();
@@ -300,39 +302,67 @@ export class Repetition extends ValueObject<Props> {
   get month(): Pattern {
     return this._value.month;
   }
+  get dayOffset(): number {
+    return this._value.dayOffset;
+  }
   get special(): Props["special"] {
     return this._value.special;
   }
 
+  withDayOffset(dayOffset: number): Repetition {
+    return new Repetition({ ...this._value, dayOffset });
+  }
+
+  private static divideTokenWithOffset(
+    token: string
+  ): [token: string, offset: number] {
+    const [tp, pastOffset] = token.split("<");
+    if (pastOffset) {
+      return [tp, -1 * Number(pastOffset)];
+    }
+
+    const [tf, futureOffset] = token.split(">");
+    if (futureOffset) {
+      return [tf, Number(futureOffset)];
+    }
+
+    return [token, 0];
+  }
+
   static from(str: string): Repetition {
-    switch (str as Token | string) {
+    const [token, dayOffset] = this.divideTokenWithOffset(str);
+
+    switch (token as Token | string) {
       case "every day":
-        return Repetition.everyDay;
+        return Repetition.everyDay.withDayOffset(dayOffset);
       case "weekday":
-        return Repetition.weekday;
+        return Repetition.weekday.withDayOffset(dayOffset);
       case "weekend":
-        return Repetition.weekend;
+        return Repetition.weekend.withDayOffset(dayOffset);
       case "workday":
-        return Repetition.workday;
+        return Repetition.workday.withDayOffset(dayOffset);
       case "non workday":
-        return Repetition.nonWorkday;
+        return Repetition.nonWorkday.withDayOffset(dayOffset);
       case "end of month":
-        return Repetition.endOfMonth;
+        return Repetition.endOfMonth.withDayOffset(dayOffset);
       case "workday end of month":
-        return Repetition.workdayEndOfMonth;
+        return Repetition.workdayEndOfMonth.withDayOffset(dayOffset);
       case "beginning of month":
-        return Repetition.beginningOfMonth;
+        return Repetition.beginningOfMonth.withDayOffset(dayOffset);
       case "workday beginning of month":
-        return Repetition.workdayBeginningOfMonth;
+        return Repetition.workdayBeginningOfMonth.withDayOffset(dayOffset);
       default:
-        const dayPeriod = str.match(/every (?<period>\d+) day/)?.groups?.period;
+        const dayPeriod = token.match(/every (?<period>\d+) day/)?.groups
+          ?.period;
         if (dayPeriod) {
-          return Repetition.everyNDay(Number(dayPeriod));
+          return Repetition.everyNDay(Number(dayPeriod)).withDayOffset(
+            dayOffset
+          );
         }
     }
 
     // TODO: しっかりバリデートしたい
-    const tokens: Token[] = str.split("/") as Token[];
+    const tokens: Token[] = token.split("/") as Token[];
 
     const dayOfWeek = tokens
       .map((x) => DAY_OF_WEEK_MAPPINGS[x] ?? DAY_OF_WEEK_HOLIDAY_MAPPINGS[x])
@@ -347,6 +377,7 @@ export class Repetition extends ValueObject<Props> {
         dayOfWeekHoliday,
         week: { type: "period", period: 1 },
         month: { type: "period", period: 1 },
+        dayOffset,
       });
     }
 
@@ -363,6 +394,7 @@ export class Repetition extends ValueObject<Props> {
       dayOfWeekHoliday: [0, 1, 2, 3, 4, 5, 6],
       week: { type: "period", period: 1 },
       month: { type: "period", period: 1 },
+      dayOffset,
     });
   }
 }

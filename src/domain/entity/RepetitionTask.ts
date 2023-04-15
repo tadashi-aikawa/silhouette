@@ -48,13 +48,14 @@ export class RepetitionTask extends Entity<Props> {
 
   shouldTry(date: DateTime, holidays: DateTime[]): boolean {
     const p = this._props;
+    const targetDate = date.minusDays(p.repetition.dayOffset);
 
-    if (p.baseDate?.isAfter(date)) {
+    if (p.baseDate?.isAfter(targetDate)) {
       return false;
     }
 
     // TODO: owleliaに実装した方がいい
-    if (!this.includesDay(date, holidays)) {
+    if (!this.includesDay(targetDate, holidays)) {
       return false;
     }
 
@@ -63,8 +64,8 @@ export class RepetitionTask extends Entity<Props> {
         break;
       case "beginning of month":
         // 月初まで曜日パターンに引っかからなければOK
-        let beginD = date.minusDays(1);
-        while (beginD.isAfterOrEquals(date.replaceDay(1), true)) {
+        let beginD = targetDate.minusDays(1);
+        while (beginD.isAfterOrEquals(targetDate.replaceDay(1), true)) {
           if (this.includesDay(beginD, holidays)) {
             return false;
           }
@@ -73,8 +74,8 @@ export class RepetitionTask extends Entity<Props> {
         break;
       case "end of month":
         // 月末まで曜日パターンに引っかからなければOK
-        let endD = date.plusDays(1);
-        while (endD.isBeforeOrEquals(date.endOfMonth(), true)) {
+        let endD = targetDate.plusDays(1);
+        while (endD.isBeforeOrEquals(targetDate.endOfMonth(), true)) {
           if (this.includesDay(endD, holidays)) {
             return false;
           }
@@ -92,9 +93,9 @@ export class RepetitionTask extends Entity<Props> {
       if (!p.baseDate) {
         return false;
       }
-      return date.diffDays(p.baseDate) % p.repetition.day.period === 0;
+      return targetDate.diffDays(p.baseDate) % p.repetition.day.period === 0;
     }
 
-    return p.repetition.day.values.includes(date.day);
+    return p.repetition.day.values.includes(targetDate.day);
   }
 }
