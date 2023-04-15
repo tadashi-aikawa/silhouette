@@ -39,6 +39,8 @@
 1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
 稼働日の翌日にやるタスク,workday>1
 月末の3日前にやるタスク,end of month<3
+休み明けの稼働日,non workday>1!
+翌日が休み,non workday<1
 ```
 
 3. 本日のDaily Noteを開き、[Silhouette: Insert tasks](#silhouette-insert-tasks)コマンドを実行
@@ -267,16 +269,22 @@ https://day.js.org/docs/en/parse/string-format
 
 末尾にオフセット表記をつけると、特定日の〇日前や〇日後という表現ができます。
 
-| 末尾につける表記 | 意味  |
-| ---------------- | ----- |
-| \>N              | N日後 |
-| <N               | N日前 |
+| 末尾につける表記 | 意味        |
+| ---------------- | ----------- |
+| \>N              | N日後       |
+| <N               | N日前       |
+| \>N!             | N[稼働日]後 |
+| <N!              | N[稼働日]前 |
 
 以下は具体例です。
 
 ```
 稼働日の翌日タスク,workday>1
 月末の3日前タスク,end of month<3
+月末の2稼働日前タスク,end of month<2!
+休み前の稼働日,non workday<1!
+休み明けの稼働日,non workday>1!
+翌日が休み,non workday<1
 ```
 
 #### 起点日
