@@ -4,6 +4,7 @@ import type { AppHelper } from "../app-helper";
 import { DateTime } from "owlelia";
 import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 import type { TimerRepository } from "src/repository/TimerRepository";
+import { Notice } from "obsidian";
 
 export class TimerServiceImpl implements TimerService {
   constructor(
@@ -46,6 +47,10 @@ export class TimerServiceImpl implements TimerService {
     switch (lineTimeStatus.name) {
       case "recording":
         if (await this.hasNotTimer()) {
+          new Notice(
+            "No recording tasks exist, so you can't stop a task under the cursor.",
+            0
+          );
           return;
         }
         this.appHelper.replaceStringInActiveLine(
@@ -59,6 +64,10 @@ export class TimerServiceImpl implements TimerService {
         break;
       case "neverRecorded":
         if (await this.hasTimer()) {
+          new Notice(
+            "There is a recording task, so you can't start a new task without stopping the recording task. If you don't remember, use the 'Force stop recording' command to make it stop right away.",
+            0
+          );
           return;
         }
         await this.repository.saveTimer(
@@ -79,6 +88,10 @@ export class TimerServiceImpl implements TimerService {
         break;
       case "recorded":
         if (await this.hasTimer()) {
+          new Notice(
+            "There is a recording task, so you can't start a new task without stopping the recording task. If you don't remember, use the 'Force stop recording' command to make it stop right away.",
+            0
+          );
           return;
         }
         const { name, seconds: accumulatedSeconds } =
