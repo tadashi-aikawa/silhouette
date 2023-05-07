@@ -43,7 +43,7 @@
 翌日が休み,non workday<1
 ```
 
-3. 本日のDaily Noteを開き、[Silhouette: Insert tasks](#silhouette-insert-tasks)コマンドを実行
+3. 本日のDaily Noteを開き、[Silhouette: Insert tasks]コマンドを実行
 
 いくつかのタスクリストが挿入されれば成功です🎉
 
@@ -215,6 +215,29 @@ https://day.js.org/docs/en/parse/string-format
 - `//`から始まるコメント行
 - 空行、もしくはスペースのみの行
 
+#### タスク名
+
+タスクの名称です。
+
+先頭に半角スペースやタブをつけると、[Silhouette: Insert tasks]コマンドを実行したとき、タスクがインデントされます。たとえば
+
+```txt
+普通の タスク,every day
+    4つインデント,every day
+        8つインデント,every day
+	タブインデント,every day
+```
+
+という4つのタスクを登録したとき、[Silhouette: Insert tasks]を実行すると以下が挿入されます。
+
+```txt
+- [ ] 普通の タスク
+    - [ ] 4つインデント
+        - [ ] 8つインデント
+	- [ ] タブインデント
+```
+
+
 #### 繰り返しパターン
 
 [繰り返しタスク]の繰り返されるパターンを示す文字列です。
@@ -265,7 +288,7 @@ https://day.js.org/docs/en/parse/string-format
 | 2sat  | 第2土曜日               |
 | 1fri! | [休日]ではない第1金曜日 |
 
-#### オフセット
+##### オフセット
 
 末尾にオフセット表記をつけると、特定日の〇日前や〇日後という表現ができます。
 
@@ -540,3 +563,4 @@ Su Mo Tu We Th Fr Sa
 [計測済]: #計測済
 [計測に関するステータス]: #計測に関するステータス
 [Timer storage JSON file path]: #timer-storage-json-file-path
+[Silhouette: Insert tasks]: #silhouette-insert-tasks

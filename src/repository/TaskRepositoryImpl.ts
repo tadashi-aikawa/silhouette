@@ -22,9 +22,10 @@ export class TaskRepositoryImpl implements TaskRepository {
           .filter((cols) => cols.length > 1)
           .map(([name, repetition, baseDate]) => {
             return RepetitionTask.of({
-              name,
+              name: name.replace(/^[ \t]+/, ""),
               repetition: Repetition.from(repetition),
               baseDate: baseDate ? DateTime.of(baseDate) : undefined,
+              indent: name.match("^[ \t]+")?.at(0) ?? "",
             });
           })
       )

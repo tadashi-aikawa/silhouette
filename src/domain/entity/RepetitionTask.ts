@@ -6,6 +6,7 @@ import { isHoliday, reverseOffsetWorkdays } from "../../utils/dates";
 interface Props {
   name: string;
   repetition: Repetition;
+  indent?: string;
   baseDate?: DateTime;
 }
 
@@ -23,6 +24,10 @@ export class RepetitionTask extends Entity<Props> {
 
   get name(): string {
     return this._props.name;
+  }
+
+  get indent(): string {
+    return this._props.indent ?? "";
   }
 
   shouldTry(date: DateTime, holidays: DateTime[]): boolean {
