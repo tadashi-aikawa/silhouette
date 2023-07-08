@@ -540,6 +540,10 @@ Su Mo Tu We Th Fr Sa
 <img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-old-note-admonitor" class="link-card-image" />
 </a>
 
+<a href="https://github.com/tadashi-aikawa/shukuchi">
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/shukuchi" class="link-card-image" />
+</a>
+
 <a href="https://github.com/tadashi-aikawa/obsidian-embedded-code-title">
 <img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-embedded-code-title" class="link-card-image" />
 </a>
