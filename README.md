@@ -7,15 +7,6 @@
 
 [Obsidian]でシンプルにタスク管理するためのObsidianプラグインです。目の前のタスクに集中することのみにフォーカスしています。
 
-> **Note**  
-> I will wait to write this README in English because I want to prior the speed of developing this plugin until it is stable. Sorry.
-
-> **Note**  
-> (上記の意訳) 開発速度を優先したいので、プラグインが安定するまでREADMEには日本語を使います。
-
-> **Note**  
-> 要望/バグ報告/質問/感想などはGitHub Issues、MondまたはTwitterアカウントへお願いします。シンプルかつ自身で使うことを最優先としていますので、機能要望にはお応えできないことも多いかと思います。ご了承ください。
-
 ## ⏬インストール
 
 [BRAT]を使って`tadashi-aikawa/silhouette`でインストールします。
