@@ -159,19 +159,19 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 
 ## ⚙️設定
 
-### `Task file path`
+### `繰り返しタスクファイルのパス`
 
 [繰り返しタスクファイル]のパスを、Vault rootからの相対パスとして指定します。
 
 `例`: `_Privates/repeatable tasks.md` 
 
-### `Holiday file path`
+### `休日設定ファイルのパス`
 
 [休日設定ファイル]のパスを、Vault rootからの相対パスとして指定します。
 
 `例`: `_Privates/holidays.md`
 
-### `File date format`
+### `ファイルの日付フォーマット`
 
 タスクを挿入する日付を判断するために必要なファイル名のフォーマットを指定します。
 
@@ -181,13 +181,17 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 
 https://day.js.org/docs/en/parse/string-format
 
-### `Timer storage JSON file path`
+### `計測状態を記録したJSONファイルのパス`
 
 [計測中]の状態を記録したJSONファイルを保存するパスを、Vault rootからの相対パスとして指定します。
 
 `例`: `_Privates/NOSYNC/timer.json`
 
 指定しなかった場合は`.obsidian/plugins/silhouette/timer.json`に保存されます。
+
+### `完了したら次のタスクを自動で計測開始する`
+
+有効にすると `Cycle bullet/checkbox` コマンドでタスクを完了したあと、次の行に未完了のタスクが存在するなら、次の行のタスクを自動で計測開始します。
 
 ## 📜仕様
 

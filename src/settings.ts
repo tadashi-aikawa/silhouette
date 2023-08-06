@@ -31,37 +31,53 @@ export class SilhouetteSettingTab extends PluginSettingTab {
 
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "General" });
-
-    new Setting(containerEl).setName("Task file path").addText((text) =>
-      TextComponentEvent.onChange(text, async (value) => {
-        this.plugin.settings.taskFilePath = value;
-        await this.plugin.saveSettings();
-      })
-        .setPlaceholder("ex: taskfile.md")
-        .setValue(this.plugin.settings.taskFilePath)
-    );
-
-    new Setting(containerEl).setName("Holiday file path").addText((text) =>
-      TextComponentEvent.onChange(text, async (value) => {
-        this.plugin.settings.holidayFilePath = value;
-        await this.plugin.saveSettings();
-      })
-        .setPlaceholder("ex: holiday.md")
-        .setValue(this.plugin.settings.holidayFilePath)
-    );
-
-    new Setting(containerEl).setName("File date format").addText((text) =>
-      TextComponentEvent.onChange(text, async (value) => {
-        this.plugin.settings.fileDateFormat = value;
-        await this.plugin.saveSettings();
-      })
-        .setPlaceholder("ex: MM-DD-YYYY")
-        .setValue(this.plugin.settings.fileDateFormat)
-    );
+    new Setting(containerEl)
+      .setName("繰り返しタスクファイルのパス")
+      .setDesc(
+        "繰り返しタスクファイルのパスをVault rootからの相対パスとして指定します。"
+      )
+      .addText((text) =>
+        TextComponentEvent.onChange(text, async (value) => {
+          this.plugin.settings.taskFilePath = value;
+          await this.plugin.saveSettings();
+        })
+          .setPlaceholder("ex: taskfile.md")
+          .setValue(this.plugin.settings.taskFilePath)
+      );
 
     new Setting(containerEl)
-      .setName("Timer storage JSON file path")
+      .setName("休日設定ファイルのパス")
+      .setDesc(
+        "休日設定ファイルのパスをVault rootからの相対パスとして指定します。"
+      )
+      .addText((text) =>
+        TextComponentEvent.onChange(text, async (value) => {
+          this.plugin.settings.holidayFilePath = value;
+          await this.plugin.saveSettings();
+        })
+          .setPlaceholder("ex: holiday.md")
+          .setValue(this.plugin.settings.holidayFilePath)
+      );
+
+    new Setting(containerEl)
+      .setName("ファイルの日付フォーマット")
+      .setDesc(
+        "タスクを挿入する日付を判断するために必要なファイル名のフォーマットを指定します。"
+      )
+      .addText((text) =>
+        TextComponentEvent.onChange(text, async (value) => {
+          this.plugin.settings.fileDateFormat = value;
+          await this.plugin.saveSettings();
+        })
+          .setPlaceholder("ex: MM-DD-YYYY")
+          .setValue(this.plugin.settings.fileDateFormat)
+      );
+
+    new Setting(containerEl)
+      .setName("計測状態を記録したJSONファイルのパス")
+      .setDesc(
+        "計測中の状態を記録したJSONファイルを保存するパスを、Vault rootからの相対パスとして指定します。指定しなかった場合は`.obsidian/plugins/silhouette/timer.json`に保存されます。"
+      )
       .addText((text) =>
         TextComponentEvent.onChange(text, async (value) => {
           this.plugin.settings.timerStorageFilePath = value;
@@ -74,7 +90,7 @@ export class SilhouetteSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName("完了したら次のタスクを自動で計測開始する")
       .setDesc(
-        "『cycle bullet/checkbox』コマンドでタスクを完了したあと、次の行に未完了のタスクが存在するなら、次の行のタスクを自動で計測開始します。"
+        "有効にすると『cycle bullet/checkbox』コマンドでタスクを完了したあと、次の行に未完了のタスクが存在するなら、次の行のタスクを自動で計測開始します。"
       )
       .addToggle((tc) => {
         tc.setValue(
