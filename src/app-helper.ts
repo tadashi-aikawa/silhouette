@@ -96,6 +96,25 @@ export class AppHelper {
     return editor.getLine(editor.getCursor().line);
   }
 
+  getActiveNextLine(): string | null {
+    const editor = this.getActiveMarkdownEditor();
+    if (!editor) {
+      return null;
+    }
+
+    return editor.getLine(editor.getCursor().line + 1);
+  }
+
+  moveNextLine(): void {
+    const editor = this.getActiveMarkdownEditor();
+    if (!editor) {
+      return;
+    }
+
+    const { line } = editor.getCursor();
+    return editor.setCursor({ line: line + 1, ch: 0 });
+  }
+
   openLinkInActiveLine(option: { leaf: LeafType }): void {
     const editor = this.getActiveMarkdownEditor();
     if (!editor) {

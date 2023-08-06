@@ -7,6 +7,7 @@ export interface Settings {
   holidayFilePath: string;
   fileDateFormat: string;
   timerStorageFilePath: string;
+  startNextTaskAutomaticallyAfterDone: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -14,6 +15,7 @@ export const DEFAULT_SETTINGS: Settings = {
   holidayFilePath: "",
   fileDateFormat: "",
   timerStorageFilePath: "",
+  startNextTaskAutomaticallyAfterDone: false,
 };
 
 export class SilhouetteSettingTab extends PluginSettingTab {
@@ -68,5 +70,19 @@ export class SilhouetteSettingTab extends PluginSettingTab {
           .setPlaceholder("ex: timer.json")
           .setValue(this.plugin.settings.timerStorageFilePath)
       );
+
+    new Setting(containerEl)
+      .setName("完了したら次のタスクを自動で計測開始する")
+      .setDesc(
+        "『cycle bullet/checkbox』コマンドでタスクを完了したあと、次の行に未完了のタスクが存在するなら、次の行のタスクを自動で計測開始します。"
+      )
+      .addToggle((tc) => {
+        tc.setValue(
+          this.plugin.settings.startNextTaskAutomaticallyAfterDone
+        ).onChange(async (value) => {
+          this.plugin.settings.startNextTaskAutomaticallyAfterDone = value;
+          await this.plugin.saveSettings();
+        });
+      });
   }
 }

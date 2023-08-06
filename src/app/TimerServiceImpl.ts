@@ -116,7 +116,9 @@ export class TimerServiceImpl implements TimerService {
     }
   }
 
-  async cycleBulletCheckbox(): Promise<void> {
+  async cycleBulletCheckbox(
+    startNextTaskAutomatically: boolean
+  ): Promise<void> {
     if (!this.appHelper.cycleListCheckList()) {
       return;
     }
@@ -127,10 +129,27 @@ export class TimerServiceImpl implements TimerService {
 
     const line = this.appHelper.getActiveLine() || "";
     const lineTimeStatus = TimerStatus.fromLine(line);
-    if (lineTimeStatus.name === "recording") {
-      await this.execute({ openAfterRecording: false });
+    if (lineTimeStatus.name !== "recording") {
       return;
     }
+    await this.execute({ openAfterRecording: false });
+
+    if (!startNextTaskAutomatically) {
+      return;
+    }
+
+    const nextLine = this.appHelper.getActiveNextLine() || "";
+    const nextLineTimeStatus = TimerStatus.fromLine(nextLine);
+    if (nextLineTimeStatus.name === "notTask") {
+      return;
+    }
+
+    this.appHelper.moveNextLine();
+    if (this.appHelper.isCheckedCurrentLineTask()) {
+      return;
+    }
+
+    await this.execute({ openAfterRecording: false });
   }
 
   moveToRecording(): void {

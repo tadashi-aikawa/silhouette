@@ -69,7 +69,9 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
-            timerService.cycleBulletCheckbox();
+            timerService.cycleBulletCheckbox(
+              settings.startNextTaskAutomaticallyAfterDone
+            );
           }
           return true;
         }
