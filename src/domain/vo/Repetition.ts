@@ -155,7 +155,7 @@ const DAY_OF_WEEK_MAPPINGS: { [key: string]: DayOfWeek } = {
   "5sat": 56,
 };
 
-const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
+const DAY_OF_WEEK_WORKDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
   "sun!": 0,
   "mon!": 1,
   "tue!": 2,
@@ -198,6 +198,51 @@ const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
   "5thu!": 54,
   "5fri!": 55,
   "5sat!": 56,
+};
+
+const DAY_OF_WEEK_HOLIDAY_MAPPINGS: { [key: string]: DayOfWeek } = {
+  "sun*": 0,
+  "mon*": 1,
+  "tue*": 2,
+  "wed*": 3,
+  "thu*": 4,
+  "fri*": 5,
+  "sat*": 6,
+  "1sun*": 10,
+  "1mon*": 11,
+  "1tue*": 12,
+  "1wed*": 13,
+  "1thu*": 14,
+  "1fri*": 15,
+  "1sat*": 16,
+  "2sun*": 20,
+  "2mon*": 21,
+  "2tue*": 22,
+  "2wed*": 23,
+  "2thu*": 24,
+  "2fri*": 25,
+  "2sat*": 26,
+  "3sun*": 30,
+  "3mon*": 31,
+  "3tue*": 32,
+  "3wed*": 33,
+  "3thu*": 34,
+  "3fri*": 35,
+  "3sat*": 36,
+  "4sun*": 40,
+  "4mon*": 41,
+  "4tue*": 42,
+  "4wed*": 43,
+  "4thu*": 44,
+  "4fri*": 45,
+  "4sat*": 46,
+  "5sun*": 50,
+  "5mon*": 51,
+  "5tue*": 52,
+  "5wed*": 53,
+  "5thu*": 54,
+  "5fri*": 55,
+  "5sat*": 56,
 };
 
 const repetitionBase = {
@@ -385,10 +430,10 @@ export class Repetition extends ValueObject<Props> {
     const tokens: Token[] = token.split("/") as Token[];
 
     const dayOfWeek = tokens
-      .map((x) => DAY_OF_WEEK_MAPPINGS[x] ?? DAY_OF_WEEK_HOLIDAY_MAPPINGS[x])
+      .map((x) => DAY_OF_WEEK_MAPPINGS[x] ?? DAY_OF_WEEK_WORKDAY_MAPPINGS[x])
       .filter((x) => x !== undefined);
     const dayOfWeekHoliday = tokens
-      .map((x) => DAY_OF_WEEK_MAPPINGS[x])
+      .map((x) => DAY_OF_WEEK_MAPPINGS[x] ?? DAY_OF_WEEK_HOLIDAY_MAPPINGS[x])
       .filter((x) => x !== undefined);
     if (dayOfWeek.length > 0 || dayOfWeekHoliday.length > 0) {
       return new Repetition({

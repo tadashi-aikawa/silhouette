@@ -275,6 +275,13 @@ https://day.js.org/docs/en/parse/string-format
 | thu! | [休日]ではない木曜 |
 | fri! | [休日]ではない金曜 |
 | sat! | [休日]ではない土曜 |
+| sun* | [休日]の日曜       |
+| mon* | [休日]の月曜       |
+| tue* | [休日]の火曜       |
+| wed* | [休日]の水曜       |
+| thu* | [休日]の木曜       |
+| fri* | [休日]の金曜       |
+| sat* | [休日]の土曜       |
 
 また、曜日表記の前に数字(N)を入れると、[第N曜日]を表現できます。以下は一例です。
 
@@ -303,6 +310,7 @@ https://day.js.org/docs/en/parse/string-format
 休み前の稼働日,non workday<1!
 休み明けの稼働日,non workday>1!
 翌日が休み,non workday<1
+休日の水曜の1稼働日前,wed*<1!
 ```
 
 #### 起点日

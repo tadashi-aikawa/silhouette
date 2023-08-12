@@ -19,6 +19,7 @@ const holidays = [d("2023-01-01"), d("2023-01-04"), d("2023-03-01")];
 // 2023/01/07(土)
 // 2023/01/08(日)
 // 2023/01/09(月)
+// 2023/01/10(火)
 // 2023/01/11(水)
 
 // 2023/01/27(金)
@@ -208,6 +209,24 @@ describe("shouldTry", () => {
     ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"tue!/wed!"}                     | ${false}
     ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"tue!/wed!>1"}                   | ${true}
     ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"tue!/wed!<2"}                   | ${false}
+    ${d("2023-01-02")} | ${holidays}          | ${undefined}       | ${"wed*<1!"}                       | ${false}
+    ${d("2023-01-03")} | ${holidays}          | ${undefined}       | ${"wed*<1!"}                       | ${true}
+    ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"wed*<1!"}                       | ${false}
+    ${d("2023-01-09")} | ${holidays}          | ${undefined}       | ${"wed*<1!"}                       | ${false}
+    ${d("2023-01-10")} | ${holidays}          | ${undefined}       | ${"wed*<1!"}                       | ${false}
+    ${d("2023-01-11")} | ${holidays}          | ${undefined}       | ${"wed*<1!"}                       | ${false}
+    ${d("2022-12-30")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${true}
+    ${d("2022-12-31")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2023-01-06")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2023-01-07")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2023-01-08")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2022-12-30")} | ${holidays}          | ${undefined}       | ${"wed*<3"}                        | ${false}
+    ${d("2022-12-31")} | ${holidays}          | ${undefined}       | ${"wed*<3"}                        | ${false}
+    ${d("2023-01-01")} | ${holidays}          | ${undefined}       | ${"wed*<3"}                        | ${true}
+    ${d("2023-01-06")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2023-01-07")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
+    ${d("2023-01-08")} | ${holidays}          | ${undefined}       | ${"wed*<3!"}                       | ${false}
     ${d("2022-12-30")} | ${holidays}          | ${undefined}       | ${"1mon<1!"}                       | ${true}
     ${d("2022-12-30")} | ${holidays}          | ${undefined}       | ${"1mon<2!"}                       | ${false}
     ${d("2022-12-31")} | ${holidays}          | ${undefined}       | ${"1mon<1!"}                       | ${false}
