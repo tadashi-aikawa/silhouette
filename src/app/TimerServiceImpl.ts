@@ -48,7 +48,7 @@ export class TimerServiceImpl implements TimerService {
       case "recording":
         if (await this.hasNotTimer()) {
           new Notice(
-            "No recording tasks exist, so you can't stop a task under the cursor.",
+            "計測中のタスクがないため、カーソル配下のタスクを計測済にできません。",
             0
           );
           return;
@@ -65,7 +65,7 @@ export class TimerServiceImpl implements TimerService {
       case "neverRecorded":
         if (await this.hasTimer()) {
           new Notice(
-            "There is a recording task, so you can't start a new task without stopping the recording task. If you don't remember, use the 'Force stop recording' command to make it stop right away.",
+            "計測中のタスクがあるため、新たなタスクを計測開始できません。計測中のタスクを思い出せない場合は 'Force stop recording' コマンドを実行し、強制的に計測中のタスクを計測完了させてください。",
             0
           );
           return;
@@ -89,7 +89,7 @@ export class TimerServiceImpl implements TimerService {
       case "recorded":
         if (await this.hasTimer()) {
           new Notice(
-            "There is a recording task, so you can't start a new task without stopping the recording task. If you don't remember, use the 'Force stop recording' command to make it stop right away.",
+            "計測中のタスクがあるため、新たなタスクを計測開始できません。計測中のタスクを思い出せない場合は 'Force stop recording' コマンドを実行し、強制的に計測中のタスクを計測完了させてください。",
             0
           );
           return;
