@@ -5,6 +5,7 @@ import { Notice } from "obsidian";
 import type { TaskService } from "./app/TaskService";
 import type { TimerService } from "./app/TimerService";
 import type { AppHelper } from "./app-helper";
+import { parseMarkdownList } from "./utils/parser";
 
 export function createCommands(
   appHelper: AppHelper,
@@ -96,6 +97,23 @@ export function createCommands(
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
             timerService.forceStopRecording();
+          }
+          return true;
+        }
+      },
+    },
+    {
+      id: "insert-current-time",
+      name: "Insert current time",
+      checkCallback: (checking: boolean) => {
+        if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
+          if (!checking) {
+            const activeLine = appHelper.getActiveLine()!;
+            const { prefix, content } = parseMarkdownList(activeLine);
+            appHelper.replaceStringInActiveLine(
+              `${prefix}${DateTime.now().format("HH:mm")} ${content}`,
+              { cursor: "last" }
+            );
           }
           return true;
         }

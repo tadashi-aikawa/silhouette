@@ -144,7 +144,7 @@ export class AppHelper {
     this.getActiveMarkdownEditor()?.replaceSelection(str);
   }
 
-  replaceStringInActiveLine(str: string): void {
+  replaceStringInActiveLine(str: string, option?: { cursor?: "last" }): void {
     const editor = this.getActiveMarkdownEditor();
     if (!editor) {
       return;
@@ -152,7 +152,12 @@ export class AppHelper {
 
     const { line, ch } = editor.getCursor();
     editor.setLine(line, str);
-    editor.setCursor({ line, ch: Math.min(ch, str.length - 1) });
+
+    // XXX: lastのときは最後の空白手前で止まってしまうので-1を消す
+    const afterCh =
+      option?.cursor === "last" ? str.length : Math.min(ch, str.length - 1);
+
+    editor.setCursor({ line, ch: afterCh });
   }
 
   cycleListCheckList(): boolean {
