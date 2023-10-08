@@ -21,6 +21,7 @@ export function createCommands(
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
             const date = DateTime.from(
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               appHelper.getActiveFile()!.basename,
               settings.fileDateFormat || undefined
             );
@@ -108,6 +109,7 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const activeLine = appHelper.getActiveLine()!;
             const { prefix, content } = parseMarkdownList(activeLine);
             appHelper.replaceStringInActiveLine(
