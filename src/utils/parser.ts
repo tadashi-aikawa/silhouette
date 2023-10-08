@@ -2,9 +2,12 @@ export function parseMarkdownList(text: string): {
   prefix: string;
   content: string;
 } {
-  const { groups } = Array.from(
+  const result = Array.from(
     text.matchAll(/^(?<prefix>[ \t\s]*([-*] (\[.] |)|))(?<content>.*)$/g)
-  ).at(0) as any;
+  ).at(0);
 
-  return { prefix: groups.prefix, content: groups.content };
+  return {
+    prefix: result?.groups?.prefix ?? "",
+    content: result?.groups?.content ?? "",
+  };
 }
