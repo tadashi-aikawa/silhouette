@@ -105,7 +105,7 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 [計測済]のカッコ内にある`HH:mm:ss`表記は、そのタスクを計測した時間の合計です。`01:23:45`は合計で1時間23分45秒計測したという意味です。
 
 > **Warning**  
-> 異なるデバイス間で計測状態を同期する場合は、[Timer storage JSON file path]で指定したファイルが同期対象となるようにしてください。
+> 異なるデバイス間で計測状態を同期する場合は、[計測状態を記録したJSONファイルのパス]で指定したファイルが同期対象となるようにしてください。
 
 ### `Silhouette: Push timer and open`
 
@@ -601,5 +601,5 @@ Su Mo Tu We Th Fr Sa
 [計測中]: #計測中
 [計測済]: #計測済
 [計測に関するステータス]: #計測に関するステータス
-[Timer storage JSON file path]: #timer-storage-json-file-path
+[計測状態を記録したJSONファイルのパス]: #計測状態を記録したjsonファイルのパス
 [Silhouette: Insert tasks]: #silhouette-insert-tasks
