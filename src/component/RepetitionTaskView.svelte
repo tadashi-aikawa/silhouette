@@ -2,6 +2,12 @@
   import Calendar from "@event-calendar/core";
   import DayGrid from "@event-calendar/day-grid";
 
+
+
+
+
+
+
   import { type TaskService } from "../app/TaskService";
   import { RepetitionTask } from "../domain/entity/RepetitionTask";
   import { DateTime } from "owlelia";
@@ -19,7 +25,7 @@
   let plugins = [DayGrid];
 
   $: {
-    if (tasks?.length > 0) {
+    if (tasks?.length && tasks.length > 0) {
       currentTask = tasks!.find((x) => x.name === currentTask?.name);
     }
   }
@@ -46,7 +52,7 @@
             };
           })
       : [],
-    eventContent: (info) => info.event.title,
+    eventContent: (info: any) => info.event.title,
   };
 </script>
 
@@ -54,11 +60,12 @@
 <div style="height: calc(100% - 275px - 50px - 75px); overflow: scroll">
   {#if tasks}
     {#each tasks as task}
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div
         class="nav-file-title"
         class:is-active={currentTask && task.name == currentTask.name}
-        on:click={handleClickTask(task)}
-        on:keypress={handleClickTask(task)}
+        on:click={() => handleClickTask(task)}
+        on:keypress={() => handleClickTask(task)}
       >
         {task.name}
       </div>
