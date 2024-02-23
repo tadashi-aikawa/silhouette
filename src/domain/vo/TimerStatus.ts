@@ -1,16 +1,8 @@
+import { toHHmmss } from "src/utils/times";
 import type { Timer } from "./Timer";
 
 function unsafeMatch(str: string, pattern: RegExp): { [key: string]: string } {
   return Array.from(str.matchAll(pattern))![0].groups!;
-}
-
-// FIXME: owleliaで公開したい
-const pad00 = (v: number) => String(v).padStart(2, "0");
-function toHHmmss(seconds: number) {
-  const hour = (seconds / (60 * 60)) | 0;
-  const min = ((seconds % (60 * 60)) / 60) | 0;
-  const sec = seconds % 60;
-  return `${pad00(hour)}:${pad00(min)}:${pad00(sec)}`;
 }
 
 const pattern = {
@@ -18,7 +10,6 @@ const pattern = {
   recording: /[-*] \[.] (?<name>.+)\(⏳\)$/g,
   recorded: /[-*] \[.] (?<name>.+)\(⏲️(?<time>\d\d:\d\d:\d\d)\)$/g,
 } as const;
-type NamePattern = "notTask" | "neverRecorded" | "recording" | "recorded";
 
 export function isLineRecording(line: string): boolean {
   return Boolean(line.match(pattern.recording));

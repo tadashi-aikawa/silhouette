@@ -16,6 +16,8 @@ import {
 import type { TimerService } from "./app/TimerService";
 import { TimerServiceImpl } from "./app/TimerServiceImpl";
 import { createCommands } from "./commands";
+import { DateTime } from "owlelia";
+import { toDisplayFooter } from "./utils/times";
 
 export default class SilhouettePlugin extends Plugin {
   settings: Settings;
@@ -25,6 +27,7 @@ export default class SilhouettePlugin extends Plugin {
   repetitionTaskView: RepetitionTaskItemView;
   fileEventRef: EventRef | undefined;
   commands: Command[] = [];
+  timerStatusBar?: HTMLElement;
 
   async onload() {
     await this.loadSettings();
@@ -46,6 +49,10 @@ export default class SilhouettePlugin extends Plugin {
         this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`,
       ),
     );
+
+    if (this.settings.showTimeOnStatusBar) {
+      this.addStatusBar();
+    }
 
     this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
       this.repetitionTaskView = new RepetitionTaskItemView(
@@ -83,6 +90,7 @@ export default class SilhouettePlugin extends Plugin {
   }
 
   async onunload() {
+    this.timerService.terminate();
     if (this.fileEventRef) {
       this.app.vault.offref(this.fileEventRef);
     }
@@ -96,6 +104,20 @@ export default class SilhouettePlugin extends Plugin {
   async saveSettings() {
     await this.saveData(this.settings);
     await this.reset();
+  }
+
+  addStatusBar() {
+    this.timerStatusBar = this.addStatusBarItem();
+    const timerStatusItem = this.timerStatusBar.createEl("span", {
+      text: "未測定",
+      cls: "silhouette__footer silhouette__footer__timer",
+    });
+    this.timerService.setOnTimerHandler((timer) => {
+      const timerText = timer
+        ? toDisplayFooter(timer.getPastSeconds(DateTime.now()))
+        : "未測定";
+      timerStatusItem.setText(timerText);
+    }, 30 * 1000);
   }
 
   async reset() {
@@ -112,8 +134,12 @@ export default class SilhouettePlugin extends Plugin {
         this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`,
       ),
     );
+    this.timerService.terminate();
+    this.timerStatusBar?.remove();
 
-    await this.activateView();
+    if (this.settings.showTimeOnStatusBar) {
+      this.addStatusBar();
+    }
   }
 
   async activateView() {

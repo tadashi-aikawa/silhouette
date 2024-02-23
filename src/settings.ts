@@ -7,6 +7,7 @@ export interface Settings {
   holidayFilePath: string;
   fileDateFormat: string;
   timerStorageFilePath: string;
+  showTimeOnStatusBar: boolean;
   startNextTaskAutomaticallyAfterDone: boolean;
 }
 
@@ -15,6 +16,7 @@ export const DEFAULT_SETTINGS: Settings = {
   holidayFilePath: "",
   fileDateFormat: "",
   timerStorageFilePath: "",
+  showTimeOnStatusBar: false,
   startNextTaskAutomaticallyAfterDone: false,
 };
 
@@ -86,6 +88,20 @@ export class SilhouetteSettingTab extends PluginSettingTab {
           .setPlaceholder("ex: timer.json")
           .setValue(this.plugin.settings.timerStorageFilePath),
       );
+
+    new Setting(containerEl)
+      .setName("ステータスバーに計測時間を表示する")
+      .setDesc(
+        "有効にすると計測中タスクの計測時間が表示されます。更新頻度は30秒に1回です。",
+      )
+      .addToggle((tc) => {
+        tc.setValue(this.plugin.settings.showTimeOnStatusBar).onChange(
+          async (value) => {
+            this.plugin.settings.showTimeOnStatusBar = value;
+            await this.plugin.saveSettings();
+          },
+        );
+      });
 
     new Setting(containerEl)
       .setName("完了したら次のタスクを自動で計測開始する")

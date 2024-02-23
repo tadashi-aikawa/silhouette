@@ -18,10 +18,14 @@ export class Timer extends ValueObject<Props> {
     return new Timer({
       ...this._value,
       startTime: undefined,
-      accumulatedSeconds:
-        now.diffSeconds(this._value.startTime!) +
-        this._value.accumulatedSeconds,
+      accumulatedSeconds: this.getPastSeconds(now),
     });
+  }
+
+  getPastSeconds(now: DateTime): number {
+    return (
+      now.diffSeconds(this._value.startTime!) + this._value.accumulatedSeconds
+    );
   }
 
   get name(): Props["name"] {

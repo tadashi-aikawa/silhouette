@@ -7,6 +7,9 @@ import type { TimerRepository } from "src/repository/TimerRepository";
 import { Notice } from "obsidian";
 
 export class TimerServiceImpl implements TimerService {
+  intervalHandler: number | null;
+  handleEvent: () => Promise<void>;
+
   constructor(
     private appHelper: AppHelper,
     private repository: TimerRepository,
@@ -17,6 +20,27 @@ export class TimerServiceImpl implements TimerService {
     repository: TimerRepository,
   ): TimerService {
     return new TimerServiceImpl(appHelper, repository);
+  }
+
+  terminate() {
+    if (this.intervalHandler) {
+      window.clearInterval(this.intervalHandler);
+    }
+  }
+
+  setOnTimerHandler(
+    handler: (timer: Timer | null) => void,
+    intervalMilliSec: number,
+  ): void {
+    this.handleEvent = async () => {
+      const timer = (await this.repository.loadTimer()).orNull();
+      handler(timer);
+    };
+    this.handleEvent();
+    this.intervalHandler = window.setInterval(
+      () => this.handleEvent(),
+      intervalMilliSec,
+    );
   }
 
   serRepository(repository: TimerRepository): void {
@@ -114,6 +138,8 @@ export class TimerServiceImpl implements TimerService {
         }
         break;
     }
+
+    this.handleEvent();
   }
 
   async cycleBulletCheckbox(
