@@ -221,6 +221,17 @@ https://day.js.org/docs/en/parse/string-format
 
 指定しなかった場合は`.obsidian/plugins/silhouette/timer.json`に保存されます。
 
+### `ステータスバーに計測時間を表示する`
+
+有効にすると[計測中]タスクの計測時間が表示されます。以下のタイミングで更新されます。
+
+- 計測を開始したとき
+- 計測を終了したとき
+- 計測中、前回の更新から30秒経ったとき (計測中は30秒に1回更新)
+
+> **Warning**
+> 端末間で同期したときも最大で30秒のラグがあります
+
 ### `完了したら次のタスクを自動で計測開始する`
 
 有効にすると `Cycle bullet/checkbox` コマンドでタスクを完了したあと、次の行に未完了のタスクが存在するなら、次の行のタスクを自動で計測開始します。
@@ -573,7 +584,9 @@ Su Mo Tu We Th Fr Sa
 
 ## 🦉宣伝
 
-[Obsidian]のプラグインとして以下も開発しております。すべて日本語に対応しておりますので、よろしければお試しください。
+[Obsidian]のプラグインとして以下も開発しております。よろしければお試しください。
+
+### コミュニティプラグイン
 
 <a href="https://github.com/tadashi-aikawa/obsidian-various-complements-plugin">
 <img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-various-complements-plugin" class="link-card-image" />
@@ -594,6 +607,23 @@ Su Mo Tu We Th Fr Sa
 <a href="https://github.com/tadashi-aikawa/obsidian-embedded-code-title">
 <img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-embedded-code-title" class="link-card-image" />
 </a>
+
+### 非コミュニティプラグイン (Silhouetteと同じ)
+
+[BRAT]でインストールします。
+
+<a href="https://github.com/tadashi-aikawa/mobile-first-daily-interface">
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/mobile-first-daily-interface" class="link-card-image" />
+</a>
+
+#### 自分用
+
+[BRAT]でもインストールできません。TypeScriptで開発できる方なら使いこなせるかも。
+
+<a href="https://github.com/tadashi-aikawa/carnelian">
+<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/carnelian" class="link-card-image" />
+</a>
+
 
 [ワンタイムタスク]: #ワンタイムタスク
 [繰り返しタスク]: #繰り返しタスク
