@@ -13,7 +13,7 @@ interface TimerDict {
 export class TimerRepositoryImpl implements TimerRepository {
   constructor(
     private appHelper: AppHelper,
-    private timerStorageFilePath: string
+    private timerStorageFilePath: string,
   ) {}
 
   get normalizedTimerStoragePath(): string {
@@ -33,8 +33,8 @@ export class TimerRepositoryImpl implements TimerRepository {
             name: x.name,
             accumulatedSeconds: x.accumulatedSeconds,
             startTime: x.startTime ? DateTime.of(x.startTime) : undefined,
-          })
-        )
+          }),
+        ),
     );
   }
 
@@ -44,13 +44,13 @@ export class TimerRepositoryImpl implements TimerRepository {
         name: timer.name,
         accumulatedSeconds: timer.accumulatedSeconds,
         startTime: timer.startTime?.unix,
-      })
+      }),
     );
   }
 
   clearTimer(): AsyncResult<void, BaseError> {
     return fromPromise(
-      this.appHelper.deleteFileIfExists(this.normalizedTimerStoragePath)
+      this.appHelper.deleteFileIfExists(this.normalizedTimerStoragePath),
     );
   }
 }

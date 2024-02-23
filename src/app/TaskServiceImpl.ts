@@ -7,7 +7,7 @@ import type { RepetitionTask } from "../domain/entity/RepetitionTask";
 export class TaskServiceImpl implements TaskService {
   constructor(
     private appHelper: AppHelper,
-    private repository: TaskRepository
+    private repository: TaskRepository,
   ) {}
 
   serRepository(repository: TaskRepository): void {
@@ -29,7 +29,7 @@ export class TaskServiceImpl implements TaskService {
       tasks
         .filter((x) => x.shouldTry(date, holidays))
         .map((x) => `${x.indent}- [ ] ${x.name}`)
-        .join("\n")
+        .join("\n"),
     );
   }
 

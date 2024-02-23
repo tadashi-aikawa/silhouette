@@ -61,7 +61,7 @@ export class AppHelper {
   async saveJson<T>(path: string, data: T): Promise<void> {
     await this.unsafeApp.vault.adapter.write(
       path,
-      JSON.stringify(data, null, 2)
+      JSON.stringify(data, null, 2),
     );
   }
 
@@ -128,8 +128,8 @@ export class AppHelper {
 
     const linksMatches = Array.from(
       line.matchAll(
-        /(?<link>\[\[[^\]]+]])|[ |\n|^|\(](?<url>https?:\/\/[^ )\n]+)/g
-      )
+        /(?<link>\[\[[^\]]+]])|[ |\n|^|\(](?<url>https?:\/\/[^ )\n]+)/g,
+      ),
     ) as RegExpMatchedArray[];
     const firstIndex = linksMatches.map((x) => x.index).at(0);
     if (firstIndex === undefined) {
@@ -162,7 +162,7 @@ export class AppHelper {
 
   cycleListCheckList(): boolean {
     return this.unsafeApp.commands.executeCommandById(
-      "editor:cycle-list-checklist"
+      "editor:cycle-list-checklist",
     );
   }
 

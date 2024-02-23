@@ -22,7 +22,7 @@ export function isWorkday(date: DateTime, holidays: DateTime[]): boolean {
 export function plusWorkdays(
   date: DateTime,
   days: number,
-  holidays: DateTime[]
+  holidays: DateTime[],
 ): DateTime {
   let d = date.clone();
 
@@ -48,7 +48,7 @@ export function plusWorkdays(
 export function reverseOffsetWorkdays(
   dst: DateTime,
   days: number,
-  holidays: DateTime[]
+  holidays: DateTime[],
 ): DateTime[] {
   if (!isWorkday(dst, holidays)) {
     return [];

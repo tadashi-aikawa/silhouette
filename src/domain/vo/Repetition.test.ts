@@ -76,6 +76,6 @@ describe("from", () => {
         expect(actual?.workdayOffset).toStrictEqual(workdayOffset);
         expect(actual?.special).toStrictEqual(special);
       });
-    }
+    },
   );
 });

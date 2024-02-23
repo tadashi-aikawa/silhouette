@@ -9,12 +9,12 @@ import { Notice } from "obsidian";
 export class TimerServiceImpl implements TimerService {
   constructor(
     private appHelper: AppHelper,
-    private repository: TimerRepository
+    private repository: TimerRepository,
   ) {}
 
   static create(
     appHelper: AppHelper,
-    repository: TimerRepository
+    repository: TimerRepository,
   ): TimerService {
     return new TimerServiceImpl(appHelper, repository);
   }
@@ -49,15 +49,15 @@ export class TimerServiceImpl implements TimerService {
         if (await this.hasNotTimer()) {
           new Notice(
             "計測中のタスクがないため、カーソル配下のタスクを計測済にできません。",
-            0
+            0,
           );
           return;
         }
         this.appHelper.replaceStringInActiveLine(
           lineTimeStatus.getNextStatusLine(
             line,
-            (await this.getTimer()).stop(DateTime.now())
-          )
+            (await this.getTimer()).stop(DateTime.now()),
+          ),
         );
 
         await this.repository.clearTimer();
@@ -66,7 +66,7 @@ export class TimerServiceImpl implements TimerService {
         if (await this.hasTimer()) {
           new Notice(
             "計測中のタスクがあるため、新たなタスクを計測開始できません。計測中のタスクを思い出せない場合は 'Force stop recording' コマンドを実行し、強制的に計測中のタスクを計測完了させてください。",
-            0
+            0,
           );
           return;
         }
@@ -75,11 +75,11 @@ export class TimerServiceImpl implements TimerService {
             name: lineTimeStatus.parse(line).name,
             startTime: DateTime.now(),
             accumulatedSeconds: 0,
-          })
+          }),
         );
 
         this.appHelper.replaceStringInActiveLine(
-          lineTimeStatus.getNextStatusLine(line)
+          lineTimeStatus.getNextStatusLine(line),
         );
 
         if (option.openAfterRecording) {
@@ -90,7 +90,7 @@ export class TimerServiceImpl implements TimerService {
         if (await this.hasTimer()) {
           new Notice(
             "計測中のタスクがあるため、新たなタスクを計測開始できません。計測中のタスクを思い出せない場合は 'Force stop recording' コマンドを実行し、強制的に計測中のタスクを計測完了させてください。",
-            0
+            0,
           );
           return;
         }
@@ -98,7 +98,7 @@ export class TimerServiceImpl implements TimerService {
           lineTimeStatus.parse(line);
 
         this.appHelper.replaceStringInActiveLine(
-          lineTimeStatus.getNextStatusLine(line)
+          lineTimeStatus.getNextStatusLine(line),
         );
 
         await this.repository.saveTimer(
@@ -106,7 +106,7 @@ export class TimerServiceImpl implements TimerService {
             name,
             startTime: DateTime.now(),
             accumulatedSeconds,
-          })
+          }),
         );
 
         if (option.openAfterRecording) {
@@ -117,7 +117,7 @@ export class TimerServiceImpl implements TimerService {
   }
 
   async cycleBulletCheckbox(
-    startNextTaskAutomatically: boolean
+    startNextTaskAutomatically: boolean,
   ): Promise<void> {
     if (!this.appHelper.cycleListCheckList()) {
       return;

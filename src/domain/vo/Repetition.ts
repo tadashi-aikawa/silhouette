@@ -365,7 +365,7 @@ export class Repetition extends ValueObject<Props> {
   }
 
   private static divideTokenWithOffset(
-    token: string
+    token: string,
   ): [token: string, dayOffset: number, workdayOffset: number] {
     const [tp, pastOffset] = token.split("<");
     if (pastOffset) {

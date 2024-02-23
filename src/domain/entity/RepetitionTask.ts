@@ -41,7 +41,7 @@ export class RepetitionTask extends Entity<Props> {
       const targetDates = reverseOffsetWorkdays(
         date,
         p.repetition.workdayOffset,
-        holidays
+        holidays,
       );
       if (targetDates.length === 0) {
         return false;
@@ -109,7 +109,7 @@ export class RepetitionTask extends Entity<Props> {
       if (
         !this._props.repetition.dayOfWeekHoliday.includes(date.date.getDay()) &&
         !this._props.repetition.dayOfWeekHoliday.includes(
-          date.date.getDay() + 10 * date.nthDayOfWeek
+          date.date.getDay() + 10 * date.nthDayOfWeek,
         )
       ) {
         return false;
@@ -118,7 +118,7 @@ export class RepetitionTask extends Entity<Props> {
       if (
         !this._props.repetition.dayOfWeek.includes(date.date.getDay()) &&
         !this._props.repetition.dayOfWeek.includes(
-          date.date.getDay() + 10 * date.nthDayOfWeek
+          date.date.getDay() + 10 * date.nthDayOfWeek,
         )
       ) {
         return false;

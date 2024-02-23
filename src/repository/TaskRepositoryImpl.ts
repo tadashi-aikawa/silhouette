@@ -8,7 +8,7 @@ export class TaskRepositoryImpl implements TaskRepository {
   constructor(
     private appHelper: AppHelper,
     private repetitionTasksFilePath: string,
-    private holidaysFilePath: string
+    private holidaysFilePath: string,
   ) {}
 
   loadRepetitionTasks(): AsyncResult<RepetitionTask[], BaseError> {
@@ -27,8 +27,8 @@ export class TaskRepositoryImpl implements TaskRepository {
               baseDate: baseDate ? DateTime.of(baseDate) : undefined,
               indent: name.match("^[ \t]+")?.at(0) ?? "",
             });
-          })
-      )
+          }),
+      ),
     );
   }
 
@@ -42,9 +42,9 @@ export class TaskRepositoryImpl implements TaskRepository {
                 .split("\n")
                 .filter((line) => !line.startsWith("//") && line.trim() !== "")
                 .map(DateTime.of)
-                .filter((x) => !Number.isNaN(x.date.getTime())) // TODO: owleliaに実装する
+                .filter((x) => !Number.isNaN(x.date.getTime())), // TODO: owleliaに実装する
           )
-        : Promise.resolve([])
+        : Promise.resolve([]),
     );
   }
 }

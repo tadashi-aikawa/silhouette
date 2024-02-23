@@ -37,5 +37,5 @@ test.each([
   `parseMarkdownList("%s")`,
   (text: string, expected: ReturnType<typeof parseMarkdownList>) => {
     expect(parseMarkdownList(text)).toEqual(expected);
-  }
+  },
 );

@@ -11,7 +11,7 @@ export function createCommands(
   appHelper: AppHelper,
   settings: Settings,
   taskService: TaskService,
-  timerService: TimerService
+  timerService: TimerService,
 ): Command[] {
   return [
     {
@@ -23,7 +23,7 @@ export function createCommands(
             const date = DateTime.from(
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               appHelper.getActiveFile()!.basename,
-              settings.fileDateFormat || undefined
+              settings.fileDateFormat || undefined,
             );
 
             taskService.insertTasksToDailyNote(date).then((err) => {
@@ -33,7 +33,7 @@ export function createCommands(
               }
 
               new Notice(
-                `Insert tasks that should do on ${date.format("YYYY/MM/DD")}`
+                `Insert tasks that should do on ${date.format("YYYY/MM/DD")}`,
               );
             });
           }
@@ -72,7 +72,7 @@ export function createCommands(
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
             timerService.cycleBulletCheckbox(
-              settings.startNextTaskAutomaticallyAfterDone
+              settings.startNextTaskAutomaticallyAfterDone,
             );
           }
           return true;
@@ -114,7 +114,7 @@ export function createCommands(
             const { prefix, content } = parseMarkdownList(activeLine);
             appHelper.replaceStringInActiveLine(
               `${prefix}${DateTime.now().format("HH:mm")} ${content}`,
-              { cursor: "last" }
+              { cursor: "last" },
             );
           }
           return true;

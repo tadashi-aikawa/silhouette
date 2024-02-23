@@ -34,7 +34,7 @@ describe("plusWorkdays", () => {
   `("plusWorkdays", ({ date, days, expected }) => {
     test(`date=${date}, days=${days}, expected=${expected}`, () => {
       expect(plusWorkdays(DateTime.of(date), days, holidays).displayDate).toBe(
-        expected
+        expected,
       );
     });
   });
@@ -87,8 +87,8 @@ describe("reverseOffsetWorkdays", () => {
     test(`date=${date}, days=${days}, expected=${expected}`, () => {
       expect(
         reverseOffsetWorkdays(DateTime.of(date), days, holidays).map(
-          (d) => d.displayDate
-        )
+          (d) => d.displayDate,
+        ),
       ).toStrictEqual(expected);
     });
   });

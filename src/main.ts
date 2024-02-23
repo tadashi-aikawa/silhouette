@@ -1,4 +1,4 @@
-import { type Command, type EventRef, Plugin, Notice } from "obsidian";
+import { type Command, type EventRef, Plugin } from "obsidian";
 import {
   DEFAULT_SETTINGS,
   type Settings,
@@ -35,22 +35,22 @@ export default class SilhouettePlugin extends Plugin {
       new TaskRepositoryImpl(
         this.appHelper,
         this.settings.taskFilePath,
-        this.settings.holidayFilePath
-      )
+        this.settings.holidayFilePath,
+      ),
     );
 
     this.timerService = TimerServiceImpl.create(
       this.appHelper,
       new TimerRepositoryImpl(
         this.appHelper,
-        this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`
-      )
+        this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`,
+      ),
     );
 
     this.registerView(REPETITION_TASK_VIEW_TYPE, (leaf) => {
       this.repetitionTaskView = new RepetitionTaskItemView(
         leaf,
-        this.taskService
+        this.taskService,
       );
 
       if (this.fileEventRef) {
@@ -76,7 +76,7 @@ export default class SilhouettePlugin extends Plugin {
       this.appHelper,
       this.settings,
       this.taskService,
-      this.timerService
+      this.timerService,
     ).map((x) => this.addCommand(x));
 
     this.addSettingTab(new SilhouetteSettingTab(this.app, this));
@@ -103,14 +103,14 @@ export default class SilhouettePlugin extends Plugin {
       new TaskRepositoryImpl(
         this.appHelper,
         this.settings.taskFilePath,
-        this.settings.holidayFilePath
-      )
+        this.settings.holidayFilePath,
+      ),
     );
     this.timerService.serRepository(
       new TimerRepositoryImpl(
         this.appHelper,
-        this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`
-      )
+        this.settings.timerStorageFilePath || `${this.manifest.dir}/timer.json`,
+      ),
     );
 
     await this.activateView();
@@ -125,7 +125,7 @@ export default class SilhouettePlugin extends Plugin {
     });
 
     this.app.workspace.revealLeaf(
-      this.app.workspace.getLeavesOfType(REPETITION_TASK_VIEW_TYPE)[0]
+      this.app.workspace.getLeavesOfType(REPETITION_TASK_VIEW_TYPE)[0],
     );
   }
 }

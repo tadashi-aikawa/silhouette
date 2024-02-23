@@ -502,7 +502,7 @@ describe("shouldTry", () => {
       test(`(date=${date.displayDate}, baseDate=${
         baseDate?.displayDate
       }, holidays=${holidays.map(
-        (x) => x.displayDate
+        (x) => x.displayDate,
       )}, repetitionWord=${repetitionWord}) RepetitionTask.shouldTry(${date}) = ${expected}`, () => {
         const task = RepetitionTask.of({
           repetition: Repetition.from(repetitionWord),
@@ -511,6 +511,6 @@ describe("shouldTry", () => {
         });
         expect(task.shouldTry(date, holidays)).toBe(expected);
       });
-    }
+    },
   );
 });

@@ -3,7 +3,7 @@ export function parseMarkdownList(text: string): {
   content: string;
 } {
   const result = Array.from(
-    text.matchAll(/^(?<prefix>[ \t\s]*([-*] (\[.] |)|))(?<content>.*)$/g)
+    text.matchAll(/^(?<prefix>[ \t\s]*([-*] (\[.] |)|))(?<content>.*)$/g),
   ).at(0);
 
   return {
