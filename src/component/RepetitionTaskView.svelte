@@ -2,12 +2,6 @@
   import Calendar from "@event-calendar/core";
   import DayGrid from "@event-calendar/day-grid";
 
-
-
-
-
-
-
   import { type TaskService } from "../app/TaskService";
   import { RepetitionTask } from "../domain/entity/RepetitionTask";
   import { DateTime } from "owlelia";
@@ -37,6 +31,7 @@
   $: options = {
     view: "dayGridMonth",
     highlightedDates: holidays?.map((x) => x.displayDate) ?? [],
+    dayCellFormat: (date: Date) => date.getDate().toString(),
     events: datesInFuture
       ? DateTime.today()
           .toDate(DateTime.today().plusMonths(3))
