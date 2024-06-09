@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "types": ["svelte", "node"],
+    "types": ["svelte", "node", "@types/bun"],
     "strict": true,
     "baseUrl": ".",
     "inlineSources": true,
