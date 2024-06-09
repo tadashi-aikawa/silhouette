@@ -145,7 +145,7 @@ export default class SilhouettePlugin extends Plugin {
   async activateView() {
     this.app.workspace.detachLeavesOfType(REPETITION_TASK_VIEW_TYPE);
 
-    await this.app.workspace.getRightLeaf(false).setViewState({
+    await this.app.workspace.getRightLeaf(false)?.setViewState({
       type: REPETITION_TASK_VIEW_TYPE,
       active: true,
     });
