@@ -30,6 +30,21 @@ export class RepetitionTask extends Entity<Props> {
     return this._props.indent ?? "";
   }
 
+  /**
+   * エディタに挿入する形式に変換する
+   * WARN: これは必ずしもワンタイムタスクに変換されるわけではない
+   */
+  toString(): string {
+    // XXX: 箇条書きと会社できるタスク名の場合は、タスクではなくメタデータとして扱う
+    // XXX: 設計として明らかに問題だが #4 のIssueに最小限のコストで対応するため
+    // XXX: 今後、機能追加のために大きな設計/実装変更を行わなければ多分平気
+    if (this.name.startsWith("- ") || this.name.startsWith("* ")) {
+      return `${this.indent}${this.name}`;
+    }
+
+    return `${this.indent}- [ ] ${this.name}`;
+  }
+
   shouldTry(date: DateTime, holidays: DateTime[]): boolean {
     const p = this._props;
 

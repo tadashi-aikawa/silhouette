@@ -28,7 +28,7 @@ export class TaskServiceImpl implements TaskService {
     this.appHelper.insertStringToActiveFile(
       tasks
         .filter((x) => x.shouldTry(date, holidays))
-        .map((x) => `${x.indent}- [ ] ${x.name}`)
+        .map((x) => x.toString())
         .join("\n"),
     );
   }
