@@ -1,11 +1,14 @@
-# Silhouette
-
-[![release](https://img.shields.io/github/release/tadashi-aikawa/silhouette.svg)](https://github.com/tadashi-aikawa/silhouette/releases/latest)
-[![Tests](https://github.com/tadashi-aikawa/silhouette/workflows/Tests/badge.svg)](https://github.com/tadashi-aikawa/silhouette/actions)
-![downloads](https://img.shields.io/github/downloads/tadashi-aikawa/silhouette/total)
-
-
-[Obsidian]でシンプルにタスク管理するためのObsidianプラグインです。目の前のタスクに集中することのみにフォーカスしています。
+<div align="center">
+    <h1>Silhouette</h1>
+    <img src="./silhouette.webp" width="384" />
+    <p>
+    <div>Obsidianでシンプルにタスク管理するためのObsidianプラグインです。</div>
+    <div>目の前のタスクに集中することのみにフォーカスしています。</div>
+    </p>
+    <a href="https://github.com/tadashi-aikawa/silhouette/releases/latest"><img src="https://img.shields.io/github/release/tadashi-aikawa/silhouette.svg" /></a>
+    <a href="https://github.com/tadashi-aikawa/silhouette/actions"><img src="https://github.com/tadashi-aikawa/silhouette/workflows/Tests/badge.svg" /></a>
+    <img src="https://img.shields.io/github/downloads/tadashi-aikawa/silhouette/total" />
+</div>
 
 ## ⏬ インストール
 
