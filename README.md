@@ -2,7 +2,7 @@
     <h1>Silhouette</h1>
     <img src="./silhouette.webp" width="384" />
     <p>
-    <div>Obsidianでシンプルにタスク管理するためのObsidianプラグインです。</div>
+    <div>Obsidianでシンプルにタスクを管理するためのプラグインです。</div>
     <div>目の前のタスクに集中することのみにフォーカスしています。</div>
     </p>
     <a href="https://github.com/tadashi-aikawa/silhouette/releases/latest"><img src="https://img.shields.io/github/release/tadashi-aikawa/silhouette.svg" /></a>
