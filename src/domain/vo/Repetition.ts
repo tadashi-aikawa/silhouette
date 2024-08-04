@@ -384,6 +384,10 @@ export class Repetition extends ValueObject<Props> {
     return [token, 0, 0];
   }
 
+  static fromRepetitionsStr(repetitionsStr: string): Repetition[] {
+    return repetitionsStr.split("|").map((x) => Repetition.from(x));
+  }
+
   static from(str: string): Repetition {
     const [token, dayOffset, workdayOffset] = this.divideTokenWithOffset(str);
 

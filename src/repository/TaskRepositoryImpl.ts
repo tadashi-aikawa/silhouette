@@ -20,10 +20,10 @@ export class TaskRepositoryImpl implements TaskRepository {
           .filter((line) => !line.startsWith("//") && line.trim() !== "")
           .map((line) => line.split(","))
           .filter((cols) => cols.length > 1)
-          .map(([name, repetition, baseDate]) => {
+          .map(([name, repetitions, baseDate]) => {
             return RepetitionTask.of({
               name: name.replace(/^[ \t]+/, ""),
-              repetition: Repetition.from(repetition),
+              repetitions: Repetition.fromRepetitionsStr(repetitions),
               baseDate: baseDate ? DateTime.of(baseDate) : undefined,
               indent: name.match("^[ \t]+")?.at(0) ?? "",
             });

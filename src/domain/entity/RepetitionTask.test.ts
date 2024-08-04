@@ -505,7 +505,7 @@ describe("shouldTry", () => {
         (x) => x.displayDate,
       )}, repetitionWord=${repetitionWord}) RepetitionTask.shouldTry(${date}) = ${expected}`, () => {
         const task = RepetitionTask.of({
-          repetition: Repetition.from(repetitionWord),
+          repetitions: Repetition.fromRepetitionsStr(repetitionWord),
           baseDate,
           name: "hoge",
         });

@@ -5,7 +5,7 @@ import { isHoliday, reverseOffsetWorkdays } from "../../utils/dates";
 
 interface Props {
   name: string;
-  repetition: Repetition;
+  repetitions: Repetition[];
   indent?: string;
   baseDate?: DateTime;
 }
@@ -46,100 +46,117 @@ export class RepetitionTask extends Entity<Props> {
   }
 
   shouldTry(date: DateTime, holidays: DateTime[]): boolean {
-    const p = this._props;
+    return this._props.repetitions.some((r) =>
+      needTaskBy(date, holidays, r, this._props.baseDate),
+    );
+  }
+}
 
-    let targetDate = date.clone();
-    if (p.repetition.dayOffset !== 0) {
-      targetDate = date.minusDays(p.repetition.dayOffset);
+function needTaskBy(
+  date: DateTime,
+  holidays: DateTime[],
+  repetition: Repetition,
+  baseDate?: DateTime,
+): boolean {
+  let targetDate = date.clone();
+  if (repetition.dayOffset !== 0) {
+    targetDate = date.minusDays(repetition.dayOffset);
+  }
+  if (repetition.workdayOffset !== 0) {
+    const targetDates = reverseOffsetWorkdays(
+      date,
+      repetition.workdayOffset,
+      holidays,
+    );
+    if (targetDates.length === 0) {
+      return false;
     }
-    if (p.repetition.workdayOffset !== 0) {
-      const targetDates = reverseOffsetWorkdays(
-        date,
-        p.repetition.workdayOffset,
-        holidays,
-      );
-      if (targetDates.length === 0) {
-        return false;
-      }
 
-      const cloned = this.cloneWith({
-        repetition: p.repetition.withOffset({
+    return targetDates.some((d) =>
+      needTaskBy(
+        d,
+        holidays,
+        repetition.withOffset({
           dayOffset: 0,
           workdayOffset: 0,
         }),
-      });
-      return targetDates.some((d) => cloned.shouldTry(d, holidays));
-    }
-
-    if (p.baseDate?.isAfter(targetDate)) {
-      return false;
-    }
-
-    if (!this.includesDay(targetDate, holidays)) {
-      return false;
-    }
-
-    switch (p.repetition.special) {
-      case undefined:
-        break;
-      case "beginning of month":
-        // 月初まで曜日パターンに引っかからなければOK
-        let beginD = targetDate.minusDays(1);
-        while (beginD.isAfterOrEquals(targetDate.replaceDay(1), true)) {
-          if (this.includesDay(beginD, holidays)) {
-            return false;
-          }
-          beginD = beginD.minusDays(1);
-        }
-        break;
-      case "end of month":
-        // 月末まで曜日パターンに引っかからなければOK
-        let endD = targetDate.plusDays(1);
-        while (endD.isBeforeOrEquals(targetDate.endOfMonth(), true)) {
-          if (this.includesDay(endD, holidays)) {
-            return false;
-          }
-          endD = endD.plusDays(1);
-        }
-        break;
-      default:
-        throw new ExhaustiveError(p.repetition.special);
-    }
-
-    if (p.repetition.day.type === "period") {
-      if (p.repetition.day.period === 1) {
-        return true;
-      }
-      if (!p.baseDate) {
-        return false;
-      }
-      return targetDate.diffDays(p.baseDate) % p.repetition.day.period === 0;
-    }
-
-    return p.repetition.day.values.includes(targetDate.day);
+        baseDate,
+      ),
+    );
   }
 
-  private includesDay(date: DateTime, holidays: DateTime[]): boolean {
-    if (isHoliday(date, holidays)) {
-      if (
-        !this._props.repetition.dayOfWeekHoliday.includes(date.date.getDay()) &&
-        !this._props.repetition.dayOfWeekHoliday.includes(
-          date.date.getDay() + 10 * date.nthDayOfWeek,
-        )
-      ) {
-        return false;
-      }
-    } else {
-      if (
-        !this._props.repetition.dayOfWeek.includes(date.date.getDay()) &&
-        !this._props.repetition.dayOfWeek.includes(
-          date.date.getDay() + 10 * date.nthDayOfWeek,
-        )
-      ) {
-        return false;
-      }
-    }
-
-    return true;
+  if (baseDate?.isAfter(targetDate)) {
+    return false;
   }
+
+  if (!includesDay(targetDate, holidays, repetition)) {
+    return false;
+  }
+
+  switch (repetition.special) {
+    case undefined:
+      break;
+    case "beginning of month":
+      // 月初まで曜日パターンに引っかからなければOK
+      let beginD = targetDate.minusDays(1);
+      while (beginD.isAfterOrEquals(targetDate.replaceDay(1), true)) {
+        if (includesDay(beginD, holidays, repetition)) {
+          return false;
+        }
+        beginD = beginD.minusDays(1);
+      }
+      break;
+    case "end of month":
+      // 月末まで曜日パターンに引っかからなければOK
+      let endD = targetDate.plusDays(1);
+      while (endD.isBeforeOrEquals(targetDate.endOfMonth(), true)) {
+        if (includesDay(endD, holidays, repetition)) {
+          return false;
+        }
+        endD = endD.plusDays(1);
+      }
+      break;
+    default:
+      throw new ExhaustiveError(repetition.special);
+  }
+
+  if (repetition.day.type === "period") {
+    if (repetition.day.period === 1) {
+      return true;
+    }
+    if (!baseDate) {
+      return false;
+    }
+    return targetDate.diffDays(baseDate) % repetition.day.period === 0;
+  }
+
+  return repetition.day.values.includes(targetDate.day);
+}
+
+function includesDay(
+  date: DateTime,
+  holidays: DateTime[],
+  repetition: Repetition,
+): boolean {
+  if (isHoliday(date, holidays)) {
+    if (
+      !repetition.dayOfWeekHoliday.includes(date.date.getDay()) &&
+      !repetition.dayOfWeekHoliday.includes(
+        date.date.getDay() + 10 * date.nthDayOfWeek,
+      )
+    ) {
+      return false;
+    }
+  } else {
+    if (
+      !repetition.dayOfWeek.includes(date.date.getDay()) &&
+      !repetition.dayOfWeek.includes(
+        date.date.getDay() + 10 * date.nthDayOfWeek,
+      )
+    ) {
+      return false;
+    }
+  }
+
+  return true;
 }
