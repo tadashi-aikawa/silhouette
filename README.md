@@ -99,7 +99,7 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 - [未計測] ---`Push timer`--> [計測中]
 - [計測中] <--`Push timer`--> [計測済]
 
-```
+```markdown
 - [ ] 未計測のタスク
 - [ ] 計測中のタスク (⏳)
 - [ ] 計測済のタスク (⏲️01:23:45)
@@ -127,13 +127,13 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 
 具体的には
 
-```
+```markdown
 - [ ] 計測中のタスク (⏳)
 ```
 
 に対してコマンドを実行すると
 
-```
+```markdown
 - [x] 計測済のタスク (⏲️01:23:45)
 ```
 
@@ -158,7 +158,7 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 
 リストの状態やインデントも考慮します。たとえば以下のテキストがある場合。
 
-```
+```markdown
 hoge
 - hoge
   - hoge
@@ -171,7 +171,7 @@ hoge
 
 各行で19時4分に`Silhouette: Insert current time`コマンドを実行した結果は以下のようになります。
 
-```
+```markdown
 19:04 hoge
 - 19:04 hoge
   - 19:04 hoge
@@ -264,7 +264,7 @@ https://day.js.org/docs/en/parse/string-format
 
 先頭に半角スペースやタブをつけると、[Silhouette: Insert tasks]コマンドを実行したとき、タスクがインデントされます。たとえば
 
-```txt
+```csv
 普通の タスク,every day
     4つインデント,every day
         8つインデント,every day
@@ -273,7 +273,7 @@ https://day.js.org/docs/en/parse/string-format
 
 という4つのタスクを登録したとき、[Silhouette: Insert tasks]を実行すると以下が挿入されます。
 
-```txt
+```markdown
 - [ ] 普通の タスク
     - [ ] 4つインデント
         - [ ] 8つインデント
@@ -286,7 +286,7 @@ https://day.js.org/docs/en/parse/string-format
 
 たとえば
 
-```txt
+```csv
 体重計測,every day
     - 身長,every day
         * [x] 体重,every day
@@ -295,7 +295,7 @@ https://day.js.org/docs/en/parse/string-format
 
 と記載したとき、`Silhouette: Insert tasks` を実行すると以下が挿入されます。
 
-```txt
+```markdown
 - [ ] 体重計測
     - 身長
         * [x] 体重
@@ -305,9 +305,6 @@ https://day.js.org/docs/en/parse/string-format
 #### 繰り返しパターン
 
 [繰り返しタスク]の繰り返されるパターンを示す文字列です。
-
-> [!WARNING]
-> 複数のパターンを複合させることはできません。たとえば `weekday/mon` のような表現はできません。
 
 | パターン           | 例                         | 複数指定       |
 | ------------------ | -------------------------- | -------------- |
@@ -323,6 +320,9 @@ https://day.js.org/docs/en/parse/string-format
 | [月初の稼働日]     | workday beginning of month | 不可           |
 | [月末]             | end of month               | 不可           |
 | [月末の稼働日]     | workday end of month       | 不可           |
+
+> [!WARNING]
+> `複数指定` は同一パターンのみ有効です。たとえば `weekday/mon` のような表現はできません。その場合は後述の[複数パターン指定]を利用してください。
 
 ##### 曜日
 
@@ -372,7 +372,7 @@ https://day.js.org/docs/en/parse/string-format
 
 以下は具体例です。
 
-```
+```csv
 稼働日の翌日タスク,workday>1
 月末の3日前タスク,end of month<3
 月末の2稼働日前タスク,end of month<2!
@@ -382,11 +382,22 @@ https://day.js.org/docs/en/parse/string-format
 休日の水曜の1稼働日前,wed*<1!
 ```
 
+#### 複数パターン指定
+
+[繰り返しタスク]には、`|`区切りで複数の[繰り返しパターン]を設定できます。指定されたパターンはOR条件(いずれか1つのパターンにマッチした場合に適応される)となります。
+
+以下は具体例です。
+
+```csv
+稼働日の木曜(稼働日でない場合は翌稼働日),thu!|thu*>1!
+稼働日でない日の前後1稼働日,non workday<1!|non workday>1!
+```
+
 #### 起点日
 
-繰り返しパターンの起点となる日付です。たとえば
+[繰り返しパターン]の起点となる日付です。たとえば
 
-```
+```csv
 タスク,every 2 day,2022-03-10
 ```
 
@@ -477,7 +488,7 @@ Minervaバックアップ,mon
 
 [ワンタイムタスク]を一度も計測したことがない状態。
 
-```
+```markdown
 - [ ] タスク名
 ```
 
@@ -485,7 +496,7 @@ Minervaバックアップ,mon
 
 [ワンタイムタスク]を計測中である状態。末尾に` (⏳)`が付与される。
 
-```
+```markdown
 - [ ] タスク名 (⏳)
 ```
 
@@ -493,7 +504,7 @@ Minervaバックアップ,mon
 
 [ワンタイムタスク]を計測した実績はあるが、今は計測中でない状態。末尾に` (⏲️HH:mm:ss)`が付与される。
 
-```
+```markdown
 - [ ] タスク名 (⏲️01:23:45)
 ```
 
@@ -580,7 +591,7 @@ Minervaバックアップ,mon
 
 その月でN番目に登場する特定曜日のこと。具体的には以下のように使う。
 
-```
+```console
     2023 February
 Su Mo Tu We Th Fr Sa
           1  2  3  4
@@ -671,3 +682,5 @@ Su Mo Tu We Th Fr Sa
 [計測に関するステータス]: #計測に関するステータス
 [計測状態を記録したJSONファイルのパス]: #計測状態を記録したjsonファイルのパス
 [Silhouette: Insert tasks]: #silhouette-insert-tasks
+[複数パターン指定]: #複数パターン指定
+[繰り返しパターン]: #繰り返しパターン
