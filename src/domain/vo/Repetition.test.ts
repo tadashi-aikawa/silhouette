@@ -5,6 +5,76 @@ const p = (nDay: number) => ({ type: "period", period: nDay });
 const s = (days: number[]) => ({ type: "specific", values: days });
 const all = [0, 1, 2, 3, 4, 5, 6];
 
+describe("fromRepetitionsStr", () => {
+  test("1つの条件を指定できる", () => {
+    const actual = Repetition.fromRepetitionsStr("non workday");
+    expect(actual).toHaveLength(1);
+    expect(actual[0].day).toStrictEqual(p(1));
+    expect(actual[0].dayOfWeek).toStrictEqual([0, 6]);
+    expect(actual[0].dayOfWeekHoliday).toStrictEqual(all);
+    expect(actual[0].week).toStrictEqual(p(1));
+    expect(actual[0].month).toStrictEqual(p(1));
+    expect(actual[0].dayOffset).toBe(0);
+    expect(actual[0].workdayOffset).toBe(0);
+    expect(actual[0].special).toBeUndefined();
+  });
+
+  test("2つの条件を指定できる", () => {
+    const actual = Repetition.fromRepetitionsStr("non workday|tue/wed");
+    expect(actual).toHaveLength(2);
+
+    expect(actual[0].day).toStrictEqual(p(1));
+    expect(actual[0].dayOfWeek).toStrictEqual([0, 6]);
+    expect(actual[0].dayOfWeekHoliday).toStrictEqual(all);
+    expect(actual[0].week).toStrictEqual(p(1));
+    expect(actual[0].month).toStrictEqual(p(1));
+    expect(actual[0].dayOffset).toBe(0);
+    expect(actual[0].workdayOffset).toBe(0);
+    expect(actual[0].special).toBeUndefined();
+
+    expect(actual[1].day).toStrictEqual(p(1));
+    expect(actual[1].dayOfWeek).toStrictEqual([2, 3]);
+    expect(actual[1].dayOfWeekHoliday).toStrictEqual([2, 3]);
+    expect(actual[1].week).toStrictEqual(p(1));
+    expect(actual[1].month).toStrictEqual(p(1));
+    expect(actual[1].dayOffset).toBe(0);
+    expect(actual[1].workdayOffset).toBe(0);
+    expect(actual[1].special).toBeUndefined();
+  });
+
+  test("3つの条件を指定できる", () => {
+    const actual = Repetition.fromRepetitionsStr("non workday|tue/wed|15d");
+    expect(actual).toHaveLength(3);
+
+    expect(actual[0].day).toStrictEqual(p(1));
+    expect(actual[0].dayOfWeek).toStrictEqual([0, 6]);
+    expect(actual[0].dayOfWeekHoliday).toStrictEqual(all);
+    expect(actual[0].week).toStrictEqual(p(1));
+    expect(actual[0].month).toStrictEqual(p(1));
+    expect(actual[0].dayOffset).toBe(0);
+    expect(actual[0].workdayOffset).toBe(0);
+    expect(actual[0].special).toBeUndefined();
+
+    expect(actual[1].day).toStrictEqual(p(1));
+    expect(actual[1].dayOfWeek).toStrictEqual([2, 3]);
+    expect(actual[1].dayOfWeekHoliday).toStrictEqual([2, 3]);
+    expect(actual[1].week).toStrictEqual(p(1));
+    expect(actual[1].month).toStrictEqual(p(1));
+    expect(actual[1].dayOffset).toBe(0);
+    expect(actual[1].workdayOffset).toBe(0);
+    expect(actual[1].special).toBeUndefined();
+
+    expect(actual[2].day).toStrictEqual(s([15]));
+    expect(actual[2].dayOfWeek).toStrictEqual(all);
+    expect(actual[2].dayOfWeekHoliday).toStrictEqual(all);
+    expect(actual[2].week).toStrictEqual(p(1));
+    expect(actual[2].month).toStrictEqual(p(1));
+    expect(actual[2].dayOffset).toBe(0);
+    expect(actual[2].workdayOffset).toBe(0);
+    expect(actual[2].special).toBeUndefined();
+  });
+});
+
 describe("from", () => {
   describe.each<{
     value: string;

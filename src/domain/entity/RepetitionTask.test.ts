@@ -496,6 +496,21 @@ describe("shouldTry", () => {
     ${d("2023-03-03")} | ${holidays}          | ${undefined}       | ${"workday beginning of month<2"}  | ${false}
     ${d("2023-03-03")} | ${holidays}          | ${undefined}       | ${"workday beginning of month>1!"} | ${true}
     ${d("2023-03-03")} | ${holidays}          | ${undefined}       | ${"workday beginning of month<2!"} | ${false}
+    ${d("2023-01-03")} | ${holidays}          | ${undefined}       | ${"wed!|wed*>1!"}                  | ${false}
+    ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"wed!|wed*>1!"}                  | ${false}
+    ${d("2023-01-05")} | ${holidays}          | ${undefined}       | ${"wed!|wed*>1!"}                  | ${true}
+    ${d("2023-01-06")} | ${holidays}          | ${undefined}       | ${"wed!|wed*>1!"}                  | ${false}
+    ${d("2023-01-11")} | ${holidays}          | ${undefined}       | ${"wed!|wed*>1!"}                  | ${true}
+    ${d("2023-01-12")} | ${holidays}          | ${undefined}       | ${"wed!|wed*>1!"}                  | ${false}
+    ${d("2023-01-03")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${false}
+    ${d("2023-01-04")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${true}
+    ${d("2023-01-05")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${false}
+    ${d("2023-01-06")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${false}
+    ${d("2023-01-07")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${true}
+    ${d("2023-01-08")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${true}
+    ${d("2023-01-09")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${false}
+    ${d("2023-01-10")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${true}
+    ${d("2023-01-11")} | ${holidays}          | ${undefined}       | ${"non workday|wed|10d/20d/30d"}   | ${true}
   `(
     "RepetitionTask.shouldTry",
     ({ date, holidays, baseDate, repetitionWord, expected }) => {
