@@ -5,6 +5,8 @@ import { DateTime } from "owlelia";
 import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 import { Notice } from "obsidian";
 import type { TimerRepository } from "../repository/TimerRepository";
+import { parseMarkdownList } from "../utils/parser";
+import { pickPatterns } from "../utils/strings";
 
 export class TimerServiceImpl implements TimerService {
   intervalHandler: number | null;
@@ -194,5 +196,25 @@ export class TimerServiceImpl implements TimerService {
 
   async forceStopRecording(): Promise<void> {
     await this.repository.clearTimer();
+  }
+
+  insertCurrentTime(): void {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const activeLine = this.appHelper.getActiveLine() ?? "";
+    const { prefix, content } = parseMarkdownList(activeLine);
+
+    const { startTime, contentWithoutTime } = pickPatterns(
+      content,
+      /^((?<startTime>\d{2}:\d{2}) |)(- (?<endTime>\d{2}:\d{2}) |)(?<contentWithoutTime>.+)/g,
+    );
+
+    const now = DateTime.now().format("HH:mm");
+
+    this.appHelper.replaceStringInActiveLine(
+      startTime
+        ? `${prefix}${startTime} - ${now} ${contentWithoutTime}`
+        : `${prefix}${now} ${contentWithoutTime}`,
+      { cursor: "last" },
+    );
   }
 }

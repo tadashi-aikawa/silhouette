@@ -15,4 +15,5 @@ export interface TimerService {
   cycleBulletCheckbox(startNextTaskAutomatically: boolean): Promise<void>;
   moveToRecording(): void;
   forceStopRecording(): Promise<void>;
+  insertCurrentTime(): void;
 }

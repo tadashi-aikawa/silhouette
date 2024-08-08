@@ -109,13 +109,7 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const activeLine = appHelper.getActiveLine()!;
-            const { prefix, content } = parseMarkdownList(activeLine);
-            appHelper.replaceStringInActiveLine(
-              `${prefix}${DateTime.now().format("HH:mm")} ${content}`,
-              { cursor: "last" },
-            );
+            timerService.insertCurrentTime();
           }
           return true;
         }
