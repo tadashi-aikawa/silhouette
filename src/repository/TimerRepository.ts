@@ -1,5 +1,5 @@
 import type { AsyncResult, BaseError } from "owlelia";
-import type { Timer } from "src/domain/vo/Timer";
+import type { Timer } from "../domain/vo/Timer";
 
 export interface TimerRepository {
   hasTimer(): Promise<boolean>;

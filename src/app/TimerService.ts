@@ -1,5 +1,5 @@
-import type { Timer } from "src/domain/vo/Timer";
-import type { TimerRepository } from "src/repository/TimerRepository";
+import type { TimerRepository } from "../repository/TimerRepository";
+import type { Timer } from "../domain/vo/Timer";
 
 export interface TimerService {
   terminate(): void;

@@ -1,4 +1,4 @@
-import { toHHmmss } from "src/utils/times";
+import { toHHmmss } from "../../utils/times";
 import type { Timer } from "./Timer";
 
 function unsafeMatch(str: string, pattern: RegExp): { [key: string]: string } {

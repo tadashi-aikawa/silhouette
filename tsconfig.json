@@ -3,7 +3,6 @@
   "compilerOptions": {
     "types": ["svelte", "node", "@types/bun"],
     "strict": true,
-    "baseUrl": ".",
     "inlineSources": true,
     "module": "ESNext",
     "target": "ES2017",

@@ -3,8 +3,8 @@ import type { TimerService } from "./TimerService";
 import type { AppHelper } from "../app-helper";
 import { DateTime } from "owlelia";
 import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
-import type { TimerRepository } from "src/repository/TimerRepository";
 import { Notice } from "obsidian";
+import type { TimerRepository } from "../repository/TimerRepository";
 
 export class TimerServiceImpl implements TimerService {
   intervalHandler: number | null;
