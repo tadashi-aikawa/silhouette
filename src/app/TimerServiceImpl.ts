@@ -1,12 +1,12 @@
-import { Timer } from "../domain/vo/Timer";
-import type { TimerService } from "./TimerService";
-import type { AppHelper } from "../app-helper";
-import { DateTime } from "owlelia";
-import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 import { Notice } from "obsidian";
+import { DateTime } from "owlelia";
+import type { AppHelper } from "../app-helper";
+import { Timer } from "../domain/vo/Timer";
+import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 import type { TimerRepository } from "../repository/TimerRepository";
 import { parseMarkdownList } from "../utils/parser";
 import { pickPatterns } from "../utils/strings";
+import type { TimerService } from "./TimerService";
 
 export class TimerServiceImpl implements TimerService {
   intervalHandler: number | null;
@@ -212,8 +212,8 @@ export class TimerServiceImpl implements TimerService {
 
     this.appHelper.replaceStringInActiveLine(
       startTime
-        ? `${prefix}${startTime} - ${now} ${contentWithoutTime}`
-        : `${prefix}${now} ${contentWithoutTime}`,
+        ? `${prefix}${startTime} - ${now} ${contentWithoutTime ?? ""}`
+        : `${prefix}${now} ${contentWithoutTime ?? ""}`,
       { cursor: "last" },
     );
   }
