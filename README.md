@@ -672,6 +672,13 @@ Su Mo Tu We Th Fr Sa
 <img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/carnelian" class="link-card-image" />
 </a>
 
+## 開発者向け
+
+以下でhooksの場所を変更する。
+
+```bash
+git config core.hooksPath hooks
+```
 
 [ワンタイムタスク]: #ワンタイムタスク
 [繰り返しタスク]: #繰り返しタスク
