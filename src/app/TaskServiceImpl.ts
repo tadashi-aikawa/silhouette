@@ -1,8 +1,8 @@
-import type { TaskService } from "./TaskService";
-import type { TaskRepository } from "../repository/TaskRepository";
-import { type AsyncResult, BaseError, DateTime, type Nullable } from "owlelia";
+import type { RepetitionTask } from "@tadashi-aikawa/silhouette-core";
+import { BaseError, DateTime, type AsyncResult, type Nullable } from "owlelia";
 import type { AppHelper } from "../app-helper";
-import type { RepetitionTask } from "../domain/entity/RepetitionTask";
+import type { TaskRepository } from "../repository/TaskRepository";
+import type { TaskService } from "./TaskService";
 
 export class TaskServiceImpl implements TaskService {
   constructor(
@@ -41,10 +41,14 @@ export class TaskServiceImpl implements TaskService {
     return this.repository.loadHolidays();
   }
 
-  calcDatesInFuture(task: RepetitionTask, holidays: DateTime[]): DateTime[] {
+  calcDatesInFuture(
+    task: RepetitionTask,
+    holidays: DateTime[],
+    monthsAhead: number,
+  ): DateTime[] {
     const today = DateTime.today();
     return today
-      .toDate(today.plusMonths(3))
+      .toDate(today.plusMonths(monthsAhead))
       .filter((x) => task.shouldTry(x, holidays));
   }
 }

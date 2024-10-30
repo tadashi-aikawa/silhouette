@@ -3,7 +3,7 @@
   import DayGrid from "@event-calendar/day-grid";
 
   import { type TaskService } from "../app/TaskService";
-  import { RepetitionTask } from "../domain/entity/RepetitionTask";
+  import { RepetitionTask } from "@tadashi-aikawa/silhouette-core";
   import { DateTime } from "owlelia";
 
   export let taskService: TaskService;
@@ -25,7 +25,7 @@
   }
 
   $: datesInFuture = currentTask
-    ? taskService.calcDatesInFuture(currentTask, holidays!)
+    ? taskService.calcDatesInFuture(currentTask, holidays!, 3)
     : undefined;
 
   $: options = {
