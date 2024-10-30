@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
       - uses: oven-sh/setup-bun@v2
       - run: npm i -D --no-save conventional-changelog-conventionalcommits @semantic-release/git @semantic-release/exec
       - uses: cycjimmy/semantic-release-action@v4
