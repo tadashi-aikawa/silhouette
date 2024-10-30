@@ -676,11 +676,18 @@ Su Mo Tu We Th Fr Sa
 
 ## 開発者向け
 
+### セットアップ
+
 以下でhooksの場所を変更する。
 
 ```bash
 git config core.hooksPath hooks
 ```
+
+### リリース
+
+[Release Action] を実行。
+
 
 [ワンタイムタスク]: #ワンタイムタスク
 [繰り返しタスク]: #繰り返しタスク
@@ -704,3 +711,4 @@ git config core.hooksPath hooks
 [Silhouette: Insert tasks]: #silhouette-insert-tasks
 [複数パターン指定]: #複数パターン指定
 [繰り返しパターン]: #繰り返しパターン
+[Release Action]: https://github.com/tadashi-aikawa/mobile-first-daily-interface/actions/workflows/release.yaml
