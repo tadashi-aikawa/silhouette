@@ -29,8 +29,9 @@
 火・木・土やるタスク,tue/thu/sat
 毎月10日やるタスク,10d
 毎月1日/11日/21日/31日やるタスク,1d/11d/21d/31d
-1月1日から7日ごとにやるタスク,every 7 day,2023-01-01
-1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
+毎年7月1日にやるタスク,0701
+2023年1月1日から7日ごとにやるタスク,every 7 day,2023-01-01
+2023年1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
 稼働日の翌日にやるタスク,workday>1
 月末の3日前にやるタスク,end of month<3
 休み明けの稼働日,non workday>1!
@@ -326,6 +327,7 @@ https://day.js.org/docs/en/parse/string-format
 | [稼働日]ではない日 | non workday                | 不可           |
 | 曜日複数指定       | sun/mon                    | `/` 区切り可   |
 | 毎月特定日複数指定 | 10d/20d                    | `/` 区切りで可 |
+| 毎年特定日         | 0701                       | 不可           |
 | N日ごと            | every 3 day                | 不可           |
 | [月初]             | beginning of month         | 不可           |
 | [月初の稼働日]     | workday beginning of month | 不可           |
