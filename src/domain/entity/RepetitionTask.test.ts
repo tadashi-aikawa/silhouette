@@ -1,7 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import { DateTime } from "owlelia";
-import { RepetitionTask } from "./RepetitionTask";
 import { Repetition } from "../vo/Repetition";
+import { RepetitionTask } from "./RepetitionTask";
 
 const d = DateTime.of;
 // noinspection JSUnusedLocalSymbols
