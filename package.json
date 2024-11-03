@@ -37,7 +37,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core",
+    "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@^1.2.0",
     "owlelia": "^0.48.1"
   }
 }
