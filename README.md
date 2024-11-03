@@ -22,20 +22,36 @@
 2. Vaultのrootに`tasks.md`を作成して以下を貼り付け
 
 ```csv
+// 週ごとの基本ルーチン
 毎日やるタスク,every day
 平日やるタスク,weekday
 土日やるタスク,weekend
 月・水・金やるタスク,mon/wed/fri
 火・木・土やるタスク,tue/thu/sat
+
+// 月ごとの基本ルーチン
 毎月10日やるタスク,10d
 毎月1日/11日/21日/31日やるタスク,1d/11d/21d/31d
+
+// 月末・月初の特殊ルーチン
+月末の3日前にやるタスク,end of month<3
+
+// 年ごとの基本ルーチン
 毎年7月1日にやるタスク,0701
+
+// 起点日あり一定期間繰り返し
 2023年1月1日から7日ごとにやるタスク,every 7 day,2023-01-01
 2023年1月1日から10日ごとにやるタスク,every 10 day,2023-01-01
+
+// 稼働日に関係するタスク
 稼働日の翌日にやるタスク,workday>1
-月末の3日前にやるタスク,end of month<3
 休み明けの稼働日,non workday>1!
 翌日が休み,non workday<1
+
+// 稼働日でない場合は実施日をずらすタスク
+毎週水曜のタスク(稼働日でない場合は翌稼働日),wed>!
+毎週火曜・木曜のタスク(稼働日でない場合は前稼働日),tue/thu<!
+毎月第2月曜のタスク(稼働日でない場合は前稼働日),2mon<!
 ```
 
 3. 本日のDaily Noteを開き、[Silhouette: Insert tasks]コマンドを実行
@@ -200,7 +216,7 @@ hoge
 
 [繰り返しタスク]が意図通りの日付に予定されているか...を確認するUIを用意しています。
 
-<video autoplay muted controls src="https://user-images.githubusercontent.com/9500018/215319503-dfa7fd1f-c7ff-4e3c-a3ef-982aa1b1a983.mp4"></video>
+![](./resources/repetetion-tasks-ui-demo.webp)
 
 詳細は[0.8.0](https://github.com/tadashi-aikawa/silhouette/releases/tag/0.8.0)のリリースノートをご覧ください。
 
@@ -638,44 +654,35 @@ Su Mo Tu We Th Fr Sa
 
 ## 🦉 宣伝
 
-[Obsidian]のプラグインとして以下も開発しております。よろしければお試しください。
+### NeovimプラグインとSilhouette Core
 
-### コミュニティプラグイン
+ObsidianだけでなくNeovimのプラグインも提供しています。(機能は多少減っており開発中ステータスです)
+
+<a href="https://github.com/tadashi-aikawa/silhouette.nvim">
+    <img width="50%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/silhouette.nvim"/>
+</a>
+
+また、SilhouetteのコアロジックはSilhouette Coreというライブラリで提供しています。TypeScript製でJSRリポジトリで配布しています。
+
+<a href="https://github.com/tadashi-aikawa/silhouette-core">
+    <img width="50%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/silhouette-core"/>
+</a>
+
+Silhouetteのタスク判定ロジック、または繰り返し表現パースロジックを再利用して、自分だけのタスクアプリケーションを開発したい場合など是非ご利用ください。
+
+### その他のObsidianプラグイン
+
+他にもいくつかの[Obsidian]プラグインを開発しております。よろしければ以下をご覧ください。
+
+> [🦉tadashi\-aikawaが開発しているObsidianプラグイン \- Minerva](https://minerva.mamansoft.net/Notes/%F0%9F%A6%89tadashi-aikawa%E3%81%8C%E9%96%8B%E7%99%BA%E3%81%97%E3%81%A6%E3%81%84%E3%82%8BObsidian%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3)
+
+Silhouette以外でオススメのプラグインは以下2つです。機能が多くてとっつきにくいかもしれませんが、手に馴染めばObsidian活動がかなり捗ること間違いないと思います。
 
 <a href="https://github.com/tadashi-aikawa/obsidian-various-complements-plugin">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-various-complements-plugin" class="link-card-image" />
+    <img width="50%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-various-complements-plugin"/>
 </a>
-
 <a href="https://github.com/tadashi-aikawa/obsidian-another-quick-switcher">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-another-quick-switcher" class="link-card-image" />
-</a>
-
-<a href="https://github.com/tadashi-aikawa/obsidian-old-note-admonitor">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-old-note-admonitor" class="link-card-image" />
-</a>
-
-<a href="https://github.com/tadashi-aikawa/shukuchi">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/shukuchi" class="link-card-image" />
-</a>
-
-<a href="https://github.com/tadashi-aikawa/obsidian-embedded-code-title">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-embedded-code-title" class="link-card-image" />
-</a>
-
-### 非コミュニティプラグイン (Silhouetteと同じ)
-
-[BRAT]でインストールします。
-
-<a href="https://github.com/tadashi-aikawa/mobile-first-daily-interface">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/mobile-first-daily-interface" class="link-card-image" />
-</a>
-
-#### 自分用
-
-[BRAT]でもインストールできません。TypeScriptで開発できる方なら使いこなせるかも。
-
-<a href="https://github.com/tadashi-aikawa/carnelian">
-<img width="75%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/carnelian" class="link-card-image" />
+    <img width="50%" src="https://opengraph.githubassets.com/796ed8b971a84d9f9dcb9e107edd11f765e230028bd04a967a487d1551585d90/tadashi-aikawa/obsidian-another-quick-switcher"/>
 </a>
 
 ## 開発者向け
