@@ -1,6 +1,6 @@
 {
   "name": "silhouette",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "description": "Simple task management tools for Obsidian",
   "main": "main.js",
   "scripts": {
@@ -41,4 +41,3 @@
     "owlelia": "^0.48.1"
   }
 }
-
