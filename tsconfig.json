@@ -5,7 +5,7 @@
     "strict": true,
     "inlineSources": true,
     "module": "ESNext",
-    "target": "ES2017",
+    "target": "ES2018",
     "allowJs": true,
     "moduleResolution": "Bundler",
     "importHelpers": true,
