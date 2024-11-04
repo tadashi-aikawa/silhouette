@@ -27,7 +27,7 @@ export function createCommands(
 
             taskService.insertTasksToDailyNote(date).then((err) => {
               if (err) {
-                new Notice(`[Error] ${err.name}: ${err.message}`, 0);
+                new Notice(`[エラー] ${err.name}\n\n ${err.message}`, 0);
                 return;
               }
 
