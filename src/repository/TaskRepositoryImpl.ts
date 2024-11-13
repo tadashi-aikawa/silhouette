@@ -18,8 +18,17 @@ export class TaskRepositoryImpl implements TaskRepository {
           .split("\n")
           .filter((line) => !line.startsWith("//") && line.trim() !== "")
           .map((line) => line.split(","))
-          .filter((cols) => cols.length > 1)
           .map(([name, repetitions, baseDate]) => {
+            if (!repetitions) {
+              return {
+                errors: [
+                  {
+                    message: `${name}:\n  繰り返しパターンが指定されていません`,
+                  },
+                ],
+              };
+            }
+
             const [reps, errs] =
               Repetition.fromRepetitionsStr(repetitions).unwrap();
             if (errs) {
