@@ -23,7 +23,11 @@ export class TaskRepositoryImpl implements TaskRepository {
             const [reps, errs] =
               Repetition.fromRepetitionsStr(repetitions).unwrap();
             if (errs) {
-              return { errors: errs };
+              return {
+                errors: errs.map((e) => ({
+                  message: `${name}: \n ${e.message}`,
+                })),
+              };
             }
             return {
               record: RepetitionTask.of({
@@ -42,7 +46,7 @@ export class TaskRepositoryImpl implements TaskRepository {
         if (errors.length > 0) {
           throw {
             name: "繰り返しタスクの読み込み時にパースエラーが発生",
-            message: errors.map((x) => `* ${x.message}`).join("\n"),
+            message: errors.map((x) => `${x.message}`).join("\n"),
           };
         }
 
