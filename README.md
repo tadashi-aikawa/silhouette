@@ -697,7 +697,7 @@ git config core.hooksPath hooks
 
 ### リリース
 
-[Release Action] を実行。
+[Release Action](https://github.com/tadashi-aikawa/silhouette/actions/workflows/release.yaml) を実行。
 
 
 [ワンタイムタスク]: #ワンタイムタスク
@@ -722,4 +722,3 @@ git config core.hooksPath hooks
 [Silhouette: Insert tasks]: #silhouette-insert-tasks
 [複数パターン指定]: #複数パターン指定
 [繰り返しパターン]: #繰り返しパターン
-[Release Action]: https://github.com/tadashi-aikawa/mobile-first-daily-interface/actions/workflows/release.yaml
