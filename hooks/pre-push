@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if ! cd "$(git rev-parse --show-toplevel)"; then
+  echo "cd error"
+  exit 1
+fi
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+# shellcheck disable=SC2063
+ancestor_branch=$(git show-branch | grep '*' | grep -v "${branch}" | head -1 | awk -F'[]~^[]' '{print $2}')
+
+if git rev-parse --verify origin/"${branch}" >/dev/null 2>&1; then
+  from=$(git merge-base HEAD origin/"${branch}")
+else
+  # 新しいブランチの場合
+  from=${ancestor_branch}
+fi
+
+# 特定ディレクトリ配下に変更がある場合のみ実行. 常に実行ならif文は不要
+if git diff --name-only "${from}".."${branch}" | grep -Eq "^src"; then
+  echo "🔍 Check src"
+  if ! bun run pre:push; then
+    echo "❌ CI failed. Aborting push."
+    exit 1
+  fi
+fi
+
+exit 0
