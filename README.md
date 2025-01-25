@@ -8,6 +8,7 @@
     <a href="https://github.com/tadashi-aikawa/silhouette/releases/latest"><img src="https://img.shields.io/github/release/tadashi-aikawa/silhouette.svg" /></a>
     <a href="https://github.com/tadashi-aikawa/silhouette/actions"><img src="https://github.com/tadashi-aikawa/silhouette/workflows/Tests/badge.svg" /></a>
     <img src="https://img.shields.io/github/downloads/tadashi-aikawa/silhouette/total" />
+    <img src="https://img.shields.io/github/license/mashape/apistatus.svg" />
 </div>
 
 ## ⏬ インストール
