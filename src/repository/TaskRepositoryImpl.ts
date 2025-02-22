@@ -19,7 +19,7 @@ export class TaskRepositoryImpl implements TaskRepository {
           .filter((line) => !line.startsWith("//") && line.trim() !== "")
           .map((line) => line.split(","))
           .map(([name, repetitions, baseDate]) => {
-            const _repetitions = repetitions.trim();
+            const _repetitions = repetitions?.trim();
             if (!_repetitions) {
               return {
                 errors: [
