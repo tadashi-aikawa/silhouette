@@ -1,14 +1,14 @@
-import esbuild from "esbuild";
-import process from "process";
 import builtins from "builtin-modules";
+import chokidar from "chokidar";
+import esbuild from "esbuild";
+import esbuildSvelte from "esbuild-svelte";
 import fs from "fs";
 import path from "path";
-import chokidar from "chokidar";
-import esbuildSvelte from "esbuild-svelte";
+import process from "process";
 import sveltePreprocess from "svelte-preprocess";
 
 // TODO: 自分のVaultパスを設定する
-const VAULT_DIR = "/mnt/c/Users/syoum/work/minerva";
+const VAULT_DIR = "/Users/tadashi-aikawa/work/minerva";
 const PLUGIN_DIR_NAME = "silhouette";
 const FILES = ["main.js", "manifest.json", "styles.css"];
 
@@ -25,7 +25,7 @@ const prod = process.argv[2] === "production";
 const context = await esbuild.context({
   plugins: [
     esbuildSvelte({
-      compilerOptions: { css: true },
+      compilerOptions: { css: "injected" },
       preprocess: sveltePreprocess(),
     }),
   ],
@@ -73,7 +73,11 @@ if (prod) {
   console.log(`🌶️ Creating a ${hotreloadPath}`);
   fs.writeFileSync(hotreloadPath, "");
 
-  const watcher = chokidar.watch(FILES, { persistent: true });
+  const watcher = chokidar.watch(FILES, {
+    persistent: true,
+    usePolling: true,
+    ignoreInitial: true,
+  });
   watcher
     .on("add", (p) => {
       console.log(`♨️  ${p} is added`);

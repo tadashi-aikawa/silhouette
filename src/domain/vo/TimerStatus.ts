@@ -7,8 +7,8 @@ function unsafeMatch(str: string, pattern: RegExp): { [key: string]: string } {
 
 const pattern = {
   neverRecorded: /[-*] \[.] (?<name>.+)/g,
-  recording: /[-*] \[.] (?<name>.+)\(⏳\)$/g,
-  recorded: /[-*] \[.] (?<name>.+)\(⏲️(?<time>\d\d:\d\d:\d\d)\)$/g,
+  recording: /[-*] \[.] (?<name>.+)`⏳`$/g,
+  recorded: /[-*] \[.] (?<name>.+)`⏲️(?<time>\d\d:\d\d:\d\d)`$/g,
 } as const;
 
 export function isLineRecording(line: string): boolean {
@@ -51,7 +51,7 @@ class NeverRecordedStatus {
     return { name };
   }
   getNextStatusLine(line: string): string {
-    return `${line} (⏳)`;
+    return `${line} \`⏳\``;
   }
 }
 class RecordingStatus {
@@ -61,7 +61,7 @@ class RecordingStatus {
     return { name };
   }
   getNextStatusLine(line: string, timer: Timer): string {
-    return line.replace("(⏳)", `(⏲️${toHHmmss(timer.accumulatedSeconds)})`);
+    return line.replace("`⏳`", `\`⏲️${toHHmmss(timer.accumulatedSeconds)}\``);
   }
 }
 class RecordedStatus {
@@ -72,6 +72,6 @@ class RecordedStatus {
     return { name, seconds: hours * 60 * 60 + minutes * 60 + seconds };
   }
   getNextStatusLine(line: string): string {
-    return line.replace(/\(⏲️\d\d:\d\d:\d\d\)/, "(⏳)");
+    return line.replace(/`⏲️\d\d:\d\d:\d\d`/, "`⏳`");
   }
 }
