@@ -9,8 +9,8 @@ import { pickPatterns } from "../utils/strings";
 import type { TimerService } from "./TimerService";
 
 export class TimerServiceImpl implements TimerService {
-  intervalHandler: number | null;
-  handleEvent: () => Promise<void>;
+  intervalHandler: number | null = null;
+  handleEvent: () => Promise<void> = async () => {};
 
   constructor(
     private appHelper: AppHelper,
@@ -28,6 +28,7 @@ export class TimerServiceImpl implements TimerService {
     if (this.intervalHandler) {
       window.clearInterval(this.intervalHandler);
     }
+    this.intervalHandler = null;
   }
 
   setOnTimerHandler(
@@ -38,9 +39,9 @@ export class TimerServiceImpl implements TimerService {
       const timer = (await this.repository.loadTimer()).orNull();
       handler(timer);
     };
-    this.handleEvent();
+    this.handleEvent?.();
     this.intervalHandler = window.setInterval(
-      () => this.handleEvent(),
+      () => this.handleEvent?.(),
       intervalMilliSec,
     );
   }
@@ -141,7 +142,7 @@ export class TimerServiceImpl implements TimerService {
         break;
     }
 
-    this.handleEvent();
+    this.handleEvent?.();
   }
 
   async cycleBulletCheckbox(
