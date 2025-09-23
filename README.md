@@ -725,7 +725,9 @@ git config core.hooksPath hooks
 
 ### リリース
 
-[Release Action](https://github.com/tadashi-aikawa/silhouette/actions/workflows/release.yaml) を実行。
+`bun run release` または `/release` コマンドを実行すると、未pushコミットとCIの確認から Release Action の起動、GitHubリリース生成の確認、関連Issueのクローズ、Bluesky投稿案の生成、`git pull` までを自動で行います。
+
+手動で行う場合は [Release Action](https://github.com/tadashi-aikawa/silhouette/actions/workflows/release.yaml) を実行。
 
 
 [ワンタイムタスク]: #ワンタイムタスク

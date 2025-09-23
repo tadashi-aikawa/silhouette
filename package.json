@@ -8,7 +8,8 @@
     "build": "tsc -noEmit -skipLibCheck && bun esbuild.config.mts production",
     "pre:push": "tsc -noEmit -skipLibCheck && bun run test",
     "test": "jest",
-    "ci": "bun install && bun run build && bun run test"
+    "ci": "bun install && bun run build && bun run test",
+    "release": "bun scripts/release.mts"
   },
   "keywords": [],
   "author": "",
