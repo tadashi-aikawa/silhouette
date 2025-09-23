@@ -45,6 +45,3 @@
 - Do not include vault data in tests or repo. 
 - Target Bun ≥ 1.1; Node types are used for tooling only.
 
-## 言語ポリシー
-- このリポジトリに関する会話・レビューコメント・ドキュメントの説明は日本語で行う。
-- Conventional Commits の type は英語（feat, fix など）を使用し、本文は日本語で記述してよい。
