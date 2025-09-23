@@ -1,6 +1,6 @@
 import { App, Editor, MarkdownView, TFile } from "obsidian";
-import type { RegExpMatchedArray } from "./types";
 import { ExhaustiveError } from "./errors";
+import type { RegExpMatchedArray } from "./types";
 
 type LeafType = "same-tab" | "new-tab";
 type CoreCommand =

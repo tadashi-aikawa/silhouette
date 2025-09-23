@@ -9,6 +9,12 @@ export interface Settings {
   timerStorageFilePath: string;
   showTimeOnStatusBar: boolean;
   startNextTaskAutomaticallyAfterDone: boolean;
+  enableMarks: boolean;
+  marks: {
+    recording: string;
+    stop: string;
+    done: string;
+  };
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -18,6 +24,12 @@ export const DEFAULT_SETTINGS: Settings = {
   timerStorageFilePath: "",
   showTimeOnStatusBar: false,
   startNextTaskAutomaticallyAfterDone: false,
+  enableMarks: false,
+  marks: {
+    recording: "~",
+    stop: "_",
+    done: "x",
+  },
 };
 
 export class SilhouetteSettingTab extends PluginSettingTab {
@@ -32,6 +44,12 @@ export class SilhouetteSettingTab extends PluginSettingTab {
     const { containerEl } = this;
 
     containerEl.empty();
+
+    // ╭─────────────────────────────────────────────────────────╮
+    // │                         タスク                          │
+    // ╰─────────────────────────────────────────────────────────╯
+
+    containerEl.createEl("h3", { text: "✅ タスク" });
 
     new Setting(containerEl)
       .setName("繰り返しタスクファイルのパス")
@@ -75,6 +93,12 @@ export class SilhouetteSettingTab extends PluginSettingTab {
           .setValue(this.plugin.settings.fileDateFormat),
       );
 
+    // ╭─────────────────────────────────────────────────────────╮
+    // │                          計測                           │
+    // ╰─────────────────────────────────────────────────────────╯
+
+    containerEl.createEl("h3", { text: "⏲️ 計測" });
+
     new Setting(containerEl)
       .setName("計測状態を記録したJSONファイルのパス")
       .setDesc(
@@ -116,5 +140,62 @@ export class SilhouetteSettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();
         });
       });
+
+    new Setting(containerEl)
+      .setName("チェックボックスのマークも更新する")
+      .setDesc(
+        "有効にすると `Push timer` や `Cycle bullet/checkbox` などで計測開始/終了したときに、チェックボックスのマークを更新します。",
+      )
+      .addToggle((tc) => {
+        tc.setValue(this.plugin.settings.enableMarks).onChange(
+          async (value) => {
+            this.plugin.settings.enableMarks = value;
+            await this.plugin.saveSettings();
+            this.display();
+          },
+        );
+      });
+
+    if (this.plugin.settings.enableMarks) {
+      const nestDiv = containerEl.createDiv({
+        cls: "silhouette__setting__nest",
+      });
+
+      new Setting(nestDiv)
+        .setName("計測中のマーク")
+        .setDesc("タスクが計測中であることを示すマークを指定します。")
+        .addText((text) =>
+          TextComponentEvent.onChange(text, async (value) => {
+            this.plugin.settings.marks.recording = value;
+            await this.plugin.saveSettings();
+          })
+            .setPlaceholder("ex: ~")
+            .setValue(this.plugin.settings.marks.recording),
+        );
+
+      new Setting(nestDiv)
+        .setName("計測停止のマーク")
+        .setDesc("タスクが計測停止であることを示すマークを指定します。")
+        .addText((text) =>
+          TextComponentEvent.onChange(text, async (value) => {
+            this.plugin.settings.marks.stop = value;
+            await this.plugin.saveSettings();
+          })
+            .setPlaceholder("ex: _")
+            .setValue(this.plugin.settings.marks.stop),
+        );
+
+      new Setting(nestDiv)
+        .setName("完了のマーク")
+        .setDesc("タスクが完了であることを示すマークを指定します。")
+        .addText((text) =>
+          TextComponentEvent.onChange(text, async (value) => {
+            this.plugin.settings.marks.done = value;
+            await this.plugin.saveSettings();
+          })
+            .setPlaceholder("ex: x")
+            .setValue(this.plugin.settings.marks.done),
+        );
+    }
   }
 }

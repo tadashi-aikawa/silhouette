@@ -46,7 +46,10 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
-            timerService.execute({ openAfterRecording: false });
+            timerService.execute({
+              openAfterRecording: false,
+              marks: settings.enableMarks ? settings.marks : undefined,
+            });
           }
           return true;
         }
@@ -58,7 +61,10 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
-            timerService.execute({ openAfterRecording: true });
+            timerService.execute({
+              openAfterRecording: true,
+              marks: settings.enableMarks ? settings.marks : undefined,
+            });
           }
           return true;
         }
@@ -70,9 +76,11 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
-            timerService.cycleBulletCheckbox(
-              settings.startNextTaskAutomaticallyAfterDone,
-            );
+            timerService.cycleBulletCheckbox({
+              startNextTaskAutomatically:
+                settings.startNextTaskAutomaticallyAfterDone,
+              marks: settings.enableMarks ? settings.marks : undefined,
+            });
           }
           return true;
         }

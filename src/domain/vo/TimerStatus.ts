@@ -50,8 +50,14 @@ class NeverRecordedStatus {
     const { name } = unsafeMatch(line, pattern.neverRecorded);
     return { name };
   }
-  getNextStatusLine(line: string): string {
-    return `${line} \`⏳\``;
+  getNextStatusLine(line: string, newMark?: string): string {
+    let _line = line;
+
+    if (newMark) {
+      _line = _line.replace(/ \[.\] /, ` [${newMark}] `);
+    }
+
+    return `${_line} \`⏳\``;
   }
 }
 class RecordingStatus {
@@ -60,8 +66,18 @@ class RecordingStatus {
     const { name } = unsafeMatch(line, pattern.recording);
     return { name };
   }
-  getNextStatusLine(line: string, timer: Timer): string {
-    return line.replace("`⏳`", `\`⏲️${toHHmmss(timer.accumulatedSeconds)}\``);
+  getNextStatusLine(line: string, timer: Timer, newMark?: string): string {
+    let _line = line;
+
+    if (newMark) {
+      _line = _line.replace(/ \[.\] /, ` [${newMark}] `);
+    }
+    _line = _line.replace(
+      "`⏳`",
+      `\`⏲️${toHHmmss(timer.accumulatedSeconds)}\``,
+    );
+
+    return _line;
   }
 }
 class RecordedStatus {
@@ -71,7 +87,14 @@ class RecordedStatus {
     const [hours, minutes, seconds] = time.split(":").map(Number);
     return { name, seconds: hours * 60 * 60 + minutes * 60 + seconds };
   }
-  getNextStatusLine(line: string): string {
-    return line.replace(/`⏲️\d\d:\d\d:\d\d`/, "`⏳`");
+  getNextStatusLine(line: string, newMark?: string): string {
+    let _line = line;
+
+    if (newMark) {
+      _line = _line.replace(/ \[.\] /, ` [${newMark}] `);
+    }
+    _line = _line.replace(/`⏲️\d\d:\d\d:\d\d`/, "`⏳`");
+
+    return _line;
   }
 }

@@ -4,6 +4,7 @@ import type { AppHelper } from "../app-helper";
 import { Timer } from "../domain/vo/Timer";
 import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 import type { TimerRepository } from "../repository/TimerRepository";
+import type { Settings } from "../settings";
 import { parseMarkdownList } from "../utils/parser";
 import { pickPatterns } from "../utils/strings";
 import type { TimerService } from "./TimerService";
@@ -63,8 +64,12 @@ export class TimerServiceImpl implements TimerService {
   }
 
   async execute(option: {
-    openAfterRecording?: boolean | undefined;
+    openAfterRecording: boolean;
+    marks: Settings["marks"] | undefined;
+    done?: boolean;
   }): Promise<void> {
+    const { openAfterRecording, marks, done = false } = option;
+
     const line = this.appHelper.getActiveLine() || "";
     const lineTimeStatus = TimerStatus.fromLine(line);
     if (lineTimeStatus.name === "notTask") {
@@ -80,10 +85,12 @@ export class TimerServiceImpl implements TimerService {
           );
           return;
         }
+        const newMark = marks ? (done ? marks.done : marks.stop) : undefined;
         this.appHelper.replaceStringInActiveLine(
           lineTimeStatus.getNextStatusLine(
             line,
             (await this.getTimer()).stop(DateTime.now()),
+            newMark,
           ),
         );
 
@@ -106,10 +113,10 @@ export class TimerServiceImpl implements TimerService {
         );
 
         this.appHelper.replaceStringInActiveLine(
-          lineTimeStatus.getNextStatusLine(line),
+          lineTimeStatus.getNextStatusLine(line, option.marks?.recording),
         );
 
-        if (option.openAfterRecording) {
+        if (openAfterRecording) {
           this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
         }
         break;
@@ -125,7 +132,7 @@ export class TimerServiceImpl implements TimerService {
           lineTimeStatus.parse(line);
 
         this.appHelper.replaceStringInActiveLine(
-          lineTimeStatus.getNextStatusLine(line),
+          lineTimeStatus.getNextStatusLine(line, option.marks?.recording),
         );
 
         await this.repository.saveTimer(
@@ -136,7 +143,7 @@ export class TimerServiceImpl implements TimerService {
           }),
         );
 
-        if (option.openAfterRecording) {
+        if (openAfterRecording) {
           this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
         }
         break;
@@ -145,23 +152,24 @@ export class TimerServiceImpl implements TimerService {
     this.handleEvent?.();
   }
 
-  async cycleBulletCheckbox(
-    startNextTaskAutomatically: boolean,
-  ): Promise<void> {
-    if (!this.appHelper.cycleListCheckList()) {
-      return;
-    }
-
-    if (!this.appHelper.isCheckedCurrentLineTask()) {
-      return;
-    }
+  async cycleBulletCheckbox(option?: {
+    startNextTaskAutomatically?: boolean;
+    marks?: Settings["marks"] | undefined;
+  }): Promise<void> {
+    const { startNextTaskAutomatically = false, marks } = option || {};
 
     const line = this.appHelper.getActiveLine() || "";
     const lineTimeStatus = TimerStatus.fromLine(line);
     if (lineTimeStatus.name !== "recording") {
+      this.appHelper.cycleListCheckList();
       return;
     }
-    await this.execute({ openAfterRecording: false });
+
+    await this.execute({
+      openAfterRecording: false,
+      marks,
+      done: true,
+    });
 
     if (!startNextTaskAutomatically) {
       return;
@@ -178,7 +186,10 @@ export class TimerServiceImpl implements TimerService {
       return;
     }
 
-    await this.execute({ openAfterRecording: false });
+    await this.execute({
+      openAfterRecording: false,
+      marks,
+    });
   }
 
   moveToRecording(): void {
