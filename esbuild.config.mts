@@ -74,9 +74,7 @@ if (prod) {
   fs.writeFileSync(hotreloadPath, "");
 
   const watcher = chokidar.watch(FILES, {
-    persistent: true,
     usePolling: true,
-    ignoreInitial: true,
   });
   watcher
     .on("add", (p) => {
