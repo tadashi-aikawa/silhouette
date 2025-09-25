@@ -42,7 +42,7 @@ export default {
       "@semantic-release/exec",
       {
         // リリース作業直前にCIでビルド・テストを行い、version-bump.mtsでバージョン更新処理を行う. ${nextRelease.version}はsemantic-releaseが決めたバージョン
-        prepareCmd: "bun ci && bun version-bump.mts ${nextRelease.version}",
+        prepareCmd: "bun run ci && bun version-bump.mts ${nextRelease.version}",
       },
     ],
     [
