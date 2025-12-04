@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "dev": "bun esbuild.config.mts",
-    "build": "tsc -noEmit -skipLibCheck && bun esbuild.config.mts production",
+    "build": "tsgo -noEmit -skipLibCheck && bun esbuild.config.mts production",
     "check:format": "prettier -l \"**/*.ts\"",
-    "pre:push": "tsc -noEmit -skipLibCheck && bun run check:format && bun run test",
+    "pre:push": "tsgo -noEmit -skipLibCheck && bun run check:format && bun run test",
     "test": "jest",
     "ci": "bun install --frozen-lockfile --ignore-scripts && bun run pre:push && bun run build",
     "release": "bun scripts/release.mts"
@@ -21,6 +21,7 @@
     "@tsconfig/svelte": "5.0.4",
     "@types/bun": "1.3.3",
     "@types/node": "22.16.5",
+    "@typescript/native-preview": "7.0.0-dev.20251127.1",
     "builtin-modules": "5.0.0",
     "chokidar": "5.0.0",
     "esbuild": "0.27.0",
