@@ -1,8 +1,8 @@
-import type { AppHelper } from "../app-helper";
-import { type AsyncResult, BaseError, DateTime, fromPromise } from "owlelia";
-import type { TimerRepository } from "./TimerRepository";
-import { Timer } from "../domain/vo/Timer";
 import { normalizePath } from "obsidian";
+import { type AsyncResult, BaseError, DateTime, fromPromise } from "owlelia";
+import type { AppHelper } from "../app-helper";
+import { Timer } from "../domain/vo/Timer";
+import type { TimerRepository } from "./TimerRepository";
 
 interface TimerDict {
   name: string;

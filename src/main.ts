@@ -1,22 +1,22 @@
 import { type Command, type EventRef, Plugin } from "obsidian";
+import { DateTime } from "owlelia";
+import { AppHelper } from "./app-helper";
+import type { TaskService } from "./app/TaskService";
+import { TaskServiceImpl } from "./app/TaskServiceImpl";
+import type { TimerService } from "./app/TimerService";
+import { TimerServiceImpl } from "./app/TimerServiceImpl";
+import { createCommands } from "./commands";
+import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
+import { TimerRepositoryImpl } from "./repository/TimerRepositoryImpl";
 import {
   DEFAULT_SETTINGS,
   type Settings,
   SilhouetteSettingTab,
 } from "./settings";
-import { AppHelper } from "./app-helper";
-import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
-import { TimerRepositoryImpl } from "./repository/TimerRepositoryImpl";
-import type { TaskService } from "./app/TaskService";
-import { TaskServiceImpl } from "./app/TaskServiceImpl";
 import {
   REPETITION_TASK_VIEW_TYPE,
   RepetitionTaskItemView,
 } from "./ui/RepetitionTaskItemView";
-import type { TimerService } from "./app/TimerService";
-import { TimerServiceImpl } from "./app/TimerServiceImpl";
-import { createCommands } from "./commands";
-import { DateTime } from "owlelia";
 import { toDisplayFooter } from "./utils/times";
 
 export default class SilhouettePlugin extends Plugin {
