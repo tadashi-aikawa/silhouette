@@ -12,7 +12,7 @@
 - Config: `esbuild.config.mts`, `tsconfig.json`, `jest.config.js`, `.prettierrc`
 
 ## Build, Test, Dev
-- Install: `bun install`
+- Install: `bun install --frozen-lockfile --ignore-scripts`
 - Dev (watch + copy to Obsidian vault): `bun run dev`
   - Update `VAULT_DIR` in `esbuild.config.mts` to your local vault path.
 - Build (typecheck + bundle): `bun run build`

@@ -723,6 +723,12 @@ Silhouette以外でオススメのプラグインは以下2つです。機能が
 git config core.hooksPath hooks
 ```
 
+依存関係をインストール。
+
+```bash
+bun install --frozen-lockfile --ignore-scripts
+```
+
 ### リリース
 
 `bun run release` または `/release` コマンドを実行すると、未pushコミットとCIの確認から Release Action の起動、GitHubリリース生成の確認、関連Issueのクローズ、Bluesky投稿案の生成、`git pull` までを自動で行います。
