@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "bun esbuild.config.mts",
     "build": "tsc -noEmit -skipLibCheck && bun esbuild.config.mts production",
-    "pre:push": "tsc -noEmit -skipLibCheck && bun run test",
+    "check:format": "prettier -l \"**/*.ts\"",
+    "pre:push": "tsc -noEmit -skipLibCheck && bun run check:format && bun run test",
     "test": "jest",
-    "ci": "bun install --frozen-lockfile --ignore-scripts && bun run build && bun run test",
+    "ci": "bun install --frozen-lockfile --ignore-scripts && bun run pre:push && bun run build",
     "release": "bun scripts/release.mts"
   },
   "keywords": [],
