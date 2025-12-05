@@ -14,6 +14,9 @@ export class Timer extends ValueObject<Props> {
     return new Timer(props);
   }
 
+  /**
+   * タイマーを停止します
+   */
   stop(now: DateTime): Timer {
     return new Timer({
       ...this._value,
@@ -22,6 +25,9 @@ export class Timer extends ValueObject<Props> {
     });
   }
 
+  /**
+   * タイマー開始から現在時刻までの経過秒数を取得します
+   */
   getPastSeconds(now: DateTime): number {
     return (
       now.diffSeconds(this._value.startTime!) + this._value.accumulatedSeconds

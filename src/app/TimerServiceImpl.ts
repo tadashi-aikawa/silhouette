@@ -7,11 +7,11 @@ import type { TimerRepository } from "../repository/TimerRepository";
 import type { Settings } from "../settings";
 import { parseMarkdownList } from "../utils/parser";
 import { pickPatterns } from "../utils/strings";
-import type { TimerService } from "./TimerService";
+import type { TimerEvent, TimerService } from "./TimerService";
 
 export class TimerServiceImpl implements TimerService {
   intervalHandler: number | null = null;
-  handleEvent: () => Promise<void> = async () => {};
+  handleEvent: (timerEvent: TimerEvent) => Promise<void> = async () => {};
 
   constructor(
     private appHelper: AppHelper,
@@ -33,16 +33,16 @@ export class TimerServiceImpl implements TimerService {
   }
 
   setOnTimerHandler(
-    handler: (timer: Timer | null) => void,
+    handler: (timer: Timer | null, event: TimerEvent) => void,
     intervalMilliSec: number,
   ): void {
-    this.handleEvent = async () => {
+    this.handleEvent = async (timerEvent: TimerEvent) => {
       const timer = (await this.repository.loadTimer()).orNull();
-      handler(timer);
+      handler(timer, timerEvent);
     };
-    this.handleEvent?.();
+    this.handleEvent?.("ready");
     this.intervalHandler = window.setInterval(
-      () => this.handleEvent?.(),
+      () => this.handleEvent?.("tick"),
       intervalMilliSec,
     );
   }
@@ -95,6 +95,7 @@ export class TimerServiceImpl implements TimerService {
         );
 
         await this.repository.clearTimer();
+        this.handleEvent?.("stopped");
         break;
       case "neverRecorded":
         if (await this.hasTimer()) {
@@ -119,6 +120,8 @@ export class TimerServiceImpl implements TimerService {
         if (openAfterRecording) {
           this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
         }
+
+        this.handleEvent?.("started");
         break;
       case "recorded":
         if (await this.hasTimer()) {
@@ -146,10 +149,9 @@ export class TimerServiceImpl implements TimerService {
         if (openAfterRecording) {
           this.appHelper.openLinkInActiveLine({ leaf: "same-tab" });
         }
+        this.handleEvent?.("started");
         break;
     }
-
-    this.handleEvent?.();
   }
 
   async cycleBulletCheckbox(option?: {

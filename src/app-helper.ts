@@ -178,4 +178,11 @@ export class AppHelper {
   removeCommand(commandId: string) {
     this.unsafeApp.commands.removeCommand(commandId);
   }
+
+  notifyToDesktop(message: string): void {
+    new Notification("Silhouette", {
+      body: message,
+      icon: "https://github.com/tadashi-aikawa/silhouette/raw/master/silhouette.webp",
+    });
+  }
 }

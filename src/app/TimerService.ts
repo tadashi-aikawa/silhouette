@@ -2,13 +2,21 @@ import type { Timer } from "../domain/vo/Timer";
 import type { TimerRepository } from "../repository/TimerRepository";
 import type { Settings } from "../settings";
 
+/**
+ * ready: タイマー準備完了
+ * started: タイマー開始
+ * stopped: タイマー停止
+ * tick: タイマー計測中の定期イベント
+ */
+export type TimerEvent = "ready" | "started" | "stopped" | "tick";
+
 export interface TimerService {
   terminate(): void;
   /**
    * 計測開始/終了時、および計測中の一定間隔ごとに実行するハンドラーを設定します
    */
   setOnTimerHandler(
-    handler: (timer: Timer | null) => void,
+    handler: (timer: Timer | null, event: TimerEvent) => void,
     intervalMilliSec: number,
   ): void;
   serRepository(repository: TimerRepository): void;

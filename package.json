@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.6.0",
-    "owlelia": "0.48.1"
+    "owlelia": "0.48.1",
+    "ts-pattern": "5.9.0"
   }
 }

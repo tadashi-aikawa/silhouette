@@ -11,3 +11,7 @@ export function pickPatterns(
 ): { [key: string]: string } {
   return Array.from(str.matchAll(pattern))?.[0]?.groups ?? {};
 }
+
+export function smartCommaSplit(text: string): string[] {
+  return text.split(",").filter((x) => x);
+}

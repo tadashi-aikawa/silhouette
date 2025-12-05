@@ -1,6 +1,6 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import type SilhouettePlugin from "./main";
-import { TextComponentEvent } from "./settings-helper";
+import { TextAreaComponentEvent, TextComponentEvent } from "./settings-helper";
 
 export interface Settings {
   taskFilePath: string;
@@ -8,6 +8,7 @@ export interface Settings {
   fileDateFormat: string;
   timerStorageFilePath: string;
   showTimeOnStatusBar: boolean;
+  alertTimes: string[];
   startNextTaskAutomaticallyAfterDone: boolean;
   enableMarks: boolean;
   marks: {
@@ -22,6 +23,7 @@ export const DEFAULT_SETTINGS: Settings = {
   holidayFilePath: "",
   fileDateFormat: "",
   timerStorageFilePath: "",
+  alertTimes: [],
   showTimeOnStatusBar: false,
   startNextTaskAutomaticallyAfterDone: false,
   enableMarks: false,
@@ -111,6 +113,20 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         })
           .setPlaceholder("ex: timer.json")
           .setValue(this.plugin.settings.timerStorageFilePath),
+      );
+
+    new Setting(containerEl)
+      .setName("アラートを通知する計測時間")
+      .setDesc(
+        "指定した計測時間に達したときに通知が表示されます。HH:MM形式で指定し、改行区切りで複数指定できます。(例: 00:30\n01:00 なら30分と1時間で通知されます)。⚠️ モバイル版は未対応です",
+      )
+      .addTextArea((tc) =>
+        TextAreaComponentEvent.onChange(tc, async (value) => {
+          this.plugin.settings.alertTimes = value.trim().split("\n");
+          await this.plugin.saveSettings();
+        })
+          .setPlaceholder("ex:\n00:30\n01:00")
+          .setValue(this.plugin.settings.alertTimes.join("\n")),
       );
 
     new Setting(containerEl)

@@ -1,5 +1,6 @@
-import { type Command, type EventRef, Plugin } from "obsidian";
+import { type Command, type EventRef, Platform, Plugin } from "obsidian";
 import { DateTime } from "owlelia";
+import { match, P } from "ts-pattern";
 import { AppHelper } from "./app-helper";
 import type { TaskService } from "./app/TaskService";
 import { TaskServiceImpl } from "./app/TaskServiceImpl";
@@ -18,6 +19,8 @@ import {
   RepetitionTaskItemView,
 } from "./ui/RepetitionTaskItemView";
 import { toDisplayFooter } from "./utils/times";
+
+const TICK_INTERVAL = 60 * 1000; // statelessでアラームを1度だけ出すために1分おき
 
 export default class SilhouettePlugin extends Plugin {
   settings: Settings;
@@ -112,12 +115,40 @@ export default class SilhouettePlugin extends Plugin {
       text: "未測定",
       cls: "silhouette__footer silhouette__footer__timer",
     });
-    this.timerService.setOnTimerHandler((timer) => {
-      const timerText = timer
-        ? toDisplayFooter(timer.getPastSeconds(DateTime.now()))
-        : "未測定";
+    this.timerService.setOnTimerHandler((timer, event) => {
+      const pastSeconds = timer?.getPastSeconds(DateTime.now());
+      const timerText =
+        pastSeconds != null ? toDisplayFooter(pastSeconds) : "未測定";
       timerStatusItem.setText(timerText);
-    }, 30 * 1000);
+
+      match(event)
+        .with("tick", () => {
+          timerStatusItem.setText(timerText);
+          if (Platform.isMobileApp) {
+            // モバイル版は未対応
+            return;
+          }
+
+          // TODO: owlelia 0.49.0でシンプルに
+          const hours = Math.floor(pastSeconds! / 3600);
+          const minutes = Math.floor((pastSeconds! % 3600) / 60);
+          this.settings.alertTimes.some((alertTime) => {
+            const [hourStr, minuteStr] = alertTime.split(":");
+            const alertHour = parseInt(hourStr, 10);
+            const alertMinute = parseInt(minuteStr, 10);
+            if (hours === alertHour && minutes === alertMinute) {
+              this.appHelper.notifyToDesktop(
+                `『${timer?.name}』を開始してから${hours}時間${minutes}分経過しました`,
+              );
+              return true;
+            }
+          });
+        })
+        .with(P.union("started", "stopped", "ready"), () => {
+          // DO NOTHING
+        })
+        .exhaustive();
+    }, TICK_INTERVAL);
   }
 
   async reset() {

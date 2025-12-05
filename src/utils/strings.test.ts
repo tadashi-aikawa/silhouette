@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { match, pickPatterns } from "./strings";
+import { match, pickPatterns, smartCommaSplit } from "./strings";
 
 test.each([
   ["abc123cdf", /\d+/, true],
@@ -27,5 +27,18 @@ test.each([
     expected: ReturnType<typeof pickPatterns>,
   ) => {
     expect(pickPatterns(str, pattern)).toEqual(expected);
+  },
+);
+
+test.each([
+  ["aa,bb", ["aa", "bb"]],
+  ["", []],
+])(
+  `smartCommaSplit("%s", "%s")`,
+  (
+    text: Parameters<typeof smartCommaSplit>[0],
+    expected: ReturnType<typeof smartCommaSplit>,
+  ) => {
+    expect(smartCommaSplit(text)).toStrictEqual(expected);
   },
 );
