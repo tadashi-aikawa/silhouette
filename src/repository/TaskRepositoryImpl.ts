@@ -17,7 +17,13 @@ export class TaskRepositoryImpl implements TaskRepository {
     private holidaysFilePath: string,
   ) {}
 
-  loadRepetitionTasks(): AsyncResult<RepetitionTask[], BaseError> {
+  async loadRepetitionTasks(): AsyncResult<RepetitionTask[], BaseError> {
+    if (!this.repetitionTasksFilePath) {
+      return err(
+        new BaseError("『繰り返しタスクファイルのパス』が設定されていません"),
+      );
+    }
+
     // TODO: 起点日登録ミスは警告したい
     return fromPromise(
       this.appHelper.loadFile(this.repetitionTasksFilePath).then((tasksStr) => {
@@ -78,7 +84,9 @@ export class TaskRepositoryImpl implements TaskRepository {
     // TODO: 日付フォーマットミスは警告したい
 
     if (!this.holidaysFilePath) {
-      return err(new BaseError("祝日ファイルのパスが設定されていません"));
+      return err(
+        new BaseError("『祝日設定ファイルのパス』が設定されていません"),
+      );
     }
 
     const holidayStrs = (await this.appHelper.loadFile(this.holidaysFilePath))

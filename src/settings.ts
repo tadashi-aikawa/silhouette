@@ -56,7 +56,7 @@ export class SilhouetteSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName("繰り返しタスクファイルのパス")
       .setDesc(
-        "繰り返しタスクファイルのパスをVault rootからの相対パスとして指定します。",
+        "[🚨必須] 繰り返しタスクファイルのパスをVault rootからの相対パスとして指定します。",
       )
       .addText((text) =>
         TextComponentEvent.onChange(text, async (value) => {
@@ -70,7 +70,7 @@ export class SilhouetteSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName("休日設定ファイルのパス")
       .setDesc(
-        "休日設定ファイルのパスをVault rootからの相対パスとして指定します。",
+        "[🚨必須] 休日設定ファイルのパスをVault rootからの相対パスとして指定します。",
       )
       .addText((text) =>
         TextComponentEvent.onChange(text, async (value) => {
@@ -84,7 +84,7 @@ export class SilhouetteSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName("ファイルの日付フォーマット")
       .setDesc(
-        "タスクを挿入する日付を判断するために必要なファイル名のフォーマットを指定します。",
+        "[🚨必須] タスクを挿入する日付を判断するために必要なファイル名のフォーマットを指定します。",
       )
       .addText((text) =>
         TextComponentEvent.onChange(text, async (value) => {
