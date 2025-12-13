@@ -1,5 +1,12 @@
 import { Repetition, RepetitionTask } from "@tadashi-aikawa/silhouette-core";
-import { BaseError, DateTime, fromPromise, type AsyncResult } from "owlelia";
+import {
+  BaseError,
+  DateTime,
+  err,
+  fromPromise,
+  ok,
+  type AsyncResult,
+} from "owlelia";
 import type { AppHelper } from "../app-helper";
 import type { TaskRepository } from "./TaskRepository";
 
@@ -67,19 +74,22 @@ export class TaskRepositoryImpl implements TaskRepository {
     );
   }
 
-  loadHolidays(): AsyncResult<DateTime[], BaseError> {
+  async loadHolidays(): AsyncResult<DateTime[], BaseError> {
     // TODO: 日付フォーマットミスは警告したい
-    return fromPromise(
-      this.holidaysFilePath
-        ? this.appHelper.loadFile(this.holidaysFilePath).then(
-            (holidaysStr) =>
-              holidaysStr
-                .split("\n")
-                .filter((line) => !line.startsWith("//") && line.trim() !== "")
-                .map(DateTime.of)
-                .filter((x) => !Number.isNaN(x.date.getTime())), // TODO: owleliaに実装する
-          )
-        : Promise.resolve([]),
-    );
+
+    if (!this.holidaysFilePath) {
+      return err(new BaseError("祝日ファイルのパスが設定されていません"));
+    }
+
+    const holidayStrs = (await this.appHelper.loadFile(this.holidaysFilePath))
+      .split("\n")
+      .filter((line) => !line.startsWith("//") && line.trim() !== "");
+    // WARNING: ここでDateTime.setHolidaysを呼び出さないと、祝日設定に不整合が起こってしまうため呼び出す
+    DateTime.setHolidays(...holidayStrs);
+
+    const holidays = holidayStrs
+      .map(DateTime.of)
+      .filter((x) => !Number.isNaN(x.date.getTime())); // TODO: owleliaに実装する
+    return ok(holidays);
   }
 }

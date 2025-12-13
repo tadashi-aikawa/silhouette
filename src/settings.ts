@@ -91,7 +91,7 @@ export class SilhouetteSettingTab extends PluginSettingTab {
           this.plugin.settings.fileDateFormat = value;
           await this.plugin.saveSettings();
         })
-          .setPlaceholder("ex: MM-DD-YYYY")
+          .setPlaceholder("ex: YYYY-MM-DD")
           .setValue(this.plugin.settings.fileDateFormat),
       );
 

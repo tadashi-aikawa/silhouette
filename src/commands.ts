@@ -4,6 +4,7 @@ import { DateTime } from "owlelia";
 import type { AppHelper } from "./app-helper";
 import type { TaskService } from "./app/TaskService";
 import type { TimerService } from "./app/TimerService";
+import { notifyError } from "./errors";
 import type { Settings } from "./settings";
 
 export function createCommands(
@@ -19,20 +20,30 @@ export function createCommands(
       checkCallback: (checking: boolean) => {
         if (appHelper.getActiveFile() && appHelper.getActiveMarkdownView()) {
           if (!checking) {
+            if (!settings.fileDateFormat) {
+              return notifyError(
+                "『ファイルの日付フォーマット』が設定されていません。",
+              );
+            }
+
             const date = DateTime.from(
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               appHelper.getActiveFile()!.basename,
-              settings.fileDateFormat || undefined,
+              settings.fileDateFormat,
             );
+            if (!date) {
+              return notifyError(
+                `ファイル名 '${appHelper.getActiveFile()!.basename}' から日付を解析できませんでした。『ファイルの日付フォーマット』の設定を確認してください。`,
+              );
+            }
 
             taskService.insertTasksToDailyNote(date).then((err) => {
               if (err) {
-                new Notice(`[エラー] ${err.name}\n\n ${err.message}`, 0);
-                return;
+                return notifyError(`${err.name}\n\n ${err.message}`);
               }
 
               new Notice(
-                `Insert tasks that should do on ${date.format("YYYY/MM/DD")}`,
+                `🌟 ${date.format("YYYY/MM/DD")} のタスクを挿入しました。`,
               );
             });
           }
