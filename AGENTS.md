@@ -16,7 +16,7 @@
 - Dev (watch + copy to Obsidian vault): `bun run dev`
   - Update `VAULT_DIR` in `esbuild.config.mts` to your local vault path.
 - Build (typecheck + bundle): `bun run build`
-- Test (Jest): `bun run test`
+- Test (Bun): `bun run test`
 - CI (install + build + test): `bun run ci`
 
 ## Coding Style & Naming
@@ -27,7 +27,6 @@
 - Keep functions small and pure in `utils/`; side effects from `app/` or `repository/` layers.
 
 ## Testing Guidelines
-- Framework: Jest via `esbuild-jest` transform.
 - Location: colocate as `*.test.ts` next to sources (see `src/utils/*.test.ts`).
 - Scope: fast, unit-level tests for utils/services; avoid Obsidian runtime in unit tests.
 - Run: `bun run test`. Add cases for edge dates/offset rules.
