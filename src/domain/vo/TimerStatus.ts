@@ -1,4 +1,4 @@
-import { toHHmmss } from "../../utils/times";
+import { toHHmmss } from "owlelia/dist/bundle/datetime";
 import type { Timer } from "./Timer";
 
 function unsafeMatch(str: string, pattern: RegExp): { [key: string]: string } {

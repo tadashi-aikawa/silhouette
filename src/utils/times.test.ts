@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { toHHmmss } from "./times";
+import { toHHmmss } from "owlelia/dist/bundle/datetime";
 
 describe("toHHmmss", () => {
   describe.each<{
