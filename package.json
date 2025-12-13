@@ -38,8 +38,8 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.6.0",
-    "owlelia": "0.48.1",
+    "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.7.0",
+    "owlelia": "0.49.1",
     "ts-pattern": "5.9.0"
   }
 }

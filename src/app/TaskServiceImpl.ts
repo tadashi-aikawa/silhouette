@@ -27,7 +27,7 @@ export class TaskServiceImpl implements TaskService {
 
     this.appHelper.insertStringToActiveFile(
       tasks
-        .filter((x) => x.shouldTry(date, holidays))
+        .filter((x) => x.shouldTry(date))
         .flatMap((x) => x.toString().split("\\n"))
         .join("\n"),
     );
@@ -49,6 +49,6 @@ export class TaskServiceImpl implements TaskService {
     const today = DateTime.today();
     return today
       .toDate(today.plusMonths(monthsAhead))
-      .filter((x) => task.shouldTry(x, holidays));
+      .filter((x) => task.shouldTry(x));
   }
 }
