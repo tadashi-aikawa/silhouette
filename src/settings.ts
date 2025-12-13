@@ -1,6 +1,8 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import type SilhouettePlugin from "./main";
 import { TextAreaComponentEvent, TextComponentEvent } from "./settings-helper";
+import { findInvalidPattern, smartLineSplit } from "./utils/strings";
+import { VALID_TIME_REGEXP } from "./utils/times";
 
 export interface Settings {
   taskFilePath: string;
@@ -62,10 +64,17 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         TextComponentEvent.onChange(text, async (value) => {
           this.plugin.settings.taskFilePath = value;
           await this.plugin.saveSettings();
+          this.display();
         })
           .setPlaceholder("ex: taskfile.md")
           .setValue(this.plugin.settings.taskFilePath),
       );
+    if (!this.plugin.settings.taskFilePath) {
+      containerEl.createEl("div", {
+        text: `🚨 必須項目です`,
+        cls: "silhouette__settings__error",
+      });
+    }
 
     new Setting(containerEl)
       .setName("休日設定ファイルのパス")
@@ -76,10 +85,17 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         TextComponentEvent.onChange(text, async (value) => {
           this.plugin.settings.holidayFilePath = value;
           await this.plugin.saveSettings();
+          this.display();
         })
           .setPlaceholder("ex: holiday.md")
           .setValue(this.plugin.settings.holidayFilePath),
       );
+    if (!this.plugin.settings.holidayFilePath) {
+      containerEl.createEl("div", {
+        text: `🚨 必須項目です`,
+        cls: "silhouette__settings__error",
+      });
+    }
 
     new Setting(containerEl)
       .setName("ファイルの日付フォーマット")
@@ -90,10 +106,17 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         TextComponentEvent.onChange(text, async (value) => {
           this.plugin.settings.fileDateFormat = value;
           await this.plugin.saveSettings();
+          this.display();
         })
           .setPlaceholder("ex: YYYY-MM-DD")
           .setValue(this.plugin.settings.fileDateFormat),
       );
+    if (!this.plugin.settings.fileDateFormat) {
+      containerEl.createEl("div", {
+        text: `🚨 必須項目です`,
+        cls: "silhouette__settings__error",
+      });
+    }
 
     // ╭─────────────────────────────────────────────────────────╮
     // │                          計測                           │
@@ -122,12 +145,23 @@ export class SilhouetteSettingTab extends PluginSettingTab {
       )
       .addTextArea((tc) =>
         TextAreaComponentEvent.onChange(tc, async (value) => {
-          this.plugin.settings.alertTimes = value.trim().split("\n");
+          this.plugin.settings.alertTimes = smartLineSplit(value);
           await this.plugin.saveSettings();
+          this.display();
         })
           .setPlaceholder("ex:\n00:30\n01:00")
           .setValue(this.plugin.settings.alertTimes.join("\n")),
       );
+    if (
+      findInvalidPattern(this.plugin.settings.alertTimes, VALID_TIME_REGEXP, {
+        allowEmpty: true,
+      })
+    ) {
+      containerEl.createEl("div", {
+        text: `❌ 不正な形式です`,
+        cls: "silhouette__settings__error",
+      });
+    }
 
     new Setting(containerEl)
       .setName("ステータスバーに計測時間を表示する")

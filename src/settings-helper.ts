@@ -10,7 +10,7 @@ export namespace TextComponentEvent {
         return;
       }
 
-      handler(ev.target.value);
+      handler(ev.target.value.trim());
     });
     return component;
   }
@@ -26,7 +26,7 @@ export namespace TextAreaComponentEvent {
         return;
       }
 
-      handler(ev.target.value);
+      handler(ev.target.value.trim());
     });
     return component;
   }

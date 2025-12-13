@@ -1,5 +1,7 @@
 // TODO: owleliaで公開したい
 
+export const VALID_TIME_REGEXP = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+
 const pad00 = (v: number) => String(v).padStart(2, "0");
 
 export function toHHmmss(seconds: number) {

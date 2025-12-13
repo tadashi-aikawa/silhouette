@@ -19,6 +19,13 @@
   content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzIgMzIiPjxwYXRoIGQ9Ik0xNSAxMWgydjloLTJ6IiBmaWxsPSJjdXJyZW50Q29sb3IiPjwvcGF0aD48cGF0aCBkPSJNMTMgMmg2djJoLTZ6IiBmaWxsPSJjdXJyZW50Q29sb3IiPjwvcGF0aD48cGF0aCBkPSJNMjggOWwtMS40Mi0xLjQxbC0yLjI1IDIuMjVhMTAuOTQgMTAuOTQgMCAxIDAgMS4xOCAxLjY1ek0xNiAyNmE5IDkgMCAxIDEgOS05YTkgOSAwIDAgMS05IDl6IiBmaWxsPSJjdXJyZW50Q29sb3IiPjwvcGF0aD48L3N2Zz4=");
 }
 
+.silhouette__settings__error {
+  font-size: 0.8rem;
+  color: orangered;
+  text-align: right;
+  font-weight: bold;
+}
+
 /*noinspection CssUnresolvedCustomProperty*/
 body {
   --silhouette-calendar-task-mark-on: var(--interactive-accent);

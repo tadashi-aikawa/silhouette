@@ -1,5 +1,11 @@
 import { expect, test } from "@jest/globals";
-import { match, pickPatterns, smartCommaSplit } from "./strings";
+import {
+  findInvalidPattern,
+  match,
+  pickPatterns,
+  smartCommaSplit,
+  smartLineSplit,
+} from "./strings";
 
 test.each([
   ["abc123cdf", /\d+/, true],
@@ -13,6 +19,24 @@ test.each([
     expected: ReturnType<typeof match>,
   ) => {
     expect(match(text, pattern)).toBe(expected);
+  },
+);
+
+test.each([
+  [["- task 1", "- task 2"], /^- .+/, undefined, null],
+  [["- task 1", "invalid task"], /^- .+/, undefined, "invalid task"],
+  [["", "- task 2"], /^- .+/, undefined, ""],
+  [["- task 1", "invalid task"], /^- .+/, { allowEmpty: true }, "invalid task"],
+  [["", "- task 2"], /^- .+/, { allowEmpty: true }, null],
+])(
+  `findInvalidPattern("%s", "%s", "%s"))`,
+  (
+    text: Parameters<typeof findInvalidPattern>[0],
+    pattern: Parameters<typeof findInvalidPattern>[1],
+    options: Parameters<typeof findInvalidPattern>[2],
+    expected: ReturnType<typeof findInvalidPattern>,
+  ) => {
+    expect(findInvalidPattern(text, pattern, options)).toBe(expected);
   },
 );
 
@@ -32,6 +56,7 @@ test.each([
 
 test.each([
   ["aa,bb", ["aa", "bb"]],
+  [" aa , bb ", ["aa", "bb"]],
   ["", []],
 ])(
   `smartCommaSplit("%s", "%s")`,
@@ -40,5 +65,19 @@ test.each([
     expected: ReturnType<typeof smartCommaSplit>,
   ) => {
     expect(smartCommaSplit(text)).toStrictEqual(expected);
+  },
+);
+
+test.each([
+  ["aa\nbb", ["aa", "bb"]],
+  [" aa \n bb ", ["aa", "bb"]],
+  ["", []],
+])(
+  `smartLineSplit("%s", "%s")`,
+  (
+    text: Parameters<typeof smartLineSplit>[0],
+    expected: ReturnType<typeof smartLineSplit>,
+  ) => {
+    expect(smartLineSplit(text)).toStrictEqual(expected);
   },
 );
