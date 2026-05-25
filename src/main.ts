@@ -77,7 +77,7 @@ export default class SilhouettePlugin extends Plugin {
 
       return this.repetitionTaskView;
     });
-    this.addRibbonIcon("cloud-fog", "Activate view", async () => {
+    this.addRibbonIcon("book-check", "Silhouette", async () => {
       await this.activateView();
     });
 

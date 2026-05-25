@@ -23,7 +23,7 @@ export class RepetitionTaskItemView extends ItemView {
   }
 
   getIcon(): string {
-    return "cloud-fog";
+    return "book-check";
   }
 
   async onclose() {
