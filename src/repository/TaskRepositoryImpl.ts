@@ -60,7 +60,11 @@ export class TaskRepositoryImpl implements TaskRepository {
                   baseDate: baseDate ? DateTime.of(baseDate) : undefined,
                   indent: name.match("^[ \t]+")?.at(0) ?? "",
                 }),
-                { repetitionCondition: _repetitions },
+                {
+                  repetitionCondition: reps
+                    .map((repetition) => repetition.toJapanese())
+                    .join(" または "),
+                },
               ),
             };
           });
