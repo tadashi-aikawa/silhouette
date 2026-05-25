@@ -25,7 +25,9 @@
 1. 設定画面を開き
     - [繰り返しタスクファイルのパス](#繰り返しタスクファイルのパス)に`tasks.md`を設定
     - [休日設定ファイルのパス](#休日設定ファイルのパス)に`holidays.md`を設定
-    - [ファイルの日付フォーマット](#ファイルの日付フォーマット)に`YYYY-MM-DD`を設定
+    - [ファイルの日付フォーマット](#ファイルの日付フォーマット)にデイリーノートの日付フォーマットを設定
+        - `2026-05-26.md` のようなファイル名なら `YYYY-MM-DD`
+        - `2026-05-26(金).md` のようなファイル名なら `YYYY-MM-DD(ddd)`
 
 2. Vaultのrootに`tasks.md`を作成して以下を貼り付け
 
@@ -104,6 +106,12 @@ Silhouetteでは、**タスクはDaily Noteにタスクリストとして管理�
 #### [ワンタイムタスク]の場合
 
 実施予定日のDaily Noteにタスクリストとして追加します。Silhouetteの機能は使いません。
+
+> [!INFO]
+> 未来のDaily Noteに記載したくない場合は、[繰り返しタスクファイル]に `毎年特定日` の[繰り返しパターン]を指定する方法もあります。
+>
+> - 例: 5/28 のタスクなら `タスク名,0528`
+>     - 完了したら削除しないと1年後に再び登録されます
 
 #### [繰り返しタスク]の場合
 
@@ -254,9 +262,16 @@ hoge
 
 [繰り返しタスク]が意図通りの日付に予定されているか...を確認するUIを用意しています。
 
-![](./resources/repetetion-tasks-ui-demo.webp)
+<img src="./resources/repetetion-tasks-ui-demo.gif" width="75%" />
 
-詳細は[0.8.0](https://github.com/tadashi-aikawa/silhouette/releases/tag/0.8.0)のリリースノートをご覧ください。
+- 以下の日付は背景色が変わります
+    - 本日 (緑)
+    - 休日 (赤)
+- 本日から3ヶ月後までの日付には『タスク実施予定マーク』がつきます
+    - `o`: 実施予定日
+    - `x`: 実施予定ではない日
+- [繰り返しタスクファイル]や[休日設定ファイル]を編集するとリアルタイムでUIも更新されます
+    - ただし、**ファイルが不正な状態の間は何も表示されなくなります**
 
 ## ⚙️ 設定
 
@@ -435,6 +450,12 @@ https://day.js.org/docs/en/parse/string-format
 
 > [!WARNING]
 > `複数指定` は同一パターンのみ有効です。たとえば `weekday/mon` のような表現はできません。その場合は後述の[複数パターン指定]を利用してください。
+
+> [!HINT] 指定したいパターンの書き方が分からない場合
+>     <a href="https://deepwiki.com/tadashi-aikawa/silhouette">
+>         <img src="https://deepwiki.com/badge.svg" />
+>     </a>
+> で質問してみてください。かなりの精度でAIが回答してくれます。
 
 ##### 曜日
 
@@ -781,12 +802,22 @@ git config core.hooksPath hooks
 依存関係をインストール。
 
 ```bash
-bun install ci
+bun ci
 ```
 
 ### リリース
 
-`bun run release` または `/release` コマンドを実行すると、未pushコミットとCIの確認から Release Action の起動、GitHubリリース生成の確認、関連Issueのクローズ、Bluesky投稿案の生成、`git pull` までを自動で行います。
+```
+bun run release
+```
+
+以下の処理を実行します。
+
+- 未pushコミットとCIの確認
+- Release Action の起動
+- GitHubリリース生成の確認
+- Bluesky投稿案の生成
+- `git pull`
 
 手動で行う場合は [Release Action](https://github.com/tadashi-aikawa/silhouette/actions/workflows/release.yaml) を実行。
 
