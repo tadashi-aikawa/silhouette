@@ -9,6 +9,9 @@
     <a href="https://github.com/tadashi-aikawa/silhouette/actions"><img src="https://github.com/tadashi-aikawa/silhouette/workflows/Tests/badge.svg" /></a>
     <img src="https://img.shields.io/github/downloads/tadashi-aikawa/silhouette/total" />
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" />
+    <a href="https://deepwiki.com/tadashi-aikawa/silhouette">
+        <img src="https://deepwiki.com/badge.svg" />
+    </a>
 </div>
 
 ## ⏬ インストール
