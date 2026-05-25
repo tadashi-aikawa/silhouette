@@ -781,7 +781,7 @@ git config core.hooksPath hooks
 依存関係をインストール。
 
 ```bash
-bun install --frozen-lockfile --ignore-scripts
+bun install ci
 ```
 
 ### リリース
