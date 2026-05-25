@@ -5,16 +5,25 @@
   import { type TaskService } from "../app/TaskService";
   import { RepetitionTask } from "@tadashi-aikawa/silhouette-core";
   import { DateTime } from "owlelia";
+  import { parseMarkdownList } from "../utils/parser";
 
   export let taskService: TaskService;
   export let tasks: RepetitionTask[] | undefined;
   export let holidays: DateTime[] | undefined;
 
   let currentTask: RepetitionTask | undefined;
+  type RepetitionTaskWithCondition = RepetitionTask & {
+    repetitionCondition?: string;
+  };
 
   const handleClickTask = async (task: RepetitionTask) => {
     currentTask = task;
   };
+
+  const displayTaskName = (task: RepetitionTask) =>
+    parseMarkdownList(task.name).content;
+  const displayRepetitionCondition = (task: RepetitionTask) =>
+    (task as RepetitionTaskWithCondition).repetitionCondition ?? "";
 
   let plugins = [DayGrid];
 
@@ -30,6 +39,11 @@
 
   $: options = {
     view: "dayGridMonth",
+    headerToolbar: {
+      start: "today title prev,next",
+      center: "",
+      end: "",
+    },
     highlightedDates: holidays?.map((x) => x.displayDate) ?? [],
     dayCellFormat: (date: Date) => date.getDate().toString(),
     events: datesInFuture
@@ -52,28 +66,36 @@
 </script>
 
 <h3>Recurring tasks</h3>
-<div style="height: calc(100% - 275px - 50px - 75px); overflow: scroll">
+<div
+  class="silhouette-repetition-task-list"
+  style="height: calc(100% - 275px - 50px - 75px); overflow: scroll"
+>
   {#if tasks}
     {#each tasks as task}
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div
-        class="nav-file-title"
+        class="nav-file-title silhouette-repetition-task-list__item"
         class:is-active={currentTask && task.name == currentTask.name}
         on:click={() => handleClickTask(task)}
         on:keypress={() => handleClickTask(task)}
       >
-        {task.name}
+        <div class="silhouette-repetition-task-list__item-name">
+          {displayTaskName(task)}
+        </div>
+        <div class="silhouette-repetition-task-list__item-condition">
+          {displayRepetitionCondition(task)}
+        </div>
       </div>
     {/each}
   {/if}
 </div>
 
-<div style="display: flex; justify-content: center;">
+<div class="silhouette-repetition-calendar">
   <Calendar {plugins} {options} />
 </div>
 
 {#if currentTask}
   <div style="padding: 8px; display: flex; justify-content: center;">
-    {currentTask.name}
+    {displayTaskName(currentTask)}
   </div>
 {/if}

@@ -53,12 +53,15 @@ export class TaskRepositoryImpl implements TaskRepository {
               };
             }
             return {
-              record: RepetitionTask.of({
-                name: name.replace(/^[ \t]+/, ""),
-                repetitions: reps,
-                baseDate: baseDate ? DateTime.of(baseDate) : undefined,
-                indent: name.match("^[ \t]+")?.at(0) ?? "",
-              }),
+              record: Object.assign(
+                RepetitionTask.of({
+                  name: name.replace(/^[ \t]+/, ""),
+                  repetitions: reps,
+                  baseDate: baseDate ? DateTime.of(baseDate) : undefined,
+                  indent: name.match("^[ \t]+")?.at(0) ?? "",
+                }),
+                { repetitionCondition: _repetitions },
+              ),
             };
           });
 
