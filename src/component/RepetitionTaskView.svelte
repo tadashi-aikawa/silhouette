@@ -66,10 +66,7 @@
 </script>
 
 <h3>Recurring tasks</h3>
-<div
-  class="silhouette-repetition-task-list"
-  style="height: calc(100% - 275px - 50px - 75px); overflow: scroll"
->
+<div class="silhouette-repetition-task-list">
   {#if tasks}
     {#each tasks as task}
       <!-- svelte-ignore a11y-no-static-element-interactions -->

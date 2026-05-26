@@ -43,6 +43,8 @@ body {
 
 .silhouette-repetition-task-list {
   padding: 2px 4px;
+  height: calc(100% - 275px - 50px - 75px - 30px);
+  overflow: auto;
 }
 
 .silhouette-repetition-task-list__item {
