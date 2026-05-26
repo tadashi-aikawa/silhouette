@@ -34,6 +34,7 @@ export default class SilhouettePlugin extends Plugin {
 
   async onload() {
     await this.loadSettings();
+    this.applyFileDateLocale();
     this.appHelper = new AppHelper(this.app);
 
     this.taskService = new TaskServiceImpl(
@@ -109,6 +110,10 @@ export default class SilhouettePlugin extends Plugin {
     await this.reset();
   }
 
+  applyFileDateLocale() {
+    DateTime.setLocale(this.settings.fileDateLocale);
+  }
+
   addStatusBar() {
     this.timerStatusBar = this.addStatusBarItem();
     const timerStatusItem = this.timerStatusBar.createEl("span", {
@@ -152,6 +157,8 @@ export default class SilhouettePlugin extends Plugin {
   }
 
   async reset() {
+    this.applyFileDateLocale();
+
     this.taskService.serRepository(
       new TaskRepositoryImpl(
         this.appHelper,

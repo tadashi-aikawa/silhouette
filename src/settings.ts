@@ -1,4 +1,5 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
+import type { DateTimeLocale } from "owlelia";
 import type SilhouettePlugin from "./main";
 import { TextAreaComponentEvent, TextComponentEvent } from "./settings-helper";
 import { findInvalidPattern, smartLineSplit } from "./utils/strings";
@@ -8,6 +9,7 @@ export interface Settings {
   taskFilePath: string;
   holidayFilePath: string;
   fileDateFormat: string;
+  fileDateLocale: DateTimeLocale;
   timerStorageFilePath: string;
   showTimeOnStatusBar: boolean;
   alertTimes: string[];
@@ -24,6 +26,7 @@ export const DEFAULT_SETTINGS: Settings = {
   taskFilePath: "",
   holidayFilePath: "",
   fileDateFormat: "",
+  fileDateLocale: "en",
   timerStorageFilePath: "",
   alertTimes: [],
   showTimeOnStatusBar: false,
@@ -117,6 +120,22 @@ export class SilhouetteSettingTab extends PluginSettingTab {
         cls: "silhouette__settings__error",
       });
     }
+
+    new Setting(containerEl)
+      .setName("ファイルの日付フォーマットのロケール")
+      .setDesc(
+        "ファイル名から日付を解析するときに使用するロケールです。曜日表記を含むフォーマット（例: YYYY-MM-DD(ddd)）に影響します。繰り返しパターンの記法には影響しません。",
+      )
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption("en", "English (en)")
+          .addOption("ja", "日本語 (ja)")
+          .setValue(this.plugin.settings.fileDateLocale)
+          .onChange(async (value) => {
+            this.plugin.settings.fileDateLocale = value as DateTimeLocale;
+            await this.plugin.saveSettings();
+          }),
+      );
 
     // ╭─────────────────────────────────────────────────────────╮
     // │                          計測                           │

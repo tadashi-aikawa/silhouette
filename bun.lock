@@ -5,8 +5,8 @@
     "": {
       "name": "silhouette",
       "dependencies": {
-        "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.9.0",
-        "owlelia": "0.49.1",
+        "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.10.0",
+        "owlelia": "0.50.0",
         "ts-pattern": "5.9.0",
       },
       "devDependencies": {
@@ -104,7 +104,7 @@
 
     "@marijn/find-cluster-break": ["@marijn/find-cluster-break@1.0.2", "", {}, "sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g=="],
 
-    "@tadashi-aikawa/silhouette-core": ["@jsr/tadashi-aikawa__silhouette-core@1.9.0", "https://npm.jsr.io/~/11/@jsr/tadashi-aikawa__silhouette-core/1.9.0.tgz", { "dependencies": { "owlelia": "^0.49.1" } }, "sha512-sC4vy3ZiCtpyB/2lwkFYkq2y4zmzcEMxx4p9M8MZGAJ3g63mzFF4Ie4hi98NUYe5fhMJQhkjfqvMRQ0nf6Pipw=="],
+    "@tadashi-aikawa/silhouette-core": ["@jsr/tadashi-aikawa__silhouette-core@1.10.0", "https://npm.jsr.io/~/11/@jsr/tadashi-aikawa__silhouette-core/1.10.0.tgz", { "dependencies": { "owlelia": "0.50.0" } }, "sha512-artK/zgIjTCXX8xUt0uxMuDqALW8mz7RVBpglYdctXrcEHjTU44RxATE42TnkveS2PZ7rhqZrSclAo2pnu5rcA=="],
 
     "@tsconfig/svelte": ["@tsconfig/svelte@5.0.4", "", {}, "sha512-BV9NplVgLmSi4mwKzD8BD/NQ8erOY/nUE/GpgWe2ckx+wIQF5RyRirn/QsSSCPeulVpc3RA/iJt6DpfTIZps0Q=="],
 
@@ -206,7 +206,7 @@
 
     "once": ["once@1.4.0", "", { "dependencies": { "wrappy": "1" } }, "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w=="],
 
-    "owlelia": ["owlelia@0.49.1", "", { "dependencies": { "dayjs": "^1.11.19" } }, "sha512-fjQDTJ57YeVD+Ko9WIssjKAsi2o8sFR381WMVhObc64uiDYwamf6OPj+MofaSXf1CmVk+h88nG9agR1tYOKkyw=="],
+    "owlelia": ["owlelia@0.50.0", "", { "dependencies": { "dayjs": "^1.11.19" } }, "sha512-nnTTQMHkGI0AsbdQLG90O8CR5dvPcI/Urx0XKFbElb5dINVuA9AM2xLJLzLcklsXTz1A5BYI+H8eYTrCe+nFtw=="],
 
     "path-is-absolute": ["path-is-absolute@1.0.1", "", {}, "sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg=="],
 
