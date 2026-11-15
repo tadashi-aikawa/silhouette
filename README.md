@@ -1,3 +1,9 @@
+> [!IMPORTANT]
+> 現在、作者はObsidianをほとんど使用していません。
+>
+> - メンテナンスは、報告された脆弱性への対応に限ります。
+> - 機能追加や、脆弱性以外のバグ修正は行いません。
+
 <div align="center">
     <h1>Silhouette</h1>
     <img src="./silhouette.webp" width="256" />
