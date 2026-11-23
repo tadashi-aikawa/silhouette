@@ -9,7 +9,7 @@
   - `component/` Svelte components (e.g., `RepetitionTaskView.svelte`)
   - `utils/` pure utilities with tests
 - Root assets: `main.js`, `styles.css`, `manifest*.json`
-- Config: `esbuild.config.mts`, `tsconfig.json`, `jest.config.js`, `.prettierrc`
+- Config: `esbuild.config.mts`, `tsconfig.json`, `.prettierrc`
 
 ## Build, Test, Dev
 - Install: `bun ci`
@@ -17,7 +17,7 @@
   - Update `VAULT_DIR` in `esbuild.config.mts` to your local vault path.
 - Build (typecheck + bundle): `bun run build`
 - Test (Bun): `bun run test`
-- CI (install + build + test): `bun run ci`
+- CI (install + typecheck + format check + test + build): `bun verify`
 
 ## Coding Style & Naming
 - Language: TypeScript (strict), Svelte 4; CommonJS bundle target `es2018`.
@@ -40,7 +40,6 @@
 - Releases are automated via semantic‑release on `master` (no `v` prefix tags).
 
 ## Security & Configuration
-- Never commit personal vault paths. Keep only the placeholder constant in `esbuild.config.mts`.
 - Do not include vault data in tests or repo. 
 - Target Bun ≥ 1.1; Node types are used for tooling only.
 
