@@ -6,13 +6,22 @@ on:
       - ".github/**/*"
       - "src/*"
       - "src/**/*"
+      - "scripts/**"
       - "*.js"
       - "*.json"
+      - "*.mts"
+      - ".npmrc"
+      - ".prettierrc"
+      - "bun.lock"
+      - "bunfig.toml"
+      - "mise.toml"
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
+        with:
+          install_args: bun
       - run: bun verify

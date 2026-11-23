@@ -8,19 +8,21 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
         with:
-          node-version: 24
-      - uses: oven-sh/setup-bun@v2
-      - run: npm i -g pnpm@11.0.8
+          install_args: bun
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - run: npm i -g pnpm@12.21.0
       # conventionalcommits v10はrelease notesが空になるバグがあるため9.3.1に固定
       # https://github.com/semantic-release/release-notes-generator/issues/992
       - run: |
           pnpm dlx \
-             --package semantic-release@25.0.2 \
+             --package semantic-release@25.0.9 \
              --package conventional-changelog-conventionalcommits@9.3.1 \
-             --package @semantic-release/git@10.0.1 \
+             --package @semantic-release/git@11.0.1 \
              --package @semantic-release/exec@7.1.0 \
               semantic-release
         env:
