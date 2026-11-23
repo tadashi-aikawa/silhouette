@@ -1,6 +1,6 @@
 import type { RepetitionTask } from "@tadashi-aikawa/silhouette-core";
 import { BaseError, DateTime, type AsyncResult, type Nullable } from "owlelia";
-import type { AppHelper } from "../app-helper";
+import type { AppHelper } from "../appHelper";
 import type { TaskRepository } from "../repository/TaskRepository";
 import type { TaskService } from "./TaskService";
 

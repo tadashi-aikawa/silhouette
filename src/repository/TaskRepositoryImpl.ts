@@ -7,7 +7,7 @@ import {
   ok,
   type AsyncResult,
 } from "owlelia";
-import type { AppHelper } from "../app-helper";
+import type { AppHelper } from "../appHelper";
 import type { TaskRepository } from "./TaskRepository";
 
 export class TaskRepositoryImpl implements TaskRepository {

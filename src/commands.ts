@@ -1,9 +1,9 @@
 import type { Command } from "obsidian";
 import { Notice } from "obsidian";
 import { DateTime } from "owlelia";
-import type { AppHelper } from "./app-helper";
 import type { TaskService } from "./app/TaskService";
 import type { TimerService } from "./app/TimerService";
+import type { AppHelper } from "./appHelper";
 import { notifyError } from "./errors";
 import type { Settings } from "./settings";
 

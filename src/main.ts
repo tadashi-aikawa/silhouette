@@ -1,11 +1,11 @@
 import { type Command, type EventRef, Platform, Plugin } from "obsidian";
 import { DateTime } from "owlelia";
 import { match, P } from "ts-pattern";
-import { AppHelper } from "./app-helper";
 import type { TaskService } from "./app/TaskService";
 import { TaskServiceImpl } from "./app/TaskServiceImpl";
 import type { TimerService } from "./app/TimerService";
 import { TimerServiceImpl } from "./app/TimerServiceImpl";
+import { AppHelper } from "./appHelper";
 import { createCommands } from "./commands";
 import { TaskRepositoryImpl } from "./repository/TaskRepositoryImpl";
 import { TimerRepositoryImpl } from "./repository/TimerRepositoryImpl";

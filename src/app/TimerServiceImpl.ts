@@ -1,6 +1,6 @@
 import { Notice } from "obsidian";
 import { DateTime } from "owlelia";
-import type { AppHelper } from "../app-helper";
+import type { AppHelper } from "../appHelper";
 import { Timer } from "../domain/vo/Timer";
 import { isLineRecording, TimerStatus } from "../domain/vo/TimerStatus";
 import type { TimerRepository } from "../repository/TimerRepository";

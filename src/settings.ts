@@ -1,7 +1,7 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import type { DateTimeLocale } from "owlelia";
 import type SilhouettePlugin from "./main";
-import { TextAreaComponentEvent, TextComponentEvent } from "./settings-helper";
+import { TextAreaComponentEvent, TextComponentEvent } from "./settingsHelper";
 import { findInvalidPattern, smartLineSplit } from "./utils/strings";
 import { VALID_TIME_REGEXP } from "./utils/times";
 
