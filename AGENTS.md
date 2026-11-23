@@ -22,8 +22,8 @@
 ## Coding Style & Naming
 - Language: TypeScript (strict), Svelte 4; CommonJS bundle target `es2018`.
 - Formatting: Prettier with `prettier-plugin-svelte` and organize-imports. Run your editor’s Prettier on save.
-- Indentation: 2 spaces; EOL: LF (`.editorconfig`).
-- Filenames: `camelCase` for modules (`timerService.ts`), `PascalCase` for classes and Svelte components, `kebab-case` for assets.
+- Use Prettier’s default 2-space indentation and the LF line endings set in `.editorconfig`.
+- Filenames: `camelCase` for modules (`appHelper.ts`), `PascalCase` for classes and Svelte components, `kebab-case` for assets.
 - Keep functions small and pure in `utils/`; side effects from `app/` or `repository/` layers.
 
 ## Testing Guidelines
