@@ -39,8 +39,8 @@
     "moment": "2.31.0"
   },
   "dependencies": {
-    "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.10.0",
-    "owlelia": "0.50.0",
+    "@tadashi-aikawa/silhouette-core": "npm:@jsr/tadashi-aikawa__silhouette-core@1.11.0",
+    "owlelia": "0.50.2",
     "ts-pattern": "5.9.0"
   }
 }
